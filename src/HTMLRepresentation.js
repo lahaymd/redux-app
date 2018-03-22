@@ -4,39 +4,42 @@ import EmptyFilter from './EmptyFilter'
 class HTMLRepresentation extends Component{
 
     render() {
+       
 
         let test = React.Children.map(this.props.children, child => {
             console.log('child ', child)
             return (
-                <div className='card'>
-                <div className="some-component-special-class">{child.type.name}</div>
-                {/* <div>{Object.keys(child.props)} +++ {Object.values(child.props)}</div> */}
-                <div>{Object.keys(child.props).map(c => { 
+
+                <div key={child.key} className='card'>
+                <div className="component-name">{child.type.name}</div>
+                {Object.keys(child.props).map(c => { 
+                  
                     return (
-                        <div>
-                        <div>{c}</div>
-                        {/* <div>{Object.keys(c)}</div> */}
-                        {/* <div>{Object.values(c)}</div> */}
-                            </div>
-                    )
-                     })}
-                </div>
-                <div>{Object.values(child.props).map(c => { 
+                        // <div className='object-keys' key={c}>{c}</div>
+                        <label htmlFor={c}>{c}</label>
+                            )
+                })}
+              
+                {Object.values(child.props).map((c,i) => { 
+                    if(isNaN(c)){ return (
+                        // <div className='object-values' key={i}>0</div>
+                        <input type='text' value={c} />
+                    )}
                     return (
-                        <div>
-                        <div>{c}</div>
-                        {/* <div>{Object.keys(c)}</div> */}
-                        {/* <div>{Object.values(c)}</div> */}
-                            </div>
+                        <input type='text' defaultValue={c} />
+                        // <div className='object-values' key={c}>{c}</div>
+                        
                     )
-                     })}
-                </div>
+                })}
+                
                 </div>
             );
         } )
         return (
-           <div className='htmlrep'>
-           <h1>{test}</h1>
+            <div className='htmlrep'>
+                <div className='grid'>
+           {test}
+            </div>
            {/* <EmptyFilter>{this.props.children}</EmptyFilter> */}
             </div>
         )

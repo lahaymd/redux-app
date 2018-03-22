@@ -1,0 +1,26 @@
+*{
+    box-sizing: border-box;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 50px
+}
+
+.card {
+    border: 3px solid coral;
+    margin: 5px;
+}
+
+.component-name {
+    background: rebeccapurple;
+}
+
+.object-keys {
+    color: aquamarine;
+}
+
+.object-values {
+    color: burlywood;
+}

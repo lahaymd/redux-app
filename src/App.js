@@ -21,7 +21,7 @@ class App extends Component {
       circs: [30,20],
       cx: [50,100],
       elements: ['FeOffset', 'FeGaussianBlur'],
-      offsetX: 0,
+      offsetX: 1,
       offsetY: 0,
       offsetElement: [5,20],
       results:[]
@@ -98,9 +98,11 @@ class App extends Component {
 
 
 
-    let offset = this.state.offsetElement.map(e => {
+    let offset = this.state.offsetElement.map((e,i,foo, bar) => {
+      console.log('e: '+e+ ' i '+i + ' f00: '+foo + ' bar: '+ bar);
+      
       return (
-        <FeOffset key={e *Math.random()}  offsetX={this.state.offsetX} offsetY={this.state.offsetY} />
+        <FeOffset key={e *Math.random()}  offsetX={parseInt(this.state.offsetX )+ i} offsetY={this.state.offsetY} />
       )
     })
 
