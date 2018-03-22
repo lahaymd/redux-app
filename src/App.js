@@ -4,14 +4,17 @@ import Circle from './Circle';
 import FeOffset from './FeOffset';
 import FeGaussianBlur from './FeGaussianBlur';
 import FilterElementEditor from './FilterElementEditor';
+import HTMLRepresentation from './HTMLRepresentation'
 import EdgeDetection from "./EdgeDetection";
 import './App.css';
+import EmptyFilter from './EmptyFilter';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      numberOfElements: 7,
       numberOfCircles: [0,1],
       radius: [10, 19],
       items: ['foo', 'bar', 'baz'],
@@ -50,6 +53,10 @@ class App extends Component {
    
      console.log(this.state.offsetX)
     this.setState({offsetX: e.target.value})
+  }
+
+  handleNumberOfElements = () => {
+    this.setState({numberOfElements: 3})
   }
 
 
@@ -97,10 +104,24 @@ class App extends Component {
       )
     })
 
-   
+    let totalNumberOfElements = this.state.numberOfElements +2 
+    
+
+    // withX: function() {
+    //   var counter = 0;
+    //   React.Children.forEach(this.props.children, function (child) {
+    //     if (child.props.isX) counter++;
+    //   });
+    //   return counter;
+    // }
     
     return (
       <div className="App">
+        <HTMLRepresentation >
+          {offset}
+        </HTMLRepresentation >
+      <h2>{this.state.numberOfElements}</h2>
+      {totalNumberOfElements}
       <FilterElementEditor 
         dx={this.state.offsetX}
         dy={this.state.offsetY}
@@ -111,6 +132,11 @@ class App extends Component {
        <button onClick={()=> this.handleFilterElements()}>add filter</button>
       <svg>
         <defs>
+          <EmptyFilter t={this.state.offsetElement.length - 2}>
+            {offset}
+              <EdgeDetection result='' />
+              <feComposite result='' operator='out' in2='offset' in='edge' />
+          </EmptyFilter>
             <filter width='200%' height='200%' id='f'>
               {/* <FeOffset offsetX={this.state.offsetX} offsetY={this.state.offsetY} /> */}
               {offset}
