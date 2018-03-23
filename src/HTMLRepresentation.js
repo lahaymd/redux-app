@@ -16,7 +16,7 @@ class HTMLRepresentation extends Component{
                   
                     return (
                         // <div className='object-keys' key={c}>{c}</div>
-                        <label htmlFor={c}>{c}</label>
+                        <label key={c} htmlFor={c}>{c}</label>
                             )
                 })}
               
@@ -26,7 +26,7 @@ class HTMLRepresentation extends Component{
                         <input type='text' value={c} />
                     )}
                     return (
-                        <input type='text' defaultValue={c} />
+                        <input key={c} type='text' defaultValue={c} />
                         // <div className='object-values' key={c}>{c}</div>
                         
                     )

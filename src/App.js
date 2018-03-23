@@ -6,27 +6,29 @@ import FeGaussianBlur from './FeGaussianBlur';
 import FilterElementEditor from './FilterElementEditor';
 import HTMLRepresentation from './HTMLRepresentation'
 import EdgeDetection from "./EdgeDetection";
-import './App.css';
 import EmptyFilter from './EmptyFilter';
+import FilterSelect from './FilterSelect';
+import './App.css';
+import RenderSelectedElementCard from './RenderSelectedElementCard';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      numberOfElements: 7,
       numberOfCircles: [0,1],
       radius: [10, 19],
-      items: ['foo', 'bar', 'baz'],
-      circs: [30,20],
       cx: [50,100],
-      elements: ['FeOffset', 'FeGaussianBlur'],
+      elements: [FeOffset, FeGaussianBlur],
+      blurAttrs:[{stdDeviation:0},{in:'SourceGraphic'},{result:'blur'}],
       offsetX: 1,
       offsetY: 0,
       offsetElement: [5,20],
       results:[]
     }
   }
+
+  
 
   handleClick(i) {
     const radius = this.state.radius.slice();
@@ -40,6 +42,15 @@ class App extends Component {
     elements.push(2)
     console.log('elements', elements)
     this.setState({ offsetElement: elements });
+  }
+    
+    handleNewFilterElements() {
+      
+      const els = this.state.elements.slice();
+      els.push(EdgeDetection);
+      console.log('els', els);
+      this.setState({ elements: els });
+
   }
   handleInputY = (e) => {
     console.log('y',e.target.value)
@@ -55,28 +66,82 @@ class App extends Component {
     this.setState({offsetX: e.target.value})
   }
 
-  handleNumberOfElements = () => {
-    this.setState({numberOfElements: 3})
+  handleChange = (e) => {
+    const els = this.state.elements.slice()
+    const edge = EdgeDetection;
+    const offset = FeOffset;
+    const blur = FeGaussianBlur;
+    switch (e.target.value) {
+      case 'FeGaussianBlur':
+        
+      els.push(blur);
+        break;
+      case 'FeOffset':
+        
+      els.push(offset);
+        break;
+      case 'EdgeDetection':
+        
+      els.push(edge);
+        break;
+    
+      default:
+      console.log('fucker');
+      
+        break;
+    }
+
+    console.log('e.tartget.value',e.target.value)
+    console.log('elsss', els);
+    
+    this.setState({elements: els})
+    console.log('after switch elements', this.state.elements);
+    
   }
 
+  handleAttrs = (e) => {
+    // e.stopPropagation();
+    // e.nativeEvent.stopImmediatePropagation();
+    console.log(this.state.blurAttrs)
+    console.log(e);
+    
+  }
 
-  // renderCircle(i) {
-  //   return (
-  //     <Circle 
-  //       rad={this.state.radius[i]}
-  //       cx={this.state.cx[i]}
-  //       onClick={() => this.handleClick(i)}
-  //     />
-  //   );
-  // }
+handleInputChange = e => {
+  const els = this.state.blurAttrs.slice();
+  console.log('els',els);
+  const n = e.target.name;
+  const val = e.target.value;
+  const add_obj = {};
+  add_obj[n] = val
+  console.log('typeof' , typeof val);
+  
+  console.log('add obj',add_obj);
+  
+  console.log(`name = ${n} and value = ${val}`);
+  
+  console.log('input change', e.target.value)
+  console.log('input name', e.target.name)
+  const blurAttr = this.state.blurAttrs.map(item => Object.keys(item)).reduce((prev, curr) => curr.concat(prev),[])
+  const blurAttrIndex = this.state.blurAttrs.findIndex(item => {
+    console.log('a',item); 
+    console.log('b',Object.keys(item));
+    console.log('c',item[Object.keys(item)] );
+    
+    return Object.keys(item) == e.target.name})
+    console.log('blurattrindex',blurAttrIndex);
+    els.splice(blurAttrIndex,1, add_obj);
+  
+  this.setState({ blurAttrs: els });
+}
+
+
+
 
   render() {
-    let itemList = 
-      this.state.items.map(item=>{
-        return (
-          <h1 key={item}>{item} </h1>
-        )
-      })
+
+
+    console.log('elementss', this.state.elements);
 
     let circles = this.state.numberOfCircles.map(c=> {
    
@@ -96,7 +161,13 @@ class App extends Component {
     console.log('filterElements ', filterElements);
     
 
-
+    let els = this.state.elements.map((el, index, array) => {
+      console.log('el',el);
+      
+                return (
+                 React.createElement(el,{key:index})
+                )
+    }) 
 
     let offset = this.state.offsetElement.map((e,i,foo, bar) => {
       console.log('e: '+e+ ' i '+i + ' f00: '+foo + ' bar: '+ bar);
@@ -106,31 +177,32 @@ class App extends Component {
       )
     })
 
-    let totalNumberOfElements = this.state.numberOfElements +2 
-    
-
-    // withX: function() {
-    //   var counter = 0;
-    //   React.Children.forEach(this.props.children, function (child) {
-    //     if (child.props.isX) counter++;
-    //   });
-    //   return counter;
-    // }
-    
     return (
       <div className="App">
+        <RenderSelectedElementCard 
+        alertAttrs={this.handleAttrs} 
+        selectedElement={this.state.elements[this.state.elements.length-1].name} 
+        attrs={this.state.blurAttrs}
+        changeInputs={this.handleInputChange}
+        />
+      <FilterSelect  selectChange={this.handleChange}/>
+      <svg>
+        <defs>
+          <filter>
+            <EdgeDetection/>
+            {els}
+          </filter>
+          </defs>
+        </svg>
         <HTMLRepresentation >
           {offset}
         </HTMLRepresentation >
-      <h2>{this.state.numberOfElements}</h2>
-      {totalNumberOfElements}
       <FilterElementEditor 
         dx={this.state.offsetX}
         dy={this.state.offsetY}
         onChangeX={this.handleInputX}
           onChangeY={this.handleInputY}
       />
-       {/* <div> {itemList}</div> */}
        <button onClick={()=> this.handleFilterElements()}>add filter</button>
       <svg>
         <defs>
@@ -140,24 +212,14 @@ class App extends Component {
               <feComposite result='' operator='out' in2='offset' in='edge' />
           </EmptyFilter>
             <filter width='200%' height='200%' id='f'>
-              {/* <FeOffset offsetX={this.state.offsetX} offsetY={this.state.offsetY} /> */}
               {offset}
               <FeGaussianBlur result='' deviation='1' />
               <feComposite result='comp' operator='over' in='blur' in2='offset' />
               <EdgeDetection result=''/>
               <feComposite result='' operator='out' in2='offset' in='edge' />
             </filter>
-            <filter width='200%' height='200%' id='edge'>
-              <feConvolveMatrix  result='edge' order="3 3" preserveAlpha="true" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" />
-              <feComposite operator='out' in2='SourceGraphic' in='edge' />
-            </filter>
         </defs>
         {circles}
-          {/* {this.renderCircle(0)} */}
-          {/* {this.renderCircle(1)} */}
-          {/* <Circle cx='120' rad={this.state.radius} onClick={()=> this.handleClick()}/> */}
-          {/* <Circle  cx='50' rad={this.state.radius} onClick={() => this.handleClick()} /> */}
-          <circle cx='20' cy='20' r='15' filter='url(#edge)'/>
       </svg>
       </div>
     );
