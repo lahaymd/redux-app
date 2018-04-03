@@ -7,7 +7,7 @@ class FeOffset extends Component {
         return (
 
           
-                <feOffset result='offset' dx={this.props.offsetX || 0} dy={this.props.offsetY} />
+                <feOffset in={this.props.in} result={this.props.result} dx={this.props.dx} dy={this.props.dy} />
           
         )
 

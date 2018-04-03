@@ -6,13 +6,43 @@ class HTMLRepresentation extends Component{
     render() {
        
 
-        let test = React.Children.map(this.props.children, child => {
-            console.log('child ', child)
+        let test = React.Children.map(this.props.children, (child,i) => {
+            console.log('child ', child.key);
+            console.log('i ', i);
             return (
 
-                <div key={child.key} className='card'>
-                <div className="component-name">{child.type.name}</div>
-                {Object.keys(child.props).map(c => { 
+                <div key={`html${i}`} className='htmlcard'>
+                <div className="component-name">{child.type.name +'Attrs' +child.key}</div>
+
+                    {Object.keys(child.props).map((item,i) => {
+                        console.log('item::',item);
+                        console.log('values:', Object.values(child.props));
+                        
+                        
+                        return (
+
+                            <label key={item}>
+                                {item}
+                                <input onFocus={this.props.passEl(child.type.name, child.key)} onChange={this.props.changeInputs(child.type.name, child.key)} type='text' name={item} value={Object.values(child.props)[i]} />
+                            </label>
+
+                        )
+                    })}
+
+                    {/* <div>{child.props.map(item => {
+                        return (
+
+                            <label key={Object.keys(item)}>
+                                {Object.keys(item)}
+                                <input onChange={this.props.changeInputs} type='text' name={Object.keys(item)} value={Object.values(item)} />
+                            </label>
+
+                        )
+                    })}</div> */}
+
+
+
+                {/* {Object.keys(child.props).map(c => { 
                   
                     return (
                         // <div className='object-keys' key={c}>{c}</div>
@@ -30,7 +60,7 @@ class HTMLRepresentation extends Component{
                         // <div className='object-values' key={c}>{c}</div>
                         
                     )
-                })}
+                })} */}
                 
                 </div>
             );

@@ -9,10 +9,12 @@ class FilterSelect extends Component {
 
         
         return (
-            <select onChange={this.props.selectChange}>
+            <select value="" onChange={this.props.selectChange}>
+                <option value="" disabled >Choose filter here</option>
                 <option value='FeOffset' >FeOffset</option>
                 <option value='EdgeDetection'>EdgeDetection</option>
-                // <option value='FeGaussianBlur'>FeGaussianBlur</option>
+                <option value='FeGaussianBlur'>FeGaussianBlur</option>
+                <option value='FeComposite'>FeComposite</option>
             </select>
         )
     }

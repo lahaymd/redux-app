@@ -7,7 +7,7 @@ class FeGaussianBlur extends Component {
         return (
 
 
-            <feGaussianBlur in='SourceGraphic' result='blur' stdDeviation={this.props.deviation} />
+            <feGaussianBlur in={this.props.in} result={this.props.result} stdDeviation={this.props.stdDeviation} />
 
         )
 
