@@ -11,7 +11,13 @@ import FilterSelect from './FilterSelect';
 import './App.css';
 import RenderSelectedElementCard from './RenderSelectedElementCard';
 import FeComposite from './FeComposite';
+import FeMorphology from './FeMorphology';
+import FeImage from './FeImage';
+import FeFlood from './FeFlood';
+import FeBlend from './FeBlend';
+import FeColorMatrix from './FeColorMatrix';
 import NewRep from './NewRep';
+import Pattern from './Pattern';
 
 class App extends Component {
 
@@ -19,14 +25,19 @@ class App extends Component {
     super(props);
     this.state = {
       numberOfCircles: [0,1],
-      radius: [10, 19],
-      cx: [50,100],
+      radius: [10, 100],
+      cx: [50,'50%'],
       elements: [],
       blurAttrs:[{stdDeviation:0},{in:'SourceGraphic'},{result:'blur'}],
       EdgeDetectionAttrs:[{type:'matrix'},{values:'10001'},{in:'SourceGraphic'},{result:'edge'}],
       FeGaussianBlurAttrs:[{stdDeviation:1},{in:'SourceAlpha'},{result:'blur'}],
       FeOffsetAttrs: [{ dx: 0 }, { dy: 0 }, { in: 'SourceGraphic' }, { result: 'offsett' }],
       FeCompositeAttrs: [ {operator: 'over'}, { in: 'SourceGraphic' }, { in2: 'SourceGraphic' }, { result: 'composite' }],
+      FeMorphologyAttrs: [ {operator: 'dilate'}, { in: 'SourceGraphic' }, { radius: 2 }, { result: 'morph' }],
+      FeFloodAttrs: [ {floodOpacity: '1'}, { in: 'SourceGraphic' }, { floodColor: 'coral' }, { result: 'flood' }],
+      FeImageAttrs: [ {image: 'http://mikelahay.com/images/cooper.png'}, { result: 'image' }],
+      FeBlendAttrs: [ {in: 'SourceGraphic'}, {in2:'SourceGraphic'}, {mode: 'normal'}, {result:'blend'}],
+      FeColorMatrixAttrs: [ {in: 'SourceGraphic'}, {values:`2 2 0 0 0 0 2 2 0 0 0 0 2 0 0 0 0 0 1 0`}, {type: 'matrix'}, {result:'colormatrix'}],
       offsetX: 1,
       offsetY: 0,
       offsetElement: [5,20],
@@ -84,6 +95,11 @@ class App extends Component {
     const offset = FeOffset;
     const blur = FeGaussianBlur;
     const composite = FeComposite;
+    const morphology = FeMorphology;
+    const flood = FeFlood;
+    const image = FeImage;
+    const blend = FeBlend;
+    const colormatrix = FeColorMatrix;
     nameOfElss.push(e.target.value+'Attrs'+this.state.inc)
     switch (e.target.value) {
       case 'FeGaussianBlur':
@@ -102,6 +118,31 @@ class App extends Component {
 
       els.push(composite);
         break;
+
+      case 'FeMorphology':
+
+      els.push(morphology);
+        break;
+
+      case 'FeFlood':
+
+        els.push(flood);
+          break;
+
+      case 'FeImage':
+
+        els.push(image);
+          break;
+
+      case 'FeBlend':
+
+        els.push(blend);
+          break;
+
+      case 'FeColorMatrix':
+
+        els.push(colormatrix);
+          break;
     
       default:
       console.log('you should never see me');
@@ -306,19 +347,20 @@ console.log('this.state.inc' , this.state.inc);
 
     return (
       <div className="App">
-      {stateEndingInNumbers}
-        <NewRep>
+      {/* {stateEndingInNumbers} */}
+        {/* <NewRep>
           {els}
-        </NewRep>
-        <RenderSelectedElementCard 
+        </NewRep> */}
+        {/* <RenderSelectedElementCard 
         alertAttrs={this.handleAttrs} 
           selectedElement={this.state.elements.length ? this.state.elements[this.state.elements.length - 1].name : 'no filters yet'} 
           attrs={this.state.elements.length ? this.state[`${this.state.foo}Attrs${idx}`] : null}
         changeInputs={this.handleInputChange}
-        />
+        /> */}
       <FilterSelect  selectChange={this.handleChange}/>
-      <svg>
+      <svg width='0' height='0'>
         <defs>
+          <Pattern/>
           <EmptyFilter>
             {els}
           </EmptyFilter>
@@ -339,7 +381,7 @@ console.log('this.state.inc' , this.state.inc);
           onChangeY={this.handleInputY}
       /> */}
        {/* <button onClick={()=> this.handleFilterElements()}>add filter</button> */}
-      <svg>
+      <svg width='960' height='500'>
         <defs>
           {/* <EmptyFilter t={this.state.offsetElement.length - 2}>
             {offset}

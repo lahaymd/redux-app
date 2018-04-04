@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import EmptyFilter from './EmptyFilter'
+import EmptyFilter from './EmptyFilter';
+import Rect from './Rect';
 
 class HTMLRepresentation extends Component{
 
@@ -7,12 +8,16 @@ class HTMLRepresentation extends Component{
        
 
         let test = React.Children.map(this.props.children, (child,i) => {
-            console.log('child ', child.key);
+            console.log('child ', child);
+            console.log('child key', child.key);
             console.log('i ', i);
             return (
 
                 <div key={`html${i}`} className='htmlcard'>
                 <div className="component-name">{child.type.name +'Attrs' +child.key}</div>
+                    <Rect type={child.type.name} props={child.props} filter={`url(#filter${child.key})`} id={'filter'+child.key} >
+                       
+                    </Rect>
 
                     {Object.keys(child.props).map((item,i) => {
                         console.log('item::',item);

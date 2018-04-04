@@ -27,7 +27,7 @@ class RenderSelectedElementCard extends Component {
             </div>
                 )
                 }else{ 
-                return (<div>fuck you</div>)}
+                return (<div></div>)}
               
     }
 

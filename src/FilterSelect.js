@@ -15,6 +15,11 @@ class FilterSelect extends Component {
                 <option value='EdgeDetection'>EdgeDetection</option>
                 <option value='FeGaussianBlur'>FeGaussianBlur</option>
                 <option value='FeComposite'>FeComposite</option>
+                <option value='FeMorphology'>FeMorphology</option>
+                <option value='FeMorphology'>FeMorphology</option>
+                <option value='FeFlood'>FeFlood</option>
+                <option value='FeImage'>FeImage</option>
+                <option value='FeColorMatrix'>FeColorMatrix</option>
             </select>
         )
     }
