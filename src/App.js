@@ -13,11 +13,17 @@ import RenderSelectedElementCard from './RenderSelectedElementCard';
 import FeComposite from './FeComposite';
 import FeMorphology from './FeMorphology';
 import FeImage from './FeImage';
+import FeTile from './FeTile';
 import FeFlood from './FeFlood';
 import FeBlend from './FeBlend';
 import FeColorMatrix from './FeColorMatrix';
+import FeDisplacementMap from './FeDisplacementMap';
+import FeTurbulence from './FeTurbulence';
+import FeComponentTransfer from './FeComponentTransfer';
+import FeConvolveMatrix from './FeConvolveMatrix';
 import NewRep from './NewRep';
 import Pattern from './Pattern';
+import FeSpecularLighting from './FeSpecularLighting';
 
 class App extends Component {
 
@@ -35,9 +41,15 @@ class App extends Component {
       FeCompositeAttrs: [ {operator: 'over'}, { in: 'SourceGraphic' }, { in2: 'SourceGraphic' }, { result: 'composite' }],
       FeMorphologyAttrs: [ {operator: 'dilate'}, { in: 'SourceGraphic' }, { radius: 2 }, { result: 'morph' }],
       FeFloodAttrs: [ {floodOpacity: '1'}, { in: 'SourceGraphic' }, { floodColor: 'coral' }, { result: 'flood' }],
-      FeImageAttrs: [ {image: 'http://mikelahay.com/images/cooper.png'}, { result: 'image' }],
+      FeImageAttrs: [{ result: 'image' }, { width: 100 }, { height: 100 }, { par: 'none' }, { image: 'http://mikelahay.com/images/cooper.png' }],
+      FeTileAttrs: [{ result: 'image' }, {in: 'SourceGraphic' }],
       FeBlendAttrs: [ {in: 'SourceGraphic'}, {in2:'SourceGraphic'}, {mode: 'normal'}, {result:'blend'}],
       FeColorMatrixAttrs: [ {in: 'SourceGraphic'}, {values:`2 2 0 0 0 0 2 2 0 0 0 0 2 0 0 0 0 0 1 0`}, {type: 'matrix'}, {result:'colormatrix'}],
+      FeDisplacementMapAttrs: [{ in: 'SourceGraphic' }, { in2: 'SourceGraphic' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, {scale:5}, {result:'displace'}],
+      FeTurbulenceAttrs: [{ in: 'SourceGraphic' },{result:'displace'}, {baseFrequency: .005}, {numOctaves: 5}, {seed: 0}, {type: 'turbulence'}, {stitchTiles: 'stitch'}],
+      FeComponentTransferAttrs: [{ in: 'SourceGraphic' },{result:'transfer'}, {typeR:'discrete'}, {tableValuesR: '1 0'},  {typeG:'discrete'}, {tableValuesG: '1 0'},  {typeB:'discrete'}, {tableValuesB: '1 0'},  {typeA:'discrete'}, {tableValuesA: '1 0'}],
+      FeConvolveMatrixAttrs: [{ in: 'SourceGraphic' },{result:'convolve'}, {kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1'}, {divisor: 1} , {bias: 0} , {targetX: 2} , {targetY: 2} , {edgeMode: 'duplicate'} , {kernelUnitLength: 1} , {preserveAlpha: false} , {order: 3}],
+      FeSpecularLightingAttrs: [{ in: 'SourceGraphic' },{result:'convolve'}, {lightingColor: 'yellow'}, {surfaceScale: 20}, {specularConstant: 20}, {specularExponent: 20}, {kernelUnitLength: 1},{ x: 10}, { y: 10}, { z: 10}],
       offsetX: 1,
       offsetY: 0,
       offsetElement: [5,20],
@@ -98,8 +110,14 @@ class App extends Component {
     const morphology = FeMorphology;
     const flood = FeFlood;
     const image = FeImage;
+    const tile = FeTile;
     const blend = FeBlend;
     const colormatrix = FeColorMatrix;
+    const displacementmap = FeDisplacementMap;
+    const turbulence = FeTurbulence;
+    const transfer = FeComponentTransfer;
+    const convolve = FeConvolveMatrix;
+    const spec = FeSpecularLighting;
     nameOfElss.push(e.target.value+'Attrs'+this.state.inc)
     switch (e.target.value) {
       case 'FeGaussianBlur':
@@ -134,6 +152,11 @@ class App extends Component {
         els.push(image);
           break;
 
+      case 'FeTile':
+
+        els.push(tile);
+          break;
+
       case 'FeBlend':
 
         els.push(blend);
@@ -142,6 +165,31 @@ class App extends Component {
       case 'FeColorMatrix':
 
         els.push(colormatrix);
+          break;
+
+      case 'FeDisplacementMap':
+
+        els.push(displacementmap);
+          break;
+
+      case 'FeTurbulence':
+
+        els.push(turbulence);
+          break;
+
+      case 'FeComponentTransfer':
+
+        els.push(transfer);
+          break;
+
+      case 'FeConvolveMatrix':
+
+        els.push(convolve);
+          break;
+
+      case 'FeSpecularLighting':
+
+        els.push(spec);
           break;
     
       default:

@@ -16,10 +16,15 @@ class FilterSelect extends Component {
                 <option value='FeGaussianBlur'>FeGaussianBlur</option>
                 <option value='FeComposite'>FeComposite</option>
                 <option value='FeMorphology'>FeMorphology</option>
-                <option value='FeMorphology'>FeMorphology</option>
                 <option value='FeFlood'>FeFlood</option>
                 <option value='FeImage'>FeImage</option>
+                <option value='FeTile'>FeTile</option>
                 <option value='FeColorMatrix'>FeColorMatrix</option>
+                <option value='FeDisplacementMap'>FeDisplacementMap</option>
+                <option value='FeTurbulence'>FeTurbulence</option>
+                <option value='FeComponentTransfer'>FeComponentTransfer</option>
+                <option value='FeConvolveMatrix'>FeConvolveMatrix</option>
+                <option value='FeSpecularLighting'>FeSpecularLighting</option>
             </select>
         )
     }
