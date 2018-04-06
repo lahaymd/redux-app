@@ -11,6 +11,7 @@ import FilterSelect from './FilterSelect';
 import './App.css';
 import RenderSelectedElementCard from './RenderSelectedElementCard';
 import FeComposite from './FeComposite';
+import FeMerge from './FeMerge';
 import FeMorphology from './FeMorphology';
 import FeImage from './FeImage';
 import FeTile from './FeTile';
@@ -21,9 +22,16 @@ import FeDisplacementMap from './FeDisplacementMap';
 import FeTurbulence from './FeTurbulence';
 import FeComponentTransfer from './FeComponentTransfer';
 import FeConvolveMatrix from './FeConvolveMatrix';
+import FeDiffuseLightingFePointLight from './FeDiffuseLightingFePointLight.js';
 import NewRep from './NewRep';
 import Pattern from './Pattern';
-import FeSpecularLighting from './FeSpecularLighting';
+import FeSpecularLightingFePointLight from './FeSpecularLightingFePointLight';
+import FeSpecularLightingFeSpotLight from './FeSpecularLightingFeSpotLight';
+import FeSpecularLightingFeDistantLight from './FeSpecularLightingFeDistantLight';
+import FeDiffuseLightingFeSpotLight from './FeDiffuseLightingFeSpotLight';
+import FeDiffuseLightingFeDistantLight from './FeDiffuseLightingFeDistantLight';
+
+
 
 class App extends Component {
 
@@ -49,14 +57,20 @@ class App extends Component {
       FeTurbulenceAttrs: [{ in: 'SourceGraphic' },{result:'displace'}, {baseFrequency: .005}, {numOctaves: 5}, {seed: 0}, {type: 'turbulence'}, {stitchTiles: 'stitch'}],
       FeComponentTransferAttrs: [{ in: 'SourceGraphic' },{result:'transfer'}, {typeR:'discrete'}, {tableValuesR: '1 0'},  {typeG:'discrete'}, {tableValuesG: '1 0'},  {typeB:'discrete'}, {tableValuesB: '1 0'},  {typeA:'discrete'}, {tableValuesA: '1 0'}],
       FeConvolveMatrixAttrs: [{ in: 'SourceGraphic' },{result:'convolve'}, {kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1'}, {divisor: 1} , {bias: 0} , {targetX: 2} , {targetY: 2} , {edgeMode: 'duplicate'} , {kernelUnitLength: 1} , {preserveAlpha: false} , {order: 3}],
-      FeSpecularLightingAttrs: [{ in: 'SourceGraphic' },{result:'convolve'}, {lightingColor: 'yellow'}, {surfaceScale: 20}, {specularConstant: 20}, {specularExponent: 20}, {kernelUnitLength: 1},{ x: 10}, { y: 10}, { z: 10}],
+      FeSpecularLightingFePointLightAttrs: [{ x: 10 }, { y: 10 }, { z: 10 }, { in: 'SourceGraphic' }, { result: 'specpoint' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { specularConstant: 20 }, { specularExponent: 20 }, { kernelUnitLength: 1 }],
+      FeSpecularLightingFeSpotLightAttrs: [{limitingConeAngle: 5.5}, { pointsAtX: 50 }, { pointsAtY: 200 }, { pointsAtZ: 300 }, { x: 100 }, { y: 100 }, { z: 100 }, { in: 'SourceGraphic' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { specularConstant: 2 }, { specularExponent: 4 }, { kernelUnitLength: 1 }],
+      FeSpecularLightingFeDistantLightAttrs: [{azimuth: 0}, {elevation: 0}, { in: 'SourceGraphic' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { specularConstant: 2 }, { specularExponent: 4 }, { kernelUnitLength: 1 }],
+      FeDiffuseLightingFePointLightAttrs: [{ x: 10 }, { y: 10 }, { z: 10 }, { in: 'SourceGraphic' }, { result: 'specpoint' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { diffuseConstant: 20 }, { kernelUnitLength: 1 }],
+      FeDiffuseLightingFeSpotLightAttrs: [{limitingConeAngle: 5.5}, { pointsAtX: 50 }, { pointsAtY: 200 }, { pointsAtZ: 300 }, { x: 100 }, { y: 100 }, { z: 100 }, { in: 'SourceGraphic' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }],
+      FeDiffuseLightingFeDistantLightAttrs: [{azimuth: 0}, {elevation: 0}, { in: 'SourceGraphic' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }],
       offsetX: 1,
       offsetY: 0,
       offsetElement: [5,20],
       results:[],
       foo: 'FeOffset',
       inc: 0,
-      nameOfEls: []
+      nameOfEls: [],
+      FeMergeAttrs: [{in: 'foo'}, {in2: 'bar'}, {in3: 'baz'} ]
     }
   }
 
@@ -107,6 +121,7 @@ class App extends Component {
     const offset = FeOffset;
     const blur = FeGaussianBlur;
     const composite = FeComposite;
+    const merge = FeMerge;
     const morphology = FeMorphology;
     const flood = FeFlood;
     const image = FeImage;
@@ -117,7 +132,12 @@ class App extends Component {
     const turbulence = FeTurbulence;
     const transfer = FeComponentTransfer;
     const convolve = FeConvolveMatrix;
-    const spec = FeSpecularLighting;
+    const specpoint = FeSpecularLightingFePointLight;
+    const specspot = FeSpecularLightingFeSpotLight;
+    const specdistant = FeSpecularLightingFeDistantLight;
+    const diffusepoint = FeDiffuseLightingFePointLight;
+    const diffusespot = FeDiffuseLightingFeSpotLight;
+    const diffusedistant = FeDiffuseLightingFeDistantLight;
     nameOfElss.push(e.target.value+'Attrs'+this.state.inc)
     switch (e.target.value) {
       case 'FeGaussianBlur':
@@ -132,9 +152,15 @@ class App extends Component {
         
       els.push(edge);
         break;
+
       case 'FeComposite':
 
       els.push(composite);
+        break;
+
+      case 'FeMerge':
+
+      els.push(merge);
         break;
 
       case 'FeMorphology':
@@ -187,9 +213,34 @@ class App extends Component {
         els.push(convolve);
           break;
 
-      case 'FeSpecularLighting':
+      case 'FeSpecularLightingFePointLight':
 
-        els.push(spec);
+        els.push(specpoint)
+          break;
+
+      case 'FeSpecularLightingFeSpotLight':
+
+        els.push(specspot)
+          break;
+
+      case 'FeSpecularLightingFeDistantLight':
+
+        els.push(specdistant)
+          break;
+
+      case 'FeDiffuseLightingFePointLight':
+
+        els.push(diffusepoint)
+          break;
+
+      case 'FeDiffuseLightingFeSpotLight':
+
+        els.push(diffusespot)
+          break;
+
+      case 'FeDiffuseLightingFeDistantLight':
+
+        els.push(diffusedistant)
           break;
     
       default:

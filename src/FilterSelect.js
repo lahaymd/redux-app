@@ -15,16 +15,23 @@ class FilterSelect extends Component {
                 <option value='EdgeDetection'>EdgeDetection</option>
                 <option value='FeGaussianBlur'>FeGaussianBlur</option>
                 <option value='FeComposite'>FeComposite</option>
+                <option value='FeMerge'>FeMerge</option>
                 <option value='FeMorphology'>FeMorphology</option>
                 <option value='FeFlood'>FeFlood</option>
                 <option value='FeImage'>FeImage</option>
                 <option value='FeTile'>FeTile</option>
+                <option value='FeBlend'>FeBlend</option>
                 <option value='FeColorMatrix'>FeColorMatrix</option>
                 <option value='FeDisplacementMap'>FeDisplacementMap</option>
                 <option value='FeTurbulence'>FeTurbulence</option>
                 <option value='FeComponentTransfer'>FeComponentTransfer</option>
                 <option value='FeConvolveMatrix'>FeConvolveMatrix</option>
-                <option value='FeSpecularLighting'>FeSpecularLighting</option>
+                <option value='FeSpecularLightingFePointLight'>FeSpecularLightingFePointLight</option>
+                <option value='FeSpecularLightingFeSpotLight'>FeSpecularLightingFeSpotLight</option>
+                <option value='FeSpecularLightingFeDistantLight'>FeSpecularLightingFeDistantLight</option>
+                <option value='FeDiffuseLightingFePointLight'>FeDiffuseLightingFePointLight</option>
+                <option value='FeDiffuseLightingFeSpotLight'>FeDiffuseLightingFeSpotLight</option>
+                <option value='FeDiffuseLightingFeDistantLight'>FeDiffuseLightingFeDistantLight</option>
             </select>
         )
     }
