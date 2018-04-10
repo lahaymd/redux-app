@@ -15,6 +15,7 @@ class HTMLRepresentation extends Component{
 
                 <div key={`html${i}`} className='htmlcard'>
                 <div className="component-name">{child.type.name +'Attrs' +child.key}</div>
+                    <button onClick={this.props.deleteFilter(child.type.name, child.key)} >delete</button>
                     <Rect type={child.type.name} props={child.props} filter={`url(#filter${child.key})`} id={'filter'+child.key} >
                        
                     </Rect>

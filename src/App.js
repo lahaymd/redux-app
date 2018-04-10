@@ -69,6 +69,7 @@ class App extends Component {
       results:[],
       foo: 'FeOffset',
       inc: 0,
+      attrIndex: [],
       nameOfEls: [],
       FeMergeAttrs: [{in: 'foo'}, {in2: 'bar'}, {in3: 'baz'} ]
     }
@@ -112,7 +113,27 @@ class App extends Component {
     this.setState({offsetX: e.target.value})
   }
   
+  handleDelete = (param, key) =>  (e) => {
+    console.log(e);
+    console.log(e.target);
+    console.log(param);
+    console.log(key);
+    const els = this.state.elements.slice()
+    const ai = this.state.attrIndex.slice()
+    let i = this.state.inc;
+    console.log('elsooo', els);
+    els.splice(key, 1)
+    ai.splice(key, 1)
 
+    let props = this.state[`${param}Attrs${key}`]
+    console.log('PROPS', props);
+    
+    this.setState({elements: els})
+    this.setState({attrIndex: ai})
+    delete this.state[`${param}Attrs${key}`];
+    console.log('elsooo', els);
+    
+  }
 
   handleChange = (e) => {
     const els = this.state.elements.slice()
@@ -258,7 +279,10 @@ class App extends Component {
     this.setState({nameOfEls: nameOfElss })
     // let at = `${this}${e.target.value}Attrs`
     // console.log('at',at);
-    
+    const ai = this.state.attrIndex.slice();
+    ai.push(this.state.inc)
+    this.setState({attrIndex: ai})
+    console.log('attrindex',this.state.attrIndex)
     this.setState({[`${e.target.value}Attrs${this.state.inc}`]: this.state[`${e.target.value}Attrs`]})
     this.setState({inc: this.state.inc + 1})
     // this.setState({[this.state.inc]: this.state.inc + 1})
@@ -419,7 +443,8 @@ handleInputChange = e => {
       console.log('inc', this.state.inc);
       // let inc = this.state.inc;
       let props = this.state[`${el.name}Attrs${index}`]
-      console.log('propws:', this.state[`${el.name}Attrs${index}`]);
+      console.log('propws:', this.state[`${el.name}Attrs${this.state.inc-1}`]);
+      console.log('propwssss:', this.state[`${el.name}Attrs${this.state.attrIndex[index]}`]);
       console.log('props:',props);
       console.log(this.state);
       
@@ -470,7 +495,7 @@ console.log('this.state.inc' , this.state.inc);
           </filter>
           </defs>
         </svg>
-        <HTMLRepresentation changeInputs={this.handleInputChanges}  passEl={this.handlePassedEl}>
+        <HTMLRepresentation deleteFilter={this.handleDelete} changeInputs={this.handleInputChanges}  passEl={this.handlePassedEl}>
           {els}
         </HTMLRepresentation >
       {/* <FilterElementEditor 
