@@ -4,7 +4,7 @@ class Circle extends Component {
 
     render(){
         return (
-            <circle onClick={() => this.props.onClick()} cx={this.props.cx} cy='50%' r={this.props.rad} filter={this.props.filter} fill='url(#p)' />
+            <circle onClick={() => this.props.onClick()} cx='50%' cy='50%' r='200' filter='url(#f)' fill='url(#p)' />
         )
     }
 

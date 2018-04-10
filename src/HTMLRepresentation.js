@@ -7,13 +7,13 @@ class HTMLRepresentation extends Component{
     render() {
        
 
-        let test = React.Children.map(this.props.children, (child,i) => {
+        let test = React.Children.map(this.props.children, (child,idx) => {        
             console.log('child ', child);
             console.log('child key', child.key);
-            console.log('i ', i);
+            console.log('i ', idx);
             return (
 
-                <div key={`html${i}`} className='htmlcard'>
+                <div key={`html${idx}`} className='htmlcard'>
                 <div className="component-name">{child.type.name +'Attrs' +child.key}</div>
                     <button onClick={this.props.deleteFilter(child.type.name, child.key)} >delete</button>
                     <Rect type={child.type.name} props={child.props} filter={`url(#filter${child.key})`} id={'filter'+child.key} >
@@ -29,7 +29,7 @@ class HTMLRepresentation extends Component{
 
                             <label key={item}>
                                 {item}
-                                <input onFocus={this.props.passEl(child.type.name, child.key)} onChange={this.props.changeInputs(child.type.name, child.key)} type='text' name={item} value={Object.values(child.props)[i]} />
+                                <input onFocus={this.props.passEl(child.type.name, child.key,idx)} onChange={this.props.changeInputs(child.type.name, child.key)} type='text' name={item} value={Object.values(child.props)[i]} />
                             </label>
 
                         )
