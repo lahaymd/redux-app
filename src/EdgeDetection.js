@@ -4,7 +4,7 @@ class EdgeDetection extends Component {
 
     render() {
         return (
-            <feConvolveMatrix in='comp' result='edge' order="3 3" preserveAlpha="true" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" />
+            <feConvolveMatrix in='comp' result='edge' order="3 3" preserveAlpha="false" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" />
         )
     }
 

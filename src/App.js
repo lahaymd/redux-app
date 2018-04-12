@@ -42,7 +42,7 @@ class App extends Component {
       cx: [50,'50%'],
       elements: [],
       blurAttrs:[{stdDeviation:0},{in:''},{result:'blur'}],
-      EdgeDetectionAttrs:[{type:'matrix'},{values:'10001'},{in:''},{result:'edge'}],
+      EdgeDetectionAttrs:[{type:'matrix'},{values:'-1 -1 -1 -1 8 -1 -1 -1 -1'},{in:''},{result:'edge'}],
       FeGaussianBlurAttrs:[{stdDeviation:1},{in:''},{result:'blur'}],
       FeOffsetAttrs: [{ dx: 0 }, { dy: 0 }, { in: '' }, { result: 'offset' }],
       FeCompositeAttrs: [ {operator: 'over'}, { in: '' }, { in2: '' },{k1: 0}, {k2: 1}, {k3: 1}, {k4: 0}, { result: 'composite' }],
@@ -458,7 +458,7 @@ handleInputChange = e => {
               <stop stop-color="gold" offset="92%" />
               <stop stop-color="darkgoldenrod" offset="100%" />
             </linearGradient>
-          <rect id='gold' width='1000' height='1000' fill='url(#coin)' />
+          <rect id='gold' width='100' height='100' fill='url(#coin)' />
           <Pattern/>
           <EmptyFilter>
             {els}
@@ -471,7 +471,7 @@ handleInputChange = e => {
         <HTMLRepresentation deleteFilter={this.handleDelete} changeInputs={this.handleInputChanges}  passEl={this.handlePassedEl}>
           {els}
         </HTMLRepresentation >
-      <svg width='960' height='500'>
+      <svg viewBox='0 0 500 500'>
         <Text/>
         {circles}
       </svg>

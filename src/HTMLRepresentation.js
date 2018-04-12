@@ -15,11 +15,13 @@ class HTMLRepresentation extends Component{
 
                 <div key={`html${idx}`} className='htmlcard'>
                 <div className="component-name">{child.type.name +'Attrs' +child.key}</div>
-                    <button onClick={this.props.deleteFilter(child.type.name, child.key)} >delete</button>
+                    <div className='flex'>
+                    <button  onClick={this.props.deleteFilter(child.type.name, child.key)} >delete</button>
                     <Rect type={child.type.name} props={child.props} filter={`url(#filter${child.key})`} id={'filter'+child.key} >
                        
                     </Rect>
-
+                    </div>
+                    <div className='label-wrapper'>
                     {Object.keys(child.props).map((item,i) => {
                         console.log('item::',item);
                         console.log('values:', Object.values(child.props));
@@ -34,7 +36,7 @@ class HTMLRepresentation extends Component{
 
                         )
                     })}
-
+                    </div>
                     {/* <div>{child.props.map(item => {
                         return (
 
