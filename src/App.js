@@ -30,8 +30,7 @@ import FeSpecularLightingFeSpotLight from './FeSpecularLightingFeSpotLight';
 import FeSpecularLightingFeDistantLight from './FeSpecularLightingFeDistantLight';
 import FeDiffuseLightingFeSpotLight from './FeDiffuseLightingFeSpotLight';
 import FeDiffuseLightingFeDistantLight from './FeDiffuseLightingFeDistantLight';
-
-//testing git brancing and merging
+import Text from './Text'
 
 class App extends Component {
 
@@ -42,27 +41,27 @@ class App extends Component {
       radius: [10, 100],
       cx: [50,'50%'],
       elements: [],
-      blurAttrs:[{stdDeviation:0},{in:'SourceGraphic'},{result:'blur'}],
-      EdgeDetectionAttrs:[{type:'matrix'},{values:'10001'},{in:'SourceGraphic'},{result:'edge'}],
-      FeGaussianBlurAttrs:[{stdDeviation:1},{in:'SourceAlpha'},{result:'blur'}],
-      FeOffsetAttrs: [{ dx: 0 }, { dy: 0 }, { in: 'SourceGraphic' }, { result: 'offset' }],
-      FeCompositeAttrs: [ {operator: 'over'}, { in: 'SourceGraphic' }, { in2: '' },{k1: 0}, {k2: 1}, {k3: 1}, {k4: 0}, { result: 'composite' }],
-      FeMorphologyAttrs: [ {operator: 'dilate'}, { in: 'SourceGraphic' }, { radius: 2 }, { result: 'morph' }],
-      FeFloodAttrs: [ {floodOpacity: '1'}, { in: 'SourceGraphic' }, { floodColor: 'coral' }, { result: 'flood' }],
+      blurAttrs:[{stdDeviation:0},{in:''},{result:'blur'}],
+      EdgeDetectionAttrs:[{type:'matrix'},{values:'10001'},{in:''},{result:'edge'}],
+      FeGaussianBlurAttrs:[{stdDeviation:1},{in:''},{result:'blur'}],
+      FeOffsetAttrs: [{ dx: 0 }, { dy: 0 }, { in: '' }, { result: 'offset' }],
+      FeCompositeAttrs: [ {operator: 'over'}, { in: '' }, { in2: '' },{k1: 0}, {k2: 1}, {k3: 1}, {k4: 0}, { result: 'composite' }],
+      FeMorphologyAttrs: [ {operator: 'dilate'}, { in: '' }, { radius: 2 }, { result: 'morph' }],
+      FeFloodAttrs: [ {floodOpacity: '1'}, { in: '' }, { floodColor: 'coral' }, { result: 'flood' }],
       FeImageAttrs: [{ result: 'image' }, { width: 100 }, { height: 100 }, { par: 'none' }, { image: 'http://mikelahay.com/images/cooper.png' }],
-      FeTileAttrs: [{ result: 'image' }, {in: 'SourceGraphic' }],
-      FeBlendAttrs: [ {in: 'SourceGraphic'}, {in2:'SourceGraphic'}, {mode: 'normal'}, {result:'blend'}],
-      FeColorMatrixAttrs: [ {in: 'SourceGraphic'}, {values:`2 2 0 0 0 0 2 2 0 0 0 0 2 0 0 0 0 0 1 0`}, {type: 'matrix'}, {result:'colormatrix'}],
-      FeDisplacementMapAttrs: [{ in: 'SourceGraphic' }, { in2: 'SourceGraphic' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, {scale:5}, {result:'displace'}],
-      FeTurbulenceAttrs: [{ in: 'SourceGraphic' },{result:'displace'}, {baseFrequency: .005}, {numOctaves: 5}, {seed: 0}, {type: 'turbulence'}, {stitchTiles: 'stitch'}],
-      FeComponentTransferAttrs: [{ in: 'SourceGraphic' },{result:'transfer'}, {typeR:'discrete'}, {tableValuesR: '1 0'},  {typeG:'discrete'}, {tableValuesG: '1 0'},  {typeB:'discrete'}, {tableValuesB: '1 0'},  {typeA:'discrete'}, {tableValuesA: '1 0'}],
-      FeConvolveMatrixAttrs: [{ in: 'SourceGraphic' },{result:'convolve'}, {kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1'}, {divisor: 1} , {bias: 0} , {targetX: 2} , {targetY: 2} , {edgeMode: 'duplicate'} , {kernelUnitLength: 1} , {preserveAlpha: false} , {order: 3}],
-      FeSpecularLightingFePointLightAttrs: [{ x: 300 }, { y: 300 }, { z: 100 }, { in: 'SourceGraphic' }, { result: 'specpoint' }, { lightingColor: 'red' }, { surfaceScale: 20 }, { specularConstant: 20 }, { specularExponent: 20 }, { kernelUnitLength: 1 }],
-      FeSpecularLightingFeSpotLightAttrs: [{limitingConeAngle: 30}, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 0 }, { in: 'SourceGraphic' }, { result: 'specspot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 1 }, { kernelUnitLength: 1 }],
-      FeSpecularLightingFeDistantLightAttrs: [{azimuth: 0}, {elevation: 0}, { in: 'SourceGraphic' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { specularConstant: 2 }, { specularExponent: 4 }, { kernelUnitLength: 1 }],
-      FeDiffuseLightingFePointLightAttrs: [{ x: 10 }, { y: 10 }, { z: 10 }, { in: 'SourceGraphic' }, { result: 'specpoint' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { diffuseConstant: 20 }, { kernelUnitLength: 1 }],
-      FeDiffuseLightingFeSpotLightAttrs: [{limitingConeAngle: 5.5}, { pointsAtX: 50 }, { pointsAtY: 200 }, { pointsAtZ: 300 }, { x: 100 }, { y: 100 }, { z: 100 }, { in: 'SourceGraphic' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }],
-      FeDiffuseLightingFeDistantLightAttrs: [{azimuth: 0}, {elevation: 0}, { in: 'SourceGraphic' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }],
+      FeTileAttrs: [{ result: 'image' }, {in: '' }],
+      FeBlendAttrs: [ {in: ''}, {in2:''}, {mode: 'normal'}, {result:'blend'}],
+      FeColorMatrixAttrs: [ {in: ''}, {values:`2 2 0 0 0 0 2 2 0 0 0 0 2 0 0 0 0 0 1 0`}, {type: 'matrix'}, {result:'colormatrix'}],
+      FeDisplacementMapAttrs: [{ in: '' }, { in2: '' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, {scale:5}, {result:'displace'}],
+      FeTurbulenceAttrs: [{ in: '' },{result:'displace'}, {baseFrequency: .005}, {numOctaves: 5}, {seed: 0}, {type: 'turbulence'}, {stitchTiles: 'stitch'}],
+      FeComponentTransferAttrs: [{ in: '' },{result:'transfer'}, {typeR:'discrete'}, {tableValuesR: '1 0'},  {typeG:'discrete'}, {tableValuesG: '1 0'},  {typeB:'discrete'}, {tableValuesB: '1 0'},  {typeA:'discrete'}, {tableValuesA: '1 0'}],
+      FeConvolveMatrixAttrs: [{ in: '' },{result:'convolve'}, {kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1'}, {divisor: 1} , {bias: 0} , {targetX: 2} , {targetY: 2} , {edgeMode: 'duplicate'} , {kernelUnitLength: 1} , {preserveAlpha: false} , {order: 3}],
+      FeSpecularLightingFePointLightAttrs: [{ x: 400 }, { y: 300 }, { z: 100 }, { in: '' }, { result: 'specpoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }],
+      FeSpecularLightingFeSpotLightAttrs: [{limitingConeAngle: 30}, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 0 }, { in: '' }, { result: 'specspot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 1 }, { kernelUnitLength: 1 }],
+      FeSpecularLightingFeDistantLightAttrs: [{azimuth: 0}, {elevation: 0}, { in: '' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { specularConstant: 2 }, { specularExponent: 4 }, { kernelUnitLength: 1 }],
+      FeDiffuseLightingFePointLightAttrs: [{ x: 400 }, { y: 300 }, { z: 10 }, { in: '' }, { result: 'specpoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }],
+      FeDiffuseLightingFeSpotLightAttrs: [{limitingConeAngle: 30}, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }, { in: '' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 2 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }],
+      FeDiffuseLightingFeDistantLightAttrs: [{azimuth: 0}, {elevation: 10}, { in: '' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }],
       offsetX: 1,
       offsetY: 0,
       offsetElement: [5,20],
@@ -383,28 +382,17 @@ handleInputChange = e => {
 }
 
 
-
-
   render() {
 
     let stateEndingInNumber = Object.keys(this.state).filter(item => { 
     
       return item.match(/\d$/) 
-      // <h1>{item}</h1>
     })
       let stateEndingInNumbers =stateEndingInNumber.map(item => {
       return (
         <h1 key={item}>{item}</h1>
       )})
       
-      // .map(i => {
-
-      //   return (
-      //     <h1>{i}</h1>
-      //   )
-      // })
-        
-
     console.log('elementss', this.state.elements);
 
     let circles = this.state.numberOfCircles.map((c,i)=> {
@@ -448,18 +436,6 @@ handleInputChange = e => {
                 )
     }) 
 
-    // let offset = this.state.offsetElement.map((e,i,foo, bar) => {
-    //   console.log('e: '+e+ ' i '+i + ' f00: '+foo + ' bar: '+ bar);
-      
-    //   return (
-    //     <FeOffset key={e *Math.random()}  offsetX={parseInt(this.state.offsetX )+ i} offsetY={this.state.offsetY} />
-    //   )
-    // })
-
-//   let idx = this.state.elements.length == 0 ? '' :this.state.inc -1
-// console.log('idx' , idx);
-// console.log('this.state.inc' , this.state.inc);
-
     return (
       <div className="App">
       {/* {stateEndingInNumbers} */}
@@ -475,13 +451,19 @@ handleInputChange = e => {
       <FilterSelect  selectChange={this.handleChange}/>
       <svg width='0' height='0'>
         <defs>
+            <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
+              <stop stop-color="gold" offset="30%" />
+              <stop stop-color="goldenrod" offset="70%" />
+              <stop stop-color="white" offset="82%" />
+              <stop stop-color="gold" offset="92%" />
+              <stop stop-color="darkgoldenrod" offset="100%" />
+            </linearGradient>
+          <rect id='gold' width='1000' height='1000' fill='url(#coin)' />
           <Pattern/>
           <EmptyFilter>
             {els}
           </EmptyFilter>
           <filter id='f' width='200%' height='200%'>
-        
-            {/* <EdgeDetection/> */}
             {els}
           </filter>
           </defs>
@@ -489,14 +471,8 @@ handleInputChange = e => {
         <HTMLRepresentation deleteFilter={this.handleDelete} changeInputs={this.handleInputChanges}  passEl={this.handlePassedEl}>
           {els}
         </HTMLRepresentation >
-      {/* <FilterElementEditor 
-        dx={this.state.offsetX}
-        dy={this.state.offsetY}
-        onChangeX={this.handleInputX}
-          onChangeY={this.handleInputY}
-      /> */}
-       {/* <button onClick={()=> this.handleFilterElements()}>add filter</button> */}
       <svg width='960' height='500'>
+        <Text/>
         {circles}
       </svg>
       </div>
