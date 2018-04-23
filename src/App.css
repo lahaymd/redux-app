@@ -10,7 +10,7 @@
 
 .grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     /* grid-column-gap: 50px; */
     /* margin: 0 10px 0 10px; */
 }
@@ -50,7 +50,7 @@ label {
 }
 
 select {
-    margin: 20px;
+    margin: 50px;
     
 }
 
@@ -69,4 +69,11 @@ select {
 .htmlcard button:hover {
     background-color: chartreuse;
     transition: 3s;
+}
+
+
+#sourceGraphic {
+    /* position: fixed; */
+    /* height: auto; */
+    /* width: 300px; */
 }

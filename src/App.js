@@ -30,7 +30,8 @@ import FeSpecularLightingFeSpotLight from './FeSpecularLightingFeSpotLight';
 import FeSpecularLightingFeDistantLight from './FeSpecularLightingFeDistantLight';
 import FeDiffuseLightingFeSpotLight from './FeDiffuseLightingFeSpotLight';
 import FeDiffuseLightingFeDistantLight from './FeDiffuseLightingFeDistantLight';
-import Text from './Text'
+import Text from './Text';
+import RadialGradient from './RadialGradient';
 
 class App extends Component {
 
@@ -48,13 +49,13 @@ class App extends Component {
       FeCompositeAttrs: [ {operator: 'over'}, { in: '' }, { in2: '' },{k1: 0}, {k2: 1}, {k3: 1}, {k4: 0}, { result: 'composite' }],
       FeMorphologyAttrs: [ {operator: 'dilate'}, { in: '' }, { radius: 2 }, { result: 'morph' }],
       FeFloodAttrs: [ {floodOpacity: '1'}, { in: '' }, { floodColor: 'coral' }, { result: 'flood' }],
-      FeImageAttrs: [{ result: 'image' }, { width: 100 }, { height: 100 }, { par: 'none' }, { image: 'http://mikelahay.com/images/cooper.png' }],
+      FeImageAttrs: [{ result: 'image' }, { x: 0 }, { y: 0 }, { width: 500 }, { height: 500 }, { par: 'none' }, { image: 'https://cdn.cnn.com/cnnnext/dam/assets/150807073434-donald-trump-gop-debate-thumbs-up-august-6-full-169.jpg' }],
       FeTileAttrs: [{ result: 'image' }, {in: '' }],
       FeBlendAttrs: [ {in: ''}, {in2:''}, {mode: 'normal'}, {result:'blend'}],
-      FeColorMatrixAttrs: [ {in: ''}, {values:`2 2 0 0 0 0 2 2 0 0 0 0 2 0 0 0 0 0 1 0`}, {type: 'matrix'}, {result:'colormatrix'}],
+      FeColorMatrixAttrs: [ {in: ''}, {values:`1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0`}, {type: 'matrix'}, {result:'colormatrix'}],
       FeDisplacementMapAttrs: [{ in: '' }, { in2: '' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, {scale:5}, {result:'displace'}],
       FeTurbulenceAttrs: [{ in: '' },{result:'displace'}, {baseFrequency: .005}, {numOctaves: 5}, {seed: 0}, {type: 'turbulence'}, {stitchTiles: 'stitch'}],
-      FeComponentTransferAttrs: [{ in: '' },{result:'transfer'}, {typeR:'discrete'}, {tableValuesR: '1 0'},  {typeG:'discrete'}, {tableValuesG: '1 0'},  {typeB:'discrete'}, {tableValuesB: '1 0'},  {typeA:'discrete'}, {tableValuesA: '1 0'}],
+      FeComponentTransferAttrs: [{ in: '' }, { result: 'transfer' }, { typeR: 'discrete' }, { tableValuesR: '' }, { typeG: 'discrete' }, { tableValuesG: '' }, { typeB: 'discrete' }, { tableValuesB: '' }, { typeA: 'discrete' }, { tableValuesA: '' }, { slopeR: '' }, { interceptR: '' }, { exponentR: '' }, { amplitudeR: '' }, { offsetR: '' }, { slopeG: '' }, { interceptG: '' }, { exponentG: '' }, { amplitudeG: '' }, { offsetG: '' }, { slopeB: '' }, { interceptB: '' }, { exponentB: '' }, { amplitudeB: '' }, { offsetB: '' }, { slopeA: '' }, { interceptA: '' }, { exponentA: '' }, { amplitudeA: '' }, { offsetA: '' }],
       FeConvolveMatrixAttrs: [{ in: '' },{result:'convolve'}, {kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1'}, {divisor: 1} , {bias: 0} , {targetX: 2} , {targetY: 2} , {edgeMode: 'duplicate'} , {kernelUnitLength: 1} , {preserveAlpha: false} , {order: 3}],
       FeSpecularLightingFePointLightAttrs: [{ x: 400 }, { y: 300 }, { z: 100 }, { in: '' }, { result: 'specpoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }],
       FeSpecularLightingFeSpotLightAttrs: [{limitingConeAngle: 30}, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 0 }, { in: '' }, { result: 'specspot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 1 }, { kernelUnitLength: 1 }],
@@ -70,7 +71,7 @@ class App extends Component {
       inc: 0,
       attrIndex: [],
       nameOfEls: [],
-      FeMergeAttrs: [{in: 'foo'}, {in2: 'bar'}, {in3: 'baz'} ]
+      FeMergeAttrs: [{in: 'foo'}, {in2: 'bar'}, {in3: 'baz'}, {in4:''}, {result:''} ]
     }
   }
 
@@ -458,12 +459,15 @@ handleInputChange = e => {
               <stop stop-color="gold" offset="92%" />
               <stop stop-color="darkgoldenrod" offset="100%" />
             </linearGradient>
+            <RadialGradient/>
           <rect id='gold' width='100' height='100' fill='url(#coin)' />
+          <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
+          <circle id='circ' cx='250' cy='250'r='200' fill='url(#rg)' />
           <Pattern/>
           <EmptyFilter>
             {els}
           </EmptyFilter>
-          <filter id='f' width='200%' height='200%'>
+            <filter id='f' width='200%' height='200%' color-interpolation-filters='sRGB'>
             {els}
           </filter>
           </defs>
@@ -471,10 +475,11 @@ handleInputChange = e => {
         <HTMLRepresentation deleteFilter={this.handleDelete} changeInputs={this.handleInputChanges}  passEl={this.handlePassedEl}>
           {els}
         </HTMLRepresentation >
-      <svg viewBox='0 0 500 500'>
-        <Text/>
-        {circles}
-      </svg>
+        
+          <svg id='sourceGraphic' viewBox='0 0 500 500' preserveAspectRatio='xMinYMin meet'>
+            {/* <Text/> */}
+            {circles}
+          </svg>
       </div>
     );
   }

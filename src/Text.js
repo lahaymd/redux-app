@@ -5,7 +5,7 @@ class Text extends Component {
     render() {
 
         return ( 
-            <text x='100' y='50%' style={{fontSize: 100+'px'}} filter='url(#f)'>svg</text>
+            <text x='50%' y='15%' style={{fontSize: 100+'px'}} filter='url(#f)' textAnchor='middle'>svg</text>
         )
     }
 }
