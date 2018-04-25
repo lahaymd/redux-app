@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
+import RouterTest from './RouterTest';
 import Filter from './Filter';
 import Circle from './Circle';
+import SourceGraphic from './SourceGraphic';
 import FeOffset from './FeOffset';
 import FeGaussianBlur from './FeGaussianBlur';
 import FilterElementEditor from './FilterElementEditor';
@@ -71,11 +74,18 @@ class App extends Component {
       inc: 0,
       attrIndex: [],
       nameOfEls: [],
-      FeMergeAttrs: [{in: 'foo'}, {in2: 'bar'}, {in3: 'baz'}, {in4:''}, {result:''} ]
+      FeMergeAttrs: [{in: 'foo'}, {in2: 'bar'}, {in3: 'baz'}, {in4:''}, {result:''} ],
+      text: 'SOURCEGRAPHIC'
     }
   }
 
-  
+  handleSourceGraphic = (e) => {
+    console.log(e.target.value,'hsg');
+    console.log(this.state.foo);
+    
+    // const sourceText = e.target.value;
+    this.setState({text: e.target.value})
+  }
 
   handleClick(i) {
     const radius = this.state.radius.slice();
@@ -438,17 +448,13 @@ handleInputChange = e => {
     }) 
 
     return (
+    <Router>
+      
       <div className="App">
-      {/* {stateEndingInNumbers} */}
-        {/* <NewRep>
-          {els}
-        </NewRep> */}
-        {/* <RenderSelectedElementCard 
-        alertAttrs={this.handleAttrs} 
-          selectedElement={this.state.elements.length ? this.state.elements[this.state.elements.length - 1].name : 'no filters yet'} 
-          attrs={this.state.elements.length ? this.state[`${this.state.foo}Attrs${idx}`] : null}
-        changeInputs={this.handleInputChange}
-        /> */}
+      <Link to='/'>home</Link>
+      <Link to='/mikelahay'>mike lahay</Link>
+      {/* <Route path='/' component={FeBlend}/> */}
+      <Route exact path='/mikelahay' component={RouterTest}/>
       <FilterSelect  selectChange={this.handleChange}/>
       <svg width='0' height='0'>
         <defs>
@@ -467,20 +473,25 @@ handleInputChange = e => {
           <EmptyFilter>
             {els}
           </EmptyFilter>
-            <filter id='f' width='200%' height='200%' color-interpolation-filters='sRGB'>
+            <filter id='f' width='200%' height='200%' x='-20%' y='-20%' color-interpolation-filters='sRGB'>
             {els}
           </filter>
           </defs>
         </svg>
+        <div className='rep-svg-wrapper'>
         <HTMLRepresentation deleteFilter={this.handleDelete} changeInputs={this.handleInputChanges}  passEl={this.handlePassedEl}>
           {els}
         </HTMLRepresentation >
         
-          <svg id='sourceGraphic' viewBox='0 0 500 500' preserveAspectRatio='xMinYMin meet'>
+          <svg id='sourceGraphic' viewBox='0 0 500 500' width='100%'  preserveAspectRatio='xMinYMin meet'>
             {/* <Text/> */}
-            {circles}
+              <SourceGraphic text={this.state.text} />
+            {/* {circles} */}
           </svg>
+          </div>
+          <input onChange={ this.handleSourceGraphic} />
       </div>
+    </Router>
     );
   }
 }
