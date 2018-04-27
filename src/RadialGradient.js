@@ -6,8 +6,8 @@ class RadialGradient extends Component {
 
         return (
             <radialGradient id='rg'>
-                <stop offset="0%" stop-color="white" />
-                <stop offset="100%" stop-color="blue" />
+                <stop offset="0%" stopColor="white" />
+                <stop offset="100%" stopColor="blue" />
             </radialGradient>
         )
     }
