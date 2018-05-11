@@ -17,6 +17,8 @@ class HTMLRepresentation extends Component{
                 <div className="component-name">{child.type.name +'Attrs' +child.key}</div>
                     <div className='flex'>
                     <button  onClick={this.props.deleteFilter(child.type.name, child.key)} >delete</button>
+                    <button  onClick={this.props.moveUp(child.type.name, child.key)} >up</button>
+                    <button  onClick={this.props.moveDown(child.type.name, child.key)} >down</button>
                     <Rect type={child.type.name} props={child.props} filter={`url(#filter${child.key})`} id={'filter'+child.key} >
                        
                     </Rect>
@@ -29,9 +31,9 @@ class HTMLRepresentation extends Component{
                         
                         return (
 
-                            <label key={item}>
-                                {item}
-                                <input onFocus={this.props.passEl(child.type.name, child.key,idx)} onChange={this.props.changeInputs(child.type.name, child.key)} type='text' name={item} value={Object.values(child.props)[i]} />
+                            <label className='html-label-wrapper' key={item}>
+                                <span>{item}</span>
+                                <input   className='input-style' onFocus={this.props.passEl(child.type.name, child.key,idx)} onChange={this.props.changeInputs(child.type.name, child.key)} type='text' name={item} value={Object.values(child.props)[i]} />
                             </label>
 
                         )

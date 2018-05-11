@@ -11,7 +11,7 @@ body {
 }
 
 nav {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'> <circle cx='5' cy='5' r='5' fill='slateblue'  /></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'> <rect  width='10' height='10' fill='rebeccapurple' stroke='chartreuse'/> <circle cx='5' cy='5' r='4' fill='slateblue'  /></svg>");
     padding: .1em;
 }
 
@@ -56,18 +56,38 @@ input {
    font-size: 16px;
    height: 34px;
    width: 268px;
+   background: tomato;
+}
+
+option {
+    background-color: red;
 }
 
 select:focus, input:focus {outline:0;}
 
-.inputMargin {
-    margin: 10px;
+.select-wrapper {
+    display: flex;
+    justify-content: space-around;
 }
+
+.input-style {
+    /* margin: 10px; */
+    padding: .5em;
+    border-radius: .2em;
+    border: none;
+}
+
 
 .flex {
     display: flex;
     justify-content: space-around;
     background-color: cornflowerblue;
+    padding: .5em;
+}
+
+.html-label-wrapper {
+    display: flex;
+    flex-direction: column;
 }
 
 .grid {
@@ -79,9 +99,8 @@ select:focus, input:focus {outline:0;}
 
 .htmlcard {
     border: 3px solid coral;
-    background-color: blanchedalmond;
-    /* margin: 50px; */
-     /* margin: 0 0 10px 0; */
+    background-color: slateblue;
+   border-radius: 5px;
      
     }
     
@@ -89,27 +108,36 @@ select:focus, input:focus {outline:0;}
         display: grid;
     grid-template-columns: repeat(2, 1fr);
     /* margin: 10px; */
-    background-color: blanchedalmond;
+    /* background-color: green; */
     justify-items: end;
-
+    
 }
 
-    .label-wrapper2 {
-        display: grid;
+.label-wrapper2 {
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
+    /* width: 35vw; */
     /* margin: 10px; */
-    background-color: blanchedalmond;
+    background-color: slateblue;
     justify-items: end;
-
+    
 }
 
 label {
     padding: 1em;
 }
 
+/* #SourceGraphicEditor {
+    transform: translateX(-0%);
+    position: absolute;
+    top: 250px;
+    z-index: 10;
+} */
+
 
 .component-name {
     background: rebeccapurple;
+    padding: .5em;
 
 }
 
@@ -131,8 +159,9 @@ select {
     transition: 3s;
     background-color: aquamarine;
     border-radius: 5px;
-    padding: 12px;
+    padding: 0 16px;
     font-style: italic;
+    font-weight: 900;
     text-transform: uppercase;
     /* margin-bottom: 10px; */
     /* margin-left: 4px; */
@@ -152,6 +181,7 @@ select {
     margin-right: 1rem;
     border: 3px solid coral;
 }
+
 
 
 .rep-svg-wrapper {

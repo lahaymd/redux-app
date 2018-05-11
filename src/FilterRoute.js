@@ -37,6 +37,8 @@ import FeDiffuseLightingFeDistantLight from './FeDiffuseLightingFeDistantLight';
 import Text from './Text';
 import RadialGradient from './RadialGradient';
 import SourceGraphicSelect from './SourceGraphicSelect';
+import Gradient from './Gradient';
+import GradientEditor from './GradientEditor';
 
 class FilterRoute extends Component {
 
@@ -78,7 +80,8 @@ class FilterRoute extends Component {
             nameOfEls: [],
             FeMergeAttrs: [{ in: 'foo' }, { in2: 'bar' }, { in3: 'baz' }, { in4: '' }, { result: '' }],
             text: 'SOURCEGRAPHIC',
-            SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 50}, {textLength: 500}, {lengthAdjust: 'spacingAndGlyphs'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}]
+            SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 50}, {textLength: 500}, {lengthAdjust: 'spacingAndGlyphs'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}],
+            gradientAttrs: [{x1: 0}, {x2: 0}, {y1: 0}, {y2: 0}, {spreadMethod: 'pad'}, {gradientTransform: 0},{offset1: 0} ,{offset2:1} ,{color1:'green'} ,{color2: 'blue'}]
         }
     }
 
@@ -96,7 +99,7 @@ class FilterRoute extends Component {
         const attrs = this.state.SourceGraphicAttrs.slice()
         console.log('attrs', attrs);
         const obj = {[`${e.target.name}`]:e.target.value}
-    
+        
         attrs.splice(index,1, obj)
         
         console.log(e.target.value, 'hsg');
@@ -104,7 +107,22 @@ class FilterRoute extends Component {
         console.log('item', item);
         this.setState({SourceGraphicAttrs: attrs})        
         console.log('attrs', attrs);
-
+        
+    }
+    
+    handleGradientChange = (item, index) => e => {
+        console.log('gradient');
+        console.log(`item ${JSON.stringify(item)}`);
+        console.log(`index ${index}`);
+        console.log(`e name ${e.target.name}`);
+        console.log(`e value ${e.target.value}`);
+        
+        const gradAttrs = this.state.gradientAttrs.slice();
+        const obj = {[`${e.target.name}`]:e.target.value}
+        gradAttrs.splice(index, 1,  obj)
+        this.setState({gradientAttrs: gradAttrs});
+        
+        
     }
 
     handleClick(i) {
@@ -156,6 +174,83 @@ class FilterRoute extends Component {
         console.log('elsooo', els);
 
     }
+
+    handleMoveUp = (param, key) => (e) => {
+        console.log('e', e);
+        console.log('etarget', e.target);
+        console.log('param', param);
+        console.log('key', key);
+
+        // if(key !== this.state.elements.length - 1) {
+        const els = this.state.elements.slice()
+        const ai = this.state.attrIndex.slice()
+
+        console.log('elsooo', els);
+        console.log('els key', els[key]);
+
+        console.log('ai', ai);
+        let splice = els.splice(key, 1)
+        console.log('splice', splice);
+        let spliceai = ai.splice(key, 1)
+        ai.splice(key - 1, 0, spliceai[0])
+        els.splice(key - 1, 0, splice[0])
+
+
+
+
+        this.setState({ elements: els })
+        this.setState({ attrIndex: ai })
+        // delete this.state[`${param}Attrs${key}`];
+        console.log('ai', ai);
+        console.log('elso', els);
+        // }
+    }
+    // $ctrl.moveUp = function (idx) {
+        //     if (idx !== 0) {
+            //         var splice = $ctrl.data.splice(idx, 1)
+            //         $ctrl.data.splice(idx - 1, 0, splice[0])
+            //     }
+            // }
+            
+            handleMoveDown = (param, key) => (e) => {
+                console.log('e', e);
+                console.log('etarget', e.target);
+                console.log('param', param);
+                console.log('key', key);
+                
+                // if(key !== this.state.elements.length - 1) {
+                    const els = this.state.elements.slice()
+                    const ai = this.state.attrIndex.slice()
+      
+        console.log('elsooo', els);
+        console.log('els key', els[key]);
+       
+        console.log('ai', ai);
+        let splice = els.splice(key, 1)
+        console.log('splice',splice);
+        let spliceai = ai.splice(key, 1)
+        ai.splice(key + 1, 0, spliceai[0])
+        els.splice(key + 1, 0, splice[0])
+        
+        
+        
+        
+        this.setState({ elements: els })
+        this.setState({ attrIndex: ai })
+        // delete this.state[`${param}Attrs${key}`];
+        console.log('ai', ai);
+        console.log('elso', els);
+            // }
+    }
+
+
+    // $ctrl.moveDown = function (idx) {
+    //     if (idx !== $ctrl.data.length - 1) {
+    //         var splice = $ctrl.data.splice(idx, 1)
+    //         $ctrl.data.splice(idx + 1, 0, splice[0])
+    //     }
+
+    // }
 
     handleSelectSourceGraphic = (e) => {
         this.setState({selectedSourceGraphic: e.target.value})
@@ -432,7 +527,7 @@ class FilterRoute extends Component {
             )
         })
 
-        console.log('elementss', this.state.elements);
+        // console.log('elementss', this.state.elements);
 
         let circles = this.state.numberOfCircles.map((c, i) => {
 
@@ -480,10 +575,27 @@ class FilterRoute extends Component {
 
                 <div className="App">
                     <SourceGraphicEditor text={this.state.text} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
-                    <FilterSelect selectedIndex={this.handleSelectedIndex} selectChange={this.handleChange} />
-                    <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
+                    <GradientEditor attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
+                    <div className='select-wrapper'>
+                        <FilterSelect selectedIndex={this.handleSelectedIndex} selectChange={this.handleChange} />
+                        <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
+                    </div>
                     <svg width='0' height='0'>
                         <defs>
+                            <Gradient 
+                                x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
+                                x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))}
+                                y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))}
+                                y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))}
+                                spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod'))}
+                                gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))}
+                                offset1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'offset1'))}
+                                offset2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'offset2'))}
+                                color1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'color1'))}
+                                color2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'color2'))}
+                                
+                            
+                            />
                             <rect id='bi' width='10' height='10' fill='url(#p)' />
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
                                 <stop stopColor="white" offset="82%" />
@@ -506,7 +618,13 @@ class FilterRoute extends Component {
                         </defs>
                     </svg>
                     <div className='rep-svg-wrapper'>
-                        <HTMLRepresentation deleteFilter={this.handleDelete} changeInputs={this.handleInputChanges} passEl={this.handlePassedEl}>
+                        <HTMLRepresentation 
+                            deleteFilter={this.handleDelete} 
+                            moveUp={this.handleMoveUp} 
+                            moveDown={this.handleMoveDown}
+                            changeInputs={this.handleInputChanges} 
+                            passEl={this.handlePassedEl}
+                            >
                             {els}
                         </HTMLRepresentation >
 

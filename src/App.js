@@ -16,7 +16,7 @@ class App extends Component {
     return (
     <Router>
         <div className="AppRouter">
-          <nav>
+          {/* <nav>
             <ul>
                 <li>
                 <svg viewBox='0 0 10 10' preserveAspectRatio='xMinYMid' height='1em' className='svg-icon'><circle cx='5' cy='5' r='5' /></svg>
@@ -27,8 +27,8 @@ class App extends Component {
                   <Link to='/filter'>filter</Link>
                 </li>
             </ul>
-          </nav>
-          <Route exact path='/filter' component={FilterRoute}/>
+          </nav> */}
+          <Route exact path='/' component={FilterRoute}/>
         </div>
     </Router>
     );

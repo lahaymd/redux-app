@@ -17,18 +17,20 @@ class SourceGraphicEditor extends Component {
         return (
 
             <div id='SourceGraphicEditor' className='htmlcard label-wrapper2 label'>
-                <input className='inputMargin' type='text' value={this.props.text} onChange={this.props.changeText} />
-                  
+                <label className='html-label-wrapper' >
+                    <span>text</span>
+                <input className='input-style' type='text' value={this.props.text} onChange={this.props.changeText} />
+                </label>
                 {this.props.attrs.map((item,index) => {
                     // console.log('object keys', Object.keys(this.state.SourceGraphicAttrs));
-                        console.log('item', item);
-                        console.log('index', index);
+                        // console.log('item', item);
+                        // console.log('index', index);
                         
                     return (
 
-                        <label key={Object.keys(item)} >
-                            {Object.keys(item)}
-                            <input onChange={this.props.changeSource(item, index)} name={Object.keys(item)}  value={Object.values(item)} />
+                        <label className='html-label-wrapper' key={Object.keys(item)} >
+                            <span>{Object.keys(item)}</span>
+                            <input className='input-style' onChange={this.props.changeSource(item, index)} name={Object.keys(item)}  value={Object.values(item)} />
                         </label>
                     )
                 })}
