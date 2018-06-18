@@ -3,13 +3,6 @@ import SourceGraphic from './SourceGraphic';
 
 class SourceGraphicEditor extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            SourceGraphicAttrs: [{ x: 100 }, { y: 100 }, { fill: '' }, { stroke: '' }]
-           
-        }
-    }
 
     render() {
 
@@ -17,10 +10,6 @@ class SourceGraphicEditor extends Component {
         return (
 
             <div id='SourceGraphicEditor' className='htmlcard label-wrapper2 label'>
-                <label className='html-label-wrapper' >
-                    <span>text</span>
-                <input className='input-style' type='text' value={this.props.text} onChange={this.props.changeText} />
-                </label>
                 {this.props.attrs.map((item,index) => {
                     // console.log('object keys', Object.keys(this.state.SourceGraphicAttrs));
                         // console.log('item', item);

@@ -38,7 +38,12 @@ import Text from './Text';
 import RadialGradient from './RadialGradient';
 import SourceGraphicSelect from './SourceGraphicSelect';
 import Gradient from './Gradient';
+import LinearGradientRepresentation from './LinearGradientRepresentation';
 import GradientEditor from './GradientEditor';
+import Image from './Images';
+import  StopAdder from "./StopAdder";
+import linearGradients from './LinearGradients';
+import LinearGradients from './LinearGradients';
 
 class FilterRoute extends Component {
 
@@ -49,6 +54,11 @@ class FilterRoute extends Component {
             radius: [10, 100],
             cx: [50, '50%'],
             elements: [],
+            stops: [],
+            linearGradients: [],
+            offset: '',
+            stopColor: '',
+            stopOpacity: '',
             blurAttrs: [{ stdDeviation: 0 }, { in: '' }, { result: 'blur' }],
             EdgeDetectionAttrs: [{ type: 'matrix' }, { values: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { in: '' }, { result: 'edge' }],
             FeGaussianBlurAttrs: [{ stdDeviation: 1 }, { in: '' }, { result: 'blur' }],
@@ -79,21 +89,24 @@ class FilterRoute extends Component {
             attrIndex: [],
             nameOfEls: [],
             FeMergeAttrs: [{ in: 'foo' }, { in2: 'bar' }, { in3: 'baz' }, { in4: '' }, { result: '' }],
-            text: 'SOURCEGRAPHIC',
-            SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 50}, {textLength: 500}, {lengthAdjust: 'spacingAndGlyphs'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}],
-            gradientAttrs: [{x1: 0}, {x2: 0}, {y1: 0}, {y2: 0}, {spreadMethod: 'pad'}, {gradientTransform: 0},{offset1: 0} ,{offset2:1} ,{color1:'green'} ,{color2: 'blue'}]
+            SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 400}, {textLength: 500}, {lengthAdjust: 'spacingAndGlyphs'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}, {text: 'SVG'}],
+            gradientAttrs: [{x1: 0}, {x2: 0}, {y1: 1}, {y2: 0}, {spreadMethod: 'reflect'}, {gradientTransform: 0}, {gradientUnits:'objectBoundingBox'}, {id: 'linear'}],
+            images: [],
+            selectedSourceGraphic: 'text'
         }
+    }
+
+    async componentDidMount() {
+
+        const res = await fetch('/linear_gradient');
+        const json = await res.json()
+        this.setState({linearGradients: json})
+        this.setState({stops: json[json.length - 1][`stops`]})
+       
     }
 
     handleText = (e) => this.setState({ text: e.target.value });
 
-    handleSourceGraphic = (e) => {
-        console.log(e.target.value, 'hsg');
-        console.log(this.state.foo);
-
-        // const sourceText = e.target.value;
-        this.setState({ text: e.target.value })
-    }
 
     handleSourceChange = (item, index) => e => {
         const attrs = this.state.SourceGraphicAttrs.slice()
@@ -122,6 +135,96 @@ class FilterRoute extends Component {
         gradAttrs.splice(index, 1,  obj)
         this.setState({gradientAttrs: gradAttrs});
         
+        
+    }
+
+    handleStop =   () => e => {
+        console.log(e.target.name);
+
+        this.setState({[`${e.target.name}`]: e.target.value})
+        
+    }
+
+    handleNewLinearGradient = () => e => {
+
+        console.log('handle new linear gradient');
+
+        let data = {
+            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+            stops: [],
+            x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))),
+            x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))),
+            y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))),
+            y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))),
+            spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod')),
+            gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))),
+            gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits')),
+
+        }
+
+        fetch('/linear_gradient',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+            .then( res => res.json())
+            .then(data => { console.log('post stops' + JSON.stringify(data));
+
+
+                const foo = this.state.linearGradients.slice();
+                foo.push(data)
+
+
+                this.setState({ linearGradients: foo })
+
+
+            })
+        
+    }
+
+
+    handlePushStop = () => e => {
+
+        console.log('push stop');
+        let stops = this.state.stops.slice();
+        stops.push({offset: this.state.offset, stopColor: this.state.stopColor, stopOpacity: this.state.stopOpacity})
+        this.setState({stops: stops})
+        let data = {
+            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+            stops: stops
+        }
+
+        fetch('/linear_gradient',
+            {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+            .then( res => res.json())
+            .then(data => { 
+                
+                console.log('post stops' + JSON.stringify(data));
+                
+                const foo = this.state.linearGradients.slice();
+                const info = foo.findIndex( item => item.name === data.name);
+                foo.splice(info, 1 , data)
+                
+                
+                
+                this.setState({linearGradients: foo})
+                console.log('post stops' + JSON.stringify(data));
+            })
         
     }
 
@@ -435,6 +538,23 @@ class FilterRoute extends Component {
 
     }
 
+    handleStopChange = (param, index) => e => {
+        console.log(param);
+        console.log(index);
+        console.log(e.target.name);
+        console.log(e.target.value);
+        const stops = this.state.stops.slice();
+        const obj = { ...stops[index]}
+        console.log(obj);
+        obj[`${e.target.name}`] = e.target.value;
+        console.log(obj);
+        
+        stops.splice(index,1, obj )
+        this.setState({stops: stops})
+        
+        
+    }
+
     handleInputChanges = (param, key) => e => {
         console.log('param and key', param, key);
 
@@ -570,12 +690,21 @@ class FilterRoute extends Component {
             )
         })
 
+        let stopEls = this.state.stops.map((el,index,arrar) => {
+             
+            return (
+                <stop offset={index} stop-color={el} />
+            )
+        })
+
+
         return (
            
 
                 <div className="App">
-                    <SourceGraphicEditor text={this.state.text} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
-                    <GradientEditor attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
+                    <SourceGraphicEditor  changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
+                    <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
+                    <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
                     <div className='select-wrapper'>
                         <FilterSelect selectedIndex={this.handleSelectedIndex} selectChange={this.handleChange} />
                         <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
@@ -583,19 +712,22 @@ class FilterRoute extends Component {
                     <svg width='0' height='0'>
                         <defs>
                             <Gradient 
+                                id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
                                 x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
                                 x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))}
                                 y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))}
                                 y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))}
                                 spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod'))}
                                 gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))}
-                                offset1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'offset1'))}
-                                offset2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'offset2'))}
-                                color1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'color1'))}
-                                color2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'color2'))}
-                                
-                            
-                            />
+                                gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits'))}
+                            >
+                                {this.state.stops.map(stop => {
+                                    return (
+                                        <stop offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
+                                    )
+                                })}
+                            </Gradient>
+                            <LinearGradients gradientData={this.state.linearGradients}/>
                             <rect id='bi' width='10' height='10' fill='url(#p)' />
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
                                 <stop stopColor="white" offset="82%" />
@@ -606,6 +738,7 @@ class FilterRoute extends Component {
                             </linearGradient>
                             <RadialGradient />
                             <rect id='gold' width='100' height='100' fill='url(#coin)' />
+                            <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
                             <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
                             <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' />
                             <Pattern />
@@ -627,12 +760,24 @@ class FilterRoute extends Component {
                             >
                             {els}
                         </HTMLRepresentation >
-
+                        <LinearGradientRepresentation>
+                            {this.state.stops.map((el,index,array) => {
+                                return (
+                                    <div>
+                                        <label>{index}
+                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name={Object.keys(el)[0]} value={el.offset} />
+                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' min="0" max="1" step="0.01" name={Object.keys(el)[1]} value={el.stopColor} />
+                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name={Object.keys(el)[2]} value={el.stopOpacity} />
+                                        </label>
+                                    </div>
+                                )
+                            })}
+                        </LinearGradientRepresentation>
                         <svg id='sourceGraphic' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
                             {/* <Text/> */}
                             { this.state.selectedSourceGraphic == 'text' ? (
                             <SourceGraphic 
-                                text={this.state.text} 
+                                text={Object.values(this.state.SourceGraphicAttrs[11])} 
                                 elements={this.state.elements} 
                                 x={Object.values(this.state.SourceGraphicAttrs[0])}
                                 y={Object.values(this.state.SourceGraphicAttrs[1])}
@@ -654,7 +799,7 @@ class FilterRoute extends Component {
 
                         </svg>
                     </div>
-                    <input onChange={this.handleSourceGraphic} />
+                
                 </div>
             
         );
