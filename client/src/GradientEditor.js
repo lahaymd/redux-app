@@ -10,7 +10,7 @@ class GradientEditor extends Component {
                     console.log('gradienteditor'+JSON.stringify(item));
                     
                     return (
-                        <label className='html-label-wrapper'> {Object.keys(item)}
+                        <label key={index} className='html-label-wrapper'> {Object.keys(item)}
                             <input 
                                 type={Object.keys(item) == 'gradientTransform' ? 'range': 'text'} 
                                 min={Object.keys(item) == 'gradientTransform' ? 0 : null}

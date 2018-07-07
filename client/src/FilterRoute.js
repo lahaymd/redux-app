@@ -42,8 +42,10 @@ import LinearGradientRepresentation from './LinearGradientRepresentation';
 import GradientEditor from './GradientEditor';
 import Image from './Images';
 import  StopAdder from "./StopAdder";
-import linearGradients from './LinearGradients';
+import RectWithGradient from './RectWithGradient';
 import LinearGradients from './LinearGradients';
+import LinearGradientSelect from './LinearGradientSelect';
+import FilterMenu from './FilterMenu'
 
 class FilterRoute extends Component {
 
@@ -92,7 +94,10 @@ class FilterRoute extends Component {
             SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 400}, {textLength: 500}, {lengthAdjust: 'spacingAndGlyphs'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}, {text: 'SVG'}],
             gradientAttrs: [{x1: 0}, {x2: 0}, {y1: 1}, {y2: 0}, {spreadMethod: 'reflect'}, {gradientTransform: 0}, {gradientUnits:'objectBoundingBox'}, {id: 'linear'}],
             images: [],
-            selectedSourceGraphic: 'text'
+            selectedSourceGraphic: 'text',
+            filterData: [{type:'feOffset', attributes: [{dx:0},{dy:5},{in:'SourceGraphic'},{result:''}]}, {type: 'feComposite', attributes: [{operator:'over'},{in:'foo'},{in2:'bar'},{result:'composite'}]}],
+            feOffsetDefaults: [],
+            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, { in: 'SourceGraphic' }, { result: '' }] }
         }
     }
 
@@ -142,6 +147,14 @@ class FilterRoute extends Component {
         console.log(e.target.name);
 
         this.setState({[`${e.target.name}`]: e.target.value})
+        
+    }
+
+    handleDeleteStop = (index) => e => {
+        console.log(`delete index  ${index}`);
+        const stops = this.state.stops.slice();
+        stops.splice(index,1)
+        this.setState({stops})
         
     }
 
@@ -235,14 +248,6 @@ class FilterRoute extends Component {
         this.setState({ radius: radius });
     }
 
-    handleNewFilterElements() {
-
-        const els = this.state.elements.slice();
-        els.push(EdgeDetection);
-        console.log('els', els);
-        this.setState({ elements: els });
-
-    }
     handleInputY = (e) => {
         console.log('y', e.target.value)
 
@@ -358,6 +363,32 @@ class FilterRoute extends Component {
     handleSelectSourceGraphic = (e) => {
         this.setState({selectedSourceGraphic: e.target.value})
     }
+
+    handleSelectedLinearGradient = (e) => {
+        this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`]})
+        const sga = this.state.SourceGraphicAttrs.slice();
+        sga[2] = {fill: `url(#${e.target.value})`}
+        this.setState({ SourceGraphicAttrs: sga})
+        const ga = this.state.gradientAttrs.slice();
+        ga[7] = {id: e.target.value}
+        this.setState({gradientAttrs: ga})
+    }
+
+    handleNewFilter = e => {
+        console.log(e.target.value);
+        switch (e.target.value) {
+            case 'feGaussianBlur':
+            const filterData = this.state.filterData.slice();
+            filterData.push(this.state.feGaussianBlurDefaults);
+            this.setState({filterData});
+            break;
+            default:
+                console.log('you should never see me');
+
+                break;
+        }
+    }
+
 
     handleChange = (e) => {
         console.log('selected index', e.target.selectedIndex);
@@ -634,6 +665,24 @@ class FilterRoute extends Component {
 
     }
 
+    handleFilterData = index => e => {
+        
+        console.log(index);
+        console.log(e.target.value);
+        console.log(e.target.name);
+        const filterData = this.state.filterData.slice();
+        let foo = filterData[index].attributes
+        let bar = foo.findIndex(item => Object.keys(item) == e.target.name) 
+        // bar = e.target.value;
+        foo.splice(bar, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value))  ? e.target.value : parseInt(e.target.value)})
+        console.log(bar);
+        console.log(foo);
+        
+        this.setState({ filterData})
+
+        // filterData: [{ type: 'feOffset', attributes: [{ dx: 0 }, { dy: 5 }, { in: 'SourceGraphic' }, { result: '' }] }, { type: 'feComposite', attributes: [{ operator: 'over' }, { in: 'foo' }, { in2: 'bar' }, { result: 'composite' }] }],
+    }
+
 
     render() {
 
@@ -702,15 +751,81 @@ class FilterRoute extends Component {
            
 
                 <div className="App">
+                <svg>
+                    <filter id='filterData'>
+                    {this.state.filterData.map( (item,index) => {
+                        console.log(item.attributes);
+                        
+                        const attrs = item.attributes.reduce((prev, curr) => {
+                            let key = Object.keys(curr)[0];
+                            console.log(Object.keys(curr));
+                            console.log(prev);
+                            console.log(curr);
+                            
+                            if(Object.values(curr) != ''){
+                                
+                                prev[key] = curr[key]; return prev;
+                            } else {return prev;}
+                                                } ,{} )
+                        console.log(attrs);
+                        
+                        return (
+                            
+                            <item.type key={index}  {...attrs} />
+                            
+                            
+                        )
+                    })}
+                    </filter>
+                </svg>
+
+
+                    {this.state.filterData.map( (item, index) => {
+                        console.log(item.attributes);
+                        return (
+                            <div className='filterData' key={index}>
+                            {item.attributes.map( item => {
+                                    console.log(Object.keys(item));
+                                    console.log(index);
+                                    
+
+                                if(Object.keys(item)[0] === 'dx') {
+                                    return (<label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index)} name={Object.keys(item)} type='range' value={Object.values(item)}/></label>)
+                                }
+                                else if (Object.keys(item)[0] === 'operator') {
+                                    return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
+                                        <option>{Object.keys(item)}</option>
+                                        <option>over</option>
+                                        <option>in</option>
+                                        <option>out</option>
+                                            </select>)
+                            } else { 
+                                    return (<label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index)} /></label>)
+                                }
+                            }
+                            
+                            )}
+                            </div>
+                        );
+
+                    })}
+
                     <SourceGraphicEditor  changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
                     <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
                     <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
                     <div className='select-wrapper'>
                         <FilterSelect selectedIndex={this.handleSelectedIndex} selectChange={this.handleChange} />
+                        <FilterMenu selectFilter={this.handleNewFilter} />
                         <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
+                        <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.map(item => {
+                            console.log('item name ' +item.name);
+                            
+                            return item.name;
+                        })}/>
                     </div>
                     <svg width='0' height='0'>
                         <defs>
+                        <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} />
                             <Gradient 
                                 id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
                                 x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
@@ -721,9 +836,9 @@ class FilterRoute extends Component {
                                 gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))}
                                 gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits'))}
                             >
-                                {this.state.stops.map(stop => {
+                                {this.state.stops.map( (stop, index) => {
                                     return (
-                                        <stop offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
+                                        <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
                                     )
                                 })}
                             </Gradient>
@@ -763,11 +878,12 @@ class FilterRoute extends Component {
                         <LinearGradientRepresentation>
                             {this.state.stops.map((el,index,array) => {
                                 return (
-                                    <div>
-                                        <label>{index}
-                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name={Object.keys(el)[0]} value={el.offset} />
-                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' min="0" max="1" step="0.01" name={Object.keys(el)[1]} value={el.stopColor} />
-                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name={Object.keys(el)[2]} value={el.stopOpacity} />
+                                    <div className='linear-rep' key={index}>
+                                        <label  >{index}
+                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name='offset' value={el.offset} />
+                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' name='stopColor' value={el.stopColor} />
+                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name='stopOpacity' value={el.stopOpacity} />
+                                            <button onClick={this.handleDeleteStop(index)}>DELETE</button>
                                         </label>
                                     </div>
                                 )
@@ -781,7 +897,7 @@ class FilterRoute extends Component {
                                 elements={this.state.elements} 
                                 x={Object.values(this.state.SourceGraphicAttrs[0])}
                                 y={Object.values(this.state.SourceGraphicAttrs[1])}
-                                fill={Object.values(this.state.SourceGraphicAttrs[2])}
+                                fill={Object.values(this.state.SourceGraphicAttrs[2]) }
                                 stroke={Object.values(this.state.SourceGraphicAttrs[3])}
                                 strokeWidth={Object.values(this.state.SourceGraphicAttrs[4])}
                                 paintOrder={Object.values(this.state.SourceGraphicAttrs[5])}

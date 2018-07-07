@@ -215,3 +215,15 @@ select {
 
     }
 
+.linear-rep {
+    margin: 7px;
+}
+
+.linear-rep button {
+    padding: 4px;
+}
+
+.filterData {
+    background: cyan;
+    margin: 20px;
+}

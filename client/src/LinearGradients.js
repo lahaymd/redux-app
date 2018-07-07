@@ -8,11 +8,11 @@ class LinearGradients extends Component {
         
         
         return (
-            this.props.gradientData.map( gradient => {
+            this.props.gradientData.map( (gradient, index) => {
 
                 return(
 
-            <linearGradient 
+            <linearGradient key={index}
                 id={gradient.name}
                 x1={gradient.x1} 
                 x2={gradient.x2} 
@@ -22,9 +22,9 @@ class LinearGradients extends Component {
                 gradientTransform={`rotate(${gradient.gradientTransform})`}
                 gradientUnits={gradient.gradientUnits}
             >
-                    {gradient.stops.map( stop => {
+                    {gradient.stops.map( (stop,index) => {
                         return (
-                            <stop offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
+                            <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
                         )
                     })}
             </linearGradient>
