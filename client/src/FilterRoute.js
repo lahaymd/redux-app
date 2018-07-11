@@ -95,9 +95,15 @@ class FilterRoute extends Component {
             gradientAttrs: [{x1: 0}, {x2: 0}, {y1: 1}, {y2: 0}, {spreadMethod: 'reflect'}, {gradientTransform: 0}, {gradientUnits:'objectBoundingBox'}, {id: 'linear'}],
             images: [],
             selectedSourceGraphic: 'text',
-            filterData: [{type:'feOffset', attributes: [{dx:0},{dy:5},{in:'SourceGraphic'},{result:''}]}, {type: 'feComposite', attributes: [{operator:'over'},{in:'foo'},{in2:'bar'},{result:'composite'}]}],
-            feOffsetDefaults: [],
-            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, { in: 'SourceGraphic' }, { result: '' }] }
+            filterData: [],
+            feOffsetDefaults: { type: 'feOffset', attributes: [{ dx: 0 }, { dy: 5 }, { in: '' }, { result: '' }]},
+            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, { in: '' }, { result: '' }] },
+            feCompositeDefaults: {type: 'feComposite', attributes: [{operator: 'over'}, {in: ''}, {in2: ''}, {result: ''}]},
+            feMorphologyDefaults: { type: 'feMorphology', attributes: [{ operator: 'dilate' }, { in: '' }, { radius: 2 }, { result: '' }] },
+            feFloodDefaults: { type: 'feFlood' , attributes: [{ floodOpacity: '1' }, { in: '' }, { floodColor: 'coral' }, { result: '' }] },
+            feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: '' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }]}]},
+            feFuncRDefaults: { type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '' }]}
+            
         }
     }
 
@@ -376,12 +382,52 @@ class FilterRoute extends Component {
 
     handleNewFilter = e => {
         console.log(e.target.value);
+        const filterData = this.state.filterData.slice();
         switch (e.target.value) {
-            case 'feGaussianBlur':
-            const filterData = this.state.filterData.slice();
-            filterData.push(this.state.feGaussianBlurDefaults);
-            this.setState({filterData});
-            break;
+            case 'feGaussianBlur': {
+
+                const filterData = this.state.filterData.slice();
+                filterData.push(this.state.feGaussianBlurDefaults);
+                this.setState({filterData});
+                break;
+            }
+            
+            case 'feOffset': {
+
+                const filterData = this.state.filterData.slice();
+                filterData.push(this.state.feOffsetDefaults);
+                this.setState({filterData});
+                break;
+            }
+
+            case 'feComposite': {
+
+                const filterData = this.state.filterData.slice();
+                filterData.push(this.state.feCompositeDefaults);
+                this.setState({filterData});
+                break;
+            }
+
+            case 'feMorphology': 
+
+                filterData.push(this.state.feMorphologyDefaults);
+                this.setState({filterData});
+                break;
+
+            case 'feFlood': 
+
+                filterData.push(this.state.feFloodDefaults);
+                this.setState({filterData});
+                break;
+
+            case 'feComponentTransfer': 
+
+                filterData.push(this.state.feComponentTransferDefaults);
+                this.setState({filterData});
+                break;
+            
+
+
             default:
                 console.log('you should never see me');
 
@@ -657,12 +703,25 @@ class FilterRoute extends Component {
         })
         console.log('blurattrindex', blurAttrIndex);
         els.splice(blurAttrIndex, 1, add_obj);
-
         this.setState({ [`${this.state.foo}Attrs${this.state.inc - 1}`]: els });
         console.log('elsafterstatechange', els);
-
         console.log(`from handleInputChange${this.state.foo}Attrs${this.state.inc - 1}`);
 
+    }
+
+    handleFuncData = (item, index, kidIndex, idx, a) => e => {
+        console.log(item);
+        console.log(index);
+        console.log(kidIndex);
+        console.log(idx);
+        console.log(a);
+        console.log(e.target.name);
+        console.log(e.target.value);
+
+        const filterData = [...this.state.filterData];
+        console.log(filterData);
+        
+        
     }
 
     handleFilterData = index => e => {
@@ -752,10 +811,14 @@ class FilterRoute extends Component {
 
                 <div className="App">
                 <svg>
+                    <text x='5%' y='50%' style={{fontSize: '60px', fill: 'orange'}} className={this.state.filterData.length > 0 ? 'newFilter': ''} >filterdata</text>
                     <filter id='filterData'>
                     {this.state.filterData.map( (item,index) => {
                         console.log(item.attributes);
+                        // console.log(JSON.stringify(item.children[item.children.findIndex( i => i.type === 'feFuncR')].attributes));
                         
+       
+
                         const attrs = item.attributes.reduce((prev, curr) => {
                             let key = Object.keys(curr)[0];
                             console.log(Object.keys(curr));
@@ -768,43 +831,124 @@ class FilterRoute extends Component {
                             } else {return prev;}
                                                 } ,{} )
                         console.log(attrs);
+
+                        switch (item.type){
+                            case 'feComponentTransfer':
+
+                                const funcRAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncR')].attributes.reduce((prev, curr) => {
+                                    let key = Object.keys(curr)[0];
+                                    console.log(Object.keys(curr));
+                                    console.log(prev);
+                                    console.log(curr);
+
+                                    if (Object.values(curr) != '') {
+
+                                        prev[key] = curr[key]; return prev;
+                                    } else { return prev; }
+                                }, {}) 
+
+                            return (
+                                <item.type key={index} {...attrs}>
+                                    <feFuncR   {...funcRAttrs}/>
+                                    <feFuncG   />
+                                    <feFuncB   />
+                                    <feFuncA   />
+                                </item.type>
+                            )
+
+                            default:
+
+                            return (
+                                
+                                <item.type key={index}  {...attrs} />
+                                   
+                            )
+                        }
                         
-                        return (
-                            
-                            <item.type key={index}  {...attrs} />
-                            
-                            
-                        )
                     })}
                     </filter>
                 </svg>
 
 
-                    {this.state.filterData.map( (item, index) => {
-                        console.log(item.attributes);
+                    {this.state.filterData.map( (i, index) => {
+                        console.log(i.attributes);
+                        console.log(i.children);
+                        // feComponentTransferDefaults: {type: 'feComponentTransfer', attributes:[{in:''},{result:''}], children:[{type: 'feFuncR', attributes:[{type: 'discrete'}, {tableValues:'0 1'}]}]},
                         return (
                             <div className='filterData' key={index}>
-                            {item.attributes.map( item => {
+                     
+                            
+                            {i.attributes.map( item => {
+                                    console.log(i);
+                                    
                                     console.log(Object.keys(item));
                                     console.log(index);
                                     
+                                
+                                    if ('feComponentTransfer' && Object.keys(item)[0] === 'type') {
+                                        return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
+                                            <option disabled selected >{Object.keys(item)}</option>
+                                            <option>discrete</option>
+                                            <option>table</option>
+                                            <option>linear</option>
+                                            <option>gamma</option>
+                                            <option>identity</option>
+                                        </select>)
+                                        // if(item.type === 'gamma') {
+                                        //     return (<label>amp<input name='amplitude' value='4'/></label>)
+                                        // }
+                                    }
 
-                                if(Object.keys(item)[0] === 'dx') {
+                                    // else if ('feComponentTransfer' ) {
+                                    //     console.log(i.children[0].attributes);
+                                        
+                                    //     {i.children[0].attributes.map(attr => {
+                                    //         return (<label>{Object.keys(attr)}</label>)
+                                    //     })}
+                                    // }
+
+                                else if(Object.keys(item)[0] === 'dx') {
                                     return (<label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index)} name={Object.keys(item)} type='range' value={Object.values(item)}/></label>)
                                 }
-                                else if (Object.keys(item)[0] === 'operator') {
+                                else if ( i.type === 'feComposite' && Object.keys(item)[0] === 'operator') {
                                     return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
-                                        <option>{Object.keys(item)}</option>
+                                        <option disabled selected >{Object.keys(item)}</option>
                                         <option>over</option>
                                         <option>in</option>
                                         <option>out</option>
+                                        <option>atop</option>
+                                        <option>xor</option>
                                             </select>)
-                            } else { 
+                            } 
+                            //need to add arithmetic logic
+                                else if (Object.keys(item)[0] === 'operator') {
+                                    return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
+                                        <option>{Object.keys(item)}</option>
+                                        <option>dilate</option>
+                                        <option>erode</option>
+                                    </select>)
+                                } 
+
+                            else { 
                                     return (<label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index)} /></label>)
                                 }
                             }
                             
                             )}
+
+                           
+                                {i.children ? i.children.map( (kid, kidIndex) => {
+                                    console.log(kid);
+
+                                    return (<label key={kid.type}>{kid.type}
+                                                {kid.attributes.map( (a, idx) => {
+                                                    return (
+                                                        <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i,index, kidIndex,idx,a)}/></label>
+                                                    )
+                                                })}
+                                            </label>)
+                                }) : ''}
+
                             </div>
                         );
 

@@ -227,3 +227,7 @@ select {
     background: cyan;
     margin: 20px;
 }
+
+.newFilter {
+    filter: url(#filterData);
+}
