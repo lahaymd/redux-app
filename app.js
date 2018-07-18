@@ -8,6 +8,7 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 // var index = require('./routes/index');
 var linear_gradient = require('./routes/linear_gradient');
+var filter_data = require('./routes/filter_data');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'client', 'public')));
 mongoose.connect('mongodb://lahaymd:zz040577@ds127998.mlab.com:27998/mikelahay');
 // app.use('/', index);
 app.use('/linear_gradient', linear_gradient);
+app.use('/filter_data', filter_data);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "public", "index.html"));

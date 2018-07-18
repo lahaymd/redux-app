@@ -45,6 +45,7 @@ import  StopAdder from "./StopAdder";
 import RectWithGradient from './RectWithGradient';
 import LinearGradients from './LinearGradients';
 import LinearGradientSelect from './LinearGradientSelect';
+import FilterNameSelect from './FilterNameSelect';
 import FilterMenu from './FilterMenu'
 
 class FilterRoute extends Component {
@@ -96,13 +97,28 @@ class FilterRoute extends Component {
             images: [],
             selectedSourceGraphic: 'text',
             filterData: [],
-            feOffsetDefaults: { type: 'feOffset', attributes: [{ dx: 0 }, { dy: 5 }, { in: '' }, { result: '' }]},
-            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, { in: '' }, { result: '' }] },
-            feCompositeDefaults: {type: 'feComposite', attributes: [{operator: 'over'}, {in: ''}, {in2: ''}, {result: ''}]},
-            feMorphologyDefaults: { type: 'feMorphology', attributes: [{ operator: 'dilate' }, { in: '' }, { radius: 2 }, { result: '' }] },
-            feFloodDefaults: { type: 'feFlood' , attributes: [{ floodOpacity: '1' }, { in: '' }, { floodColor: 'coral' }, { result: '' }] },
+            filterName: '',
+            filterNames: [],
+            feBlendDefaults: { type: 'feBlend', attributes: [{ in: '' }, { in2: '' }, {result: 'blend'}, {mode:'normal'} ]},
+            feColorMatrixDefaults: { type: 'feColorMatrix', attributes: [{ in: '' }, { result: '' }, { type: 'matrix' }, { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0`}]},
             feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: '' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }]}]},
-            feFuncRDefaults: { type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '' }]}
+            feCompositeDefaults: {type: 'feComposite', attributes: [{operator: 'over'}, {in: ''}, {in2: ''}, {result: ''}]},
+            feConvolveMatrixDefaults: { type: 'feConvolveMatrix', attributes: [{ in: '' }, { result: '' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { kernelUnitLength: 1 }, { preserveAlpha: false }, { order: 3 }]},
+            feDiffuseLightingFeDistantLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseDistant' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }], children: [{type:'feDistantLight', attributes: [{azimuth: 0}, {elevation: 0}]}]},
+            feDiffuseLightingFePointLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
+            feDiffuseLightingFeSpotLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
+            feDisplacementMapDefaults: { type: 'feDisplacementMap', attributes: [{ in: '' }, { in2: '' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }, { result: '' }]},
+            feFloodDefaults: { type: 'feFlood' , attributes: [{ floodOpacity: '1' }, { in: '' }, { floodColor: 'coral' }, { result: '' }] },
+            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, { in: '' }, { result: '' }] },
+            feImageDefaults: {type: 'feImage', attributes:[{x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {href: 's.svg'}]},
+            feMergeDefaults: { type: 'feMerge', attributes: [{in:''}, {result: ''}], children: [{type: 'feMergeNode', attributes: [{in: ''}, {in: ''}]}]},
+            feMorphologyDefaults: { type: 'feMorphology', attributes: [{ operator: 'dilate' }, { in: '' }, { radius: 2 }, { result: '' }] },
+            feOffsetDefaults: { type: 'feOffset', attributes: [{ dx: 0 }, { dy: 5 }, { in: '' }, { result: '' }]},
+            feSpecularLightingFeDistantLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feDistantLight', attributes: [{ azimuth: 0 }, { elevation: 0 }]}]},
+            feSpecularLightingFePointLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
+            feSpecularLightingFeSpotLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
+            feTileDefaults: { type: 'feTile', attributes: [{in:''}, {result: ''}]},
+            feTurbulenceDefaults: { type: 'feTurbulence', attributes: [{ in: '' }, { result: '' }, { baseFrequency: .005 }, { numOctaves: 5 }, { seed: 0 }, { type: 'turbulence' }, { stitchTiles: 'stitch' }]}
             
         }
     }
@@ -110,10 +126,17 @@ class FilterRoute extends Component {
     async componentDidMount() {
 
         const res = await fetch('/linear_gradient');
-        const json = await res.json()
+        const json = await res.json();
         this.setState({linearGradients: json})
-        this.setState({stops: json[json.length - 1][`stops`]})
+        this.setState({stops: json[json.length - 1][`stops`]})  
+        
+         fetch('/filter_data')
+             .then(res => res.json())
+             .then(data => {
+                 console.log('post stops' + JSON.stringify(data));
        
+        this.setState({ filterNames: data.map(item => item.name)})
+    })
     }
 
     handleText = (e) => this.setState({ text: e.target.value });
@@ -201,6 +224,44 @@ class FilterRoute extends Component {
 
 
                 this.setState({ linearGradients: foo })
+
+
+            })
+        
+    }
+    handleNewFilterData = () => {
+
+        console.log('handle new filter data');
+
+        let data = {
+            name: this.state.filterName,
+            filterData: this.state.filterData,
+            // attributes: this.state.filterData.attributes,
+            // children: this.state.filterData.children
+
+        }
+        console.log(data);
+        
+
+        fetch('/filter_data',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+            .then( res => res.json())
+            .then(data => { console.log('post filter data' + JSON.stringify(data));
+
+
+                console.log(data.filterData);
+                
+
+                this.setState({ filterData: data.filterData })
 
 
             })
@@ -379,11 +440,95 @@ class FilterRoute extends Component {
         ga[7] = {id: e.target.value}
         this.setState({gradientAttrs: ga})
     }
+     handleSelectedFilterName = (e) => {
+        console.log(e.target.value);
+        fetch(`/filter_data/name/?name=${e.target.value}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                console.log(data[0].filterData);
+
+                this.setState({ filterData: data[0].filterData })
+            })
+        
+        
+        // this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`]})
+        // const sga = this.state.SourceGraphicAttrs.slice();
+        // sga[2] = {fill: `url(#${e.target.value})`}
+        // this.setState({ SourceGraphicAttrs: sga})
+        // const ga = this.state.gradientAttrs.slice();
+        // ga[7] = {id: e.target.value}
+        // this.setState({gradientAttrs: ga})
+    }
 
     handleNewFilter = e => {
         console.log(e.target.value);
         const filterData = this.state.filterData.slice();
         switch (e.target.value) {
+
+            case 'feBlend': 
+    
+                filterData.push(this.state.feBlendDefaults);
+                this.setState({filterData});
+                break;
+
+            case 'feColorMatrix': 
+    
+                filterData.push(this.state.feColorMatrixDefaults);
+                this.setState({filterData});
+                break;
+
+            case 'feComponentTransfer':
+
+                filterData.push(this.state.feComponentTransferDefaults);
+                this.setState({ filterData });
+                break;
+
+
+            case 'feComposite': {
+
+                const filterData = this.state.filterData.slice();
+                filterData.push(this.state.feCompositeDefaults);
+                this.setState({ filterData });
+                break;
+            }
+
+            case 'feConvolveMatrix':
+
+                filterData.push(this.state.feConvolveMatrixDefaults);
+                this.setState({ filterData });
+                break;
+
+            case 'feDiffuseLightingFeDistantLight':
+
+                filterData.push(this.state.feDiffuseLightingFeDistantLightDefaults);
+                this.setState({ filterData });
+                break;
+
+            case 'feDiffuseLightingFePointLight':
+
+                filterData.push(this.state.feDiffuseLightingFePointLightDefaults);
+                this.setState({ filterData });
+                break;
+
+            case 'feDiffuseLightingFeSpotLight':
+
+                filterData.push(this.state.feDiffuseLightingFeSpotLightDefaults);
+                this.setState({ filterData });
+                break;
+
+            case 'feDisplacementMap':
+
+                filterData.push(this.state.feDisplacementMapDefaults);
+                this.setState({ filterData });
+                break;
+
+            case 'feFlood':
+
+                filterData.push(this.state.feFloodDefaults);
+                this.setState({ filterData });
+                break;
+
             case 'feGaussianBlur': {
 
                 const filterData = this.state.filterData.slice();
@@ -391,42 +536,64 @@ class FilterRoute extends Component {
                 this.setState({filterData});
                 break;
             }
+
+            case 'feImage':
+
+                filterData.push(this.state.feImageDefaults);
+                this.setState({ filterData });
+                break;
+
+            case 'feMerge':
+
+                filterData.push(this.state.feMergeDefaults);
+                this.setState({ filterData });
+                break;
             
-            case 'feOffset': {
-
-                const filterData = this.state.filterData.slice();
-                filterData.push(this.state.feOffsetDefaults);
-                this.setState({filterData});
-                break;
-            }
-
-            case 'feComposite': {
-
-                const filterData = this.state.filterData.slice();
-                filterData.push(this.state.feCompositeDefaults);
-                this.setState({filterData});
-                break;
-            }
-
-            case 'feMorphology': 
-
+                
+                
+                case 'feMorphology': 
+                
                 filterData.push(this.state.feMorphologyDefaults);
                 this.setState({filterData});
                 break;
+                
+                case 'feOffset': {
+    
+                    const filterData = this.state.filterData.slice();
+                    filterData.push(this.state.feOffsetDefaults);
+                    this.setState({filterData});
+                    break;
+                }
 
-            case 'feFlood': 
+            case 'feSpecularLightingFeDistantLight': 
 
-                filterData.push(this.state.feFloodDefaults);
+                filterData.push(this.state.feSpecularLightingFeDistantLightDefaults);
                 this.setState({filterData});
                 break;
 
-            case 'feComponentTransfer': 
+            case 'feSpecularLightingFePointLight': 
 
-                filterData.push(this.state.feComponentTransferDefaults);
+                filterData.push(this.state.feSpecularLightingFePointLightDefaults);
                 this.setState({filterData});
                 break;
-            
 
+            case 'feSpecularLightingFeSpotLight': 
+
+                filterData.push(this.state.feSpecularLightingFeSpotLightDefaults);
+                this.setState({filterData});
+                break;
+
+            case 'feTile':
+
+                filterData.push(this.state.feTileDefaults);
+                this.setState({ filterData });
+                break;
+
+            case 'feTurbulence':
+
+                filterData.push(this.state.feTurbulenceDefaults);
+                this.setState({ filterData });
+                break;
 
             default:
                 console.log('you should never see me');
@@ -720,7 +887,17 @@ class FilterRoute extends Component {
 
         const filterData = [...this.state.filterData];
         console.log(filterData);
+        filterData[index].children[kidIndex].attributes[idx][Object.keys(filterData[index].children[kidIndex].attributes[idx])] = e.target.value;
+        console.log(filterData);
+        this.setState({filterData})
         
+        
+        
+    }
+
+    handleFilterName = () => e => {
+        console.log(e.target.value);
+        this.setState({filterName: e.target.value})
         
     }
 
@@ -810,8 +987,8 @@ class FilterRoute extends Component {
            
 
                 <div className="App">
-                <svg>
-                    <text x='5%' y='50%' style={{fontSize: '60px', fill: 'orange'}} className={this.state.filterData.length > 0 ? 'newFilter': ''} >filterdata</text>
+                <svg width='500' height='500'>
+                    <text textAnchor='middle' x='50%' y='50%' style={{fontSize: '500px', fill: 'orange'}} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text>
                     <filter id='filterData'>
                     {this.state.filterData.map( (item,index) => {
                         console.log(item.attributes);
@@ -833,9 +1010,42 @@ class FilterRoute extends Component {
                         console.log(attrs);
 
                         switch (item.type){
-                            case 'feComponentTransfer':
+                            case 'feComponentTransfer': {
 
                                 const funcRAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncR')].attributes.reduce((prev, curr) => {
+                                    let key = Object.keys(curr)[0];
+                                    console.log(Object.keys(curr));
+                                    console.log(prev);
+                                    console.log(curr);
+
+                                    if (Object.values(curr) != '') {
+
+                                        prev[key] = curr[key]; return prev;
+                                    } else { return prev; }
+                                }, {}) 
+                                const funcGAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncG')].attributes.reduce((prev, curr) => {
+                                    let key = Object.keys(curr)[0];
+                                    console.log(Object.keys(curr));
+                                    console.log(prev);
+                                    console.log(curr);
+
+                                    if (Object.values(curr) != '') {
+
+                                        prev[key] = curr[key]; return prev;
+                                    } else { return prev; }
+                                }, {}) 
+                                const funcBAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncB')].attributes.reduce((prev, curr) => {
+                                    let key = Object.keys(curr)[0];
+                                    console.log(Object.keys(curr));
+                                    console.log(prev);
+                                    console.log(curr);
+
+                                    if (Object.values(curr) != '') {
+
+                                        prev[key] = curr[key]; return prev;
+                                    } else { return prev; }
+                                }, {}) 
+                                const funcAAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncA')].attributes.reduce((prev, curr) => {
                                     let key = Object.keys(curr)[0];
                                     console.log(Object.keys(curr));
                                     console.log(prev);
@@ -850,11 +1060,160 @@ class FilterRoute extends Component {
                             return (
                                 <item.type key={index} {...attrs}>
                                     <feFuncR   {...funcRAttrs}/>
-                                    <feFuncG   />
-                                    <feFuncB   />
-                                    <feFuncA   />
+                                    <feFuncG   {...funcGAttrs}/>
+                                    <feFuncB   {...funcBAttrs}/>
+                                    <feFuncA   {...funcAAttrs}/>
                                 </item.type>
                             )
+                            
+                        }
+                        
+
+                            case 'feDiffuseLighting': {
+                                console.log(item.children);
+                                
+                                if (item.children[item.children.findIndex(i => i.type === 'feDistantLight')]) {
+
+                                    const feDistantLightAttrs = item.children[item.children.findIndex(i => i.type === 'feDistantLight')].attributes.reduce((prev, curr) => {
+                                        let key = Object.keys(curr)[0];
+                                        console.log(Object.keys(curr));
+                                        console.log(prev);
+                                        console.log(curr);
+                                        
+                                        if (Object.values(curr) != '') {
+                                            
+                                            prev[key] = curr[key]; return prev;
+                                        } else { return prev; }
+                                    }, {}) 
+                                    console.log(feDistantLightAttrs);
+                                    
+                                    return (
+                                        <item.type key={index} {...attrs}>
+                                            <feDistantLight {...feDistantLightAttrs} />
+                                        </item.type>
+                                    )
+                                }
+
+                                if (item.children[item.children.findIndex(i => i.type === 'fePointLight')]) {
+                                const fePointLightAttrs = item.children[item.children.findIndex(i => i.type === 'fePointLight')].attributes.reduce((prev, curr) => {
+                                    let key = Object.keys(curr)[0];
+                                    console.log(Object.keys(curr));
+                                    console.log(prev);
+                                    console.log(curr);
+
+                                    if (Object.values(curr) != '') {
+
+                                        prev[key] = curr[key]; return prev;
+                                    } else { return prev; }
+                                }, {}) 
+
+                                    return (
+                                        <item.type key={index} {...attrs}>
+                                            <fePointLight {...fePointLightAttrs} />
+                                        </item.type>
+                                    )
+
+                                }
+                                if (item.children[item.children.findIndex(i => i.type === 'feSpotLight')]) {
+                                const feSpotLightAttrs = item.children[item.children.findIndex(i => i.type === 'feSpotLight')].attributes.reduce((prev, curr) => {
+                                    let key = Object.keys(curr)[0];
+                                    console.log(Object.keys(curr));
+                                    console.log(prev);
+                                    console.log(curr);
+
+                                    if (Object.values(curr) != '') {
+
+                                        prev[key] = curr[key]; return prev;
+                                    } else { return prev; }
+                                }, {}) 
+
+                                    return (
+                                        <item.type key={index} {...attrs}>
+                                            <feSpotLight {...feSpotLightAttrs} />
+                                        </item.type>
+                                    )
+
+                                }
+                            }
+                            case 'feSpecularLighting': {
+                                console.log(item.children);
+                                
+                                if (item.children[item.children.findIndex(i => i.type === 'feDistantLight')]) {
+
+                                    const feDistantLightAttrs = item.children[item.children.findIndex(i => i.type === 'feDistantLight')].attributes.reduce((prev, curr) => {
+                                        let key = Object.keys(curr)[0];
+                                        console.log(Object.keys(curr));
+                                        console.log(prev);
+                                        console.log(curr);
+                                        
+                                        if (Object.values(curr) != '') {
+                                            
+                                            prev[key] = curr[key]; return prev;
+                                        } else { return prev; }
+                                    }, {}) 
+                                    console.log(feDistantLightAttrs);
+                                    
+                                    return (
+                                        <item.type key={index} {...attrs}>
+                                            <feDistantLight {...feDistantLightAttrs} />
+                                        </item.type>
+                                    )
+                                }
+
+                                if (item.children[item.children.findIndex(i => i.type === 'fePointLight')]) {
+                                const fePointLightAttrs = item.children[item.children.findIndex(i => i.type === 'fePointLight')].attributes.reduce((prev, curr) => {
+                                    let key = Object.keys(curr)[0];
+                                    console.log(Object.keys(curr));
+                                    console.log(prev);
+                                    console.log(curr);
+
+                                    if (Object.values(curr) != '') {
+
+                                        prev[key] = curr[key]; return prev;
+                                    } else { return prev; }
+                                }, {}) 
+
+                                    return (
+                                        <item.type key={index} {...attrs}>
+                                            <fePointLight {...fePointLightAttrs} />
+                                        </item.type>
+                                    )
+
+                                }
+                                if (item.children[item.children.findIndex(i => i.type === 'feSpotLight')]) {
+                                const feSpotLightAttrs = item.children[item.children.findIndex(i => i.type === 'feSpotLight')].attributes.reduce((prev, curr) => {
+                                    let key = Object.keys(curr)[0];
+                                    console.log(Object.keys(curr));
+                                    console.log(prev);
+                                    console.log(curr);
+
+                                    if (Object.values(curr) != '') {
+
+                                        prev[key] = curr[key]; return prev;
+                                    } else { return prev; }
+                                }, {}) 
+
+                                    return (
+                                        <item.type key={index} {...attrs}>
+                                            <feSpotLight {...feSpotLightAttrs} />
+                                        </item.type>
+                                    )
+
+                                }
+                            }
+
+                            case 'feMerge': 
+
+                                return (
+                                    <item.type key={index} {...attrs}>
+                                        {Array(this.state.filterData.length).fill().map( item => {
+                                            return (
+                                                <feMergeNode in='SourceGraphic' />
+                                            )
+                                        })}
+                                    </item.type>
+                                )
+                            
 
                             default:
 
@@ -880,12 +1239,14 @@ class FilterRoute extends Component {
                             
                             {i.attributes.map( item => {
                                     console.log(i);
+                                    console.log(i.type);
+                                    console.log(Object.keys(item)[0]);
                                     
                                     console.log(Object.keys(item));
                                     console.log(index);
                                     
                                 
-                                    if ('feComponentTransfer' && Object.keys(item)[0] === 'type') {
+                                    if ((i.type =='feComponentTransfer') && Object.keys(item)[0] === 'type') {
                                         return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
                                             <option disabled selected >{Object.keys(item)}</option>
                                             <option>discrete</option>
@@ -939,12 +1300,42 @@ class FilterRoute extends Component {
                            
                                 {i.children ? i.children.map( (kid, kidIndex) => {
                                     console.log(kid);
-
+                                    
                                     return (<label key={kid.type}>{kid.type}
                                                 {kid.attributes.map( (a, idx) => {
+                                                    console.log(kid.attributes[0]);
+                                                    console.log(a);
+                                                    
+                                        if(Object.keys(a)== 'azimuth') {
+                                            
+                                            return (<label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="360" step="1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                        }
+                                        else if (Object.keys(a) == 'elevation'){
+                                            return (<label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="40" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+
+                                        } 
+                                        else if (Object.keys(a) == 'limitingConeAngle'){
+                                            return (<label key={Object.keys(a)}>{Object.keys(a)} value={Object.values(a)}<input type='range' min="0" max="360" step="1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+
+                                        } 
+                                        else if (Object.keys(a) == 'type'){
+                                            return (<select onChange={this.handleFilterData(index)} name={Object.keys(a)} key={Object.keys(a)}>
+                                                <option disabled selected >{Object.keys(a)}</option>
+                                                <option>discrete</option>
+                                                <option>table</option>
+                                                <option>linear</option>
+                                                <option>gamma</option>
+                                                <option>identity</option>
+                                            </select>)
+
+                                        } 
+                                        else {
+
                                                     return (
                                                         <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i,index, kidIndex,idx,a)}/></label>
                                                     )
+
+                                                }
                                                 })}
                                             </label>)
                                 }) : ''}
@@ -953,7 +1344,8 @@ class FilterRoute extends Component {
                         );
 
                     })}
-
+                    <button onClick={this.handleNewFilterData}>new filter data</button>
+                    <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label>
                     <SourceGraphicEditor  changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
                     <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
                     <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
@@ -961,6 +1353,7 @@ class FilterRoute extends Component {
                         <FilterSelect selectedIndex={this.handleSelectedIndex} selectChange={this.handleChange} />
                         <FilterMenu selectFilter={this.handleNewFilter} />
                         <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
+                        <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
                         <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.map(item => {
                             console.log('item name ' +item.name);
                             
