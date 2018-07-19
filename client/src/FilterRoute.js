@@ -5,36 +5,8 @@ import Filter from './Filter';
 import Circle from './Circle';
 import SourceGraphic from './SourceGraphic';
 import SourceGraphicEditor from './SourceGraphicEditor';
-import FeOffset from './FeOffset';
-import FeGaussianBlur from './FeGaussianBlur';
-import FilterElementEditor from './FilterElementEditor';
-import HTMLRepresentation from './HTMLRepresentation'
-import EdgeDetection from "./EdgeDetection";
-import EmptyFilter from './EmptyFilter';
-import FilterSelect from './FilterSelect';
 import './App.css';
-import RenderSelectedElementCard from './RenderSelectedElementCard';
-import FeComposite from './FeComposite';
-import FeMerge from './FeMerge';
-import FeMorphology from './FeMorphology';
-import FeImage from './FeImage';
-import FeTile from './FeTile';
-import FeFlood from './FeFlood';
-import FeBlend from './FeBlend';
-import FeColorMatrix from './FeColorMatrix';
-import FeDisplacementMap from './FeDisplacementMap';
-import FeTurbulence from './FeTurbulence';
-import FeComponentTransfer from './FeComponentTransfer';
-import FeConvolveMatrix from './FeConvolveMatrix';
-import FeDiffuseLightingFePointLight from './FeDiffuseLightingFePointLight.js';
-import NewRep from './NewRep';
 import Pattern from './Pattern';
-import FeSpecularLightingFePointLight from './FeSpecularLightingFePointLight';
-import FeSpecularLightingFeSpotLight from './FeSpecularLightingFeSpotLight';
-import FeSpecularLightingFeDistantLight from './FeSpecularLightingFeDistantLight';
-import FeDiffuseLightingFeSpotLight from './FeDiffuseLightingFeSpotLight';
-import FeDiffuseLightingFeDistantLight from './FeDiffuseLightingFeDistantLight';
-import Text from './Text';
 import RadialGradient from './RadialGradient';
 import SourceGraphicSelect from './SourceGraphicSelect';
 import Gradient from './Gradient';
@@ -53,45 +25,12 @@ class FilterRoute extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numberOfCircles: [1],
-            radius: [10, 100],
-            cx: [50, '50%'],
             elements: [],
             stops: [],
             linearGradients: [],
             offset: '',
             stopColor: '',
             stopOpacity: '',
-            blurAttrs: [{ stdDeviation: 0 }, { in: '' }, { result: 'blur' }],
-            EdgeDetectionAttrs: [{ type: 'matrix' }, { values: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { in: '' }, { result: 'edge' }],
-            FeGaussianBlurAttrs: [{ stdDeviation: 1 }, { in: '' }, { result: 'blur' }],
-            FeOffsetAttrs: [{ dx: 0 }, { dy: 0 }, { in: '' }, { result: 'offset' }],
-            FeCompositeAttrs: [{ operator: 'over' }, { in: '' }, { in2: '' }, { k1: 0 }, { k2: 1 }, { k3: 1 }, { k4: 0 }, { result: 'composite' }],
-            FeMorphologyAttrs: [{ operator: 'dilate' }, { in: '' }, { radius: 2 }, { result: 'morph' }],
-            FeFloodAttrs: [{ floodOpacity: '1' }, { in: '' }, { floodColor: 'coral' }, { result: 'flood' }],
-            FeImageAttrs: [{ result: 'image' }, { x: 0 }, { y: 0 }, { width: 500 }, { height: 500 }, { par: 'none' }, { image: 'https://cdn.cnn.com/cnnnext/dam/assets/150807073434-donald-trump-gop-debate-thumbs-up-august-6-full-169.jpg' }],
-            FeTileAttrs: [{ result: 'image' }, { in: '' }],
-            FeBlendAttrs: [{ in: '' }, { in2: '' }, { mode: 'normal' }, { result: 'blend' }],
-            FeColorMatrixAttrs: [{ in: '' }, { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0` }, { type: 'matrix' }, { result: 'colormatrix' }],
-            FeDisplacementMapAttrs: [{ in: '' }, { in2: '' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }, { result: 'displace' }],
-            FeTurbulenceAttrs: [{ in: '' }, { result: 'displace' }, { baseFrequency: .005 }, { numOctaves: 5 }, { seed: 0 }, { type: 'turbulence' }, { stitchTiles: 'stitch' }],
-            FeComponentTransferAttrs: [{ in: '' }, { result: 'transfer' }, { typeR: 'discrete' }, { tableValuesR: '' }, { typeG: 'discrete' }, { tableValuesG: '' }, { typeB: 'discrete' }, { tableValuesB: '' }, { typeA: 'discrete' }, { tableValuesA: '' }, { slopeR: '' }, { interceptR: '' }, { exponentR: '' }, { amplitudeR: '' }, { offsetR: '' }, { slopeG: '' }, { interceptG: '' }, { exponentG: '' }, { amplitudeG: '' }, { offsetG: '' }, { slopeB: '' }, { interceptB: '' }, { exponentB: '' }, { amplitudeB: '' }, { offsetB: '' }, { slopeA: '' }, { interceptA: '' }, { exponentA: '' }, { amplitudeA: '' }, { offsetA: '' }],
-            FeConvolveMatrixAttrs: [{ in: '' }, { result: 'convolve' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { kernelUnitLength: 1 }, { preserveAlpha: false }, { order: 3 }],
-            FeSpecularLightingFePointLightAttrs: [{ x: 400 }, { y: 300 }, { z: 100 }, { in: '' }, { result: 'specpoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }],
-            FeSpecularLightingFeSpotLightAttrs: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 0 }, { in: '' }, { result: 'specspot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 1 }, { kernelUnitLength: 1 }],
-            FeSpecularLightingFeDistantLightAttrs: [{ azimuth: 0 }, { elevation: 0 }, { in: '' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 20 }, { specularConstant: 2 }, { specularExponent: 4 }, { kernelUnitLength: 1 }],
-            FeDiffuseLightingFePointLightAttrs: [{ x: 400 }, { y: 300 }, { z: 10 }, { in: '' }, { result: 'specpoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }],
-            FeDiffuseLightingFeSpotLightAttrs: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }, { in: '' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 2 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }],
-            FeDiffuseLightingFeDistantLightAttrs: [{ azimuth: 0 }, { elevation: 10 }, { in: '' }, { result: 'specspot' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }],
-            offsetX: 1,
-            offsetY: 0,
-            offsetElement: [5, 20],
-            results: [],
-            foo: 'FeOffset',
-            inc: 0,
-            attrIndex: [],
-            nameOfEls: [],
-            FeMergeAttrs: [{ in: 'foo' }, { in2: 'bar' }, { in3: 'baz' }, { in4: '' }, { result: '' }],
             SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 400}, {textLength: 500}, {lengthAdjust: 'spacingAndGlyphs'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}, {text: 'SVG'}],
             gradientAttrs: [{x1: 0}, {x2: 0}, {y1: 1}, {y2: 0}, {spreadMethod: 'reflect'}, {gradientTransform: 0}, {gradientUnits:'objectBoundingBox'}, {id: 'linear'}],
             images: [],
@@ -100,25 +39,25 @@ class FilterRoute extends Component {
             filterName: '',
             filterNames: [],
             feBlendDefaults: { type: 'feBlend', attributes: [{ in: '' }, { in2: '' }, {result: 'blend'}, {mode:'normal'} ]},
-            feColorMatrixDefaults: { type: 'feColorMatrix', attributes: [{ in: '' }, { result: '' }, { type: 'matrix' }, { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0`}]},
-            feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: '' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }]}]},
-            feCompositeDefaults: {type: 'feComposite', attributes: [{operator: 'over'}, {in: ''}, {in2: ''}, {result: ''}]},
-            feConvolveMatrixDefaults: { type: 'feConvolveMatrix', attributes: [{ in: '' }, { result: '' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { kernelUnitLength: 1 }, { preserveAlpha: false }, { order: 3 }]},
+            feColorMatrixDefaults: { type: 'feColorMatrix', attributes: [{ in: '' }, { result: 'colorMatrix' }, { type: 'matrix' }, { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0`}]},
+            feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: 'componentTransfer' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }]}]},
+            feCompositeDefaults: {type: 'feComposite', attributes: [{operator: 'over'}, {in: ''}, {in2: ''}, {result: 'composite'}]},
+            feConvolveMatrixDefaults: { type: 'feConvolveMatrix', attributes: [{ in: '' }, { result: 'convolveMatrix' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { kernelUnitLength: 1 }, { preserveAlpha: false }, { order: 3 }]},
             feDiffuseLightingFeDistantLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseDistant' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }], children: [{type:'feDistantLight', attributes: [{azimuth: 0}, {elevation: 0}]}]},
-            feDiffuseLightingFePointLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
-            feDiffuseLightingFeSpotLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
-            feDisplacementMapDefaults: { type: 'feDisplacementMap', attributes: [{ in: '' }, { in2: '' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }, { result: '' }]},
-            feFloodDefaults: { type: 'feFlood' , attributes: [{ floodOpacity: '1' }, { in: '' }, { floodColor: 'coral' }, { result: '' }] },
-            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, { in: '' }, { result: '' }] },
-            feImageDefaults: {type: 'feImage', attributes:[{x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {href: 's.svg'}]},
-            feMergeDefaults: { type: 'feMerge', attributes: [{in:''}, {result: ''}], children: [{type: 'feMergeNode', attributes: [{in: ''}, {in: ''}]}]},
-            feMorphologyDefaults: { type: 'feMorphology', attributes: [{ operator: 'dilate' }, { in: '' }, { radius: 2 }, { result: '' }] },
-            feOffsetDefaults: { type: 'feOffset', attributes: [{ dx: 0 }, { dy: 5 }, { in: '' }, { result: '' }]},
-            feSpecularLightingFeDistantLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feDistantLight', attributes: [{ azimuth: 0 }, { elevation: 0 }]}]},
-            feSpecularLightingFePointLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
-            feSpecularLightingFeSpotLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: '' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
-            feTileDefaults: { type: 'feTile', attributes: [{in:''}, {result: ''}]},
-            feTurbulenceDefaults: { type: 'feTurbulence', attributes: [{ in: '' }, { result: '' }, { baseFrequency: .005 }, { numOctaves: 5 }, { seed: 0 }, { type: 'turbulence' }, { stitchTiles: 'stitch' }]}
+            feDiffuseLightingFePointLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffusePoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
+            feDiffuseLightingFeSpotLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseSpot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
+            feDisplacementMapDefaults: { type: 'feDisplacementMap', attributes: [{ in: '' }, { in2: '' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }, { result: 'displace' }]},
+            feFloodDefaults: { type: 'feFlood' , attributes: [{ floodOpacity: '1' }, { in: '' }, { floodColor: 'coral' }, { result: 'flood' }] },
+            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, { in: '' }, { result: 'blur' }] },
+            feImageDefaults: {type: 'feImage', attributes:[{x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {href: 's.svg'}, {result: 'image'}]},
+            feMergeDefaults: { type: 'feMerge', attributes: [{in:''}, {result: 'merge'}], children: [{type: 'feMergeNode', attributes: [{in: 'SourceGraphic'}, {in: 'SourceGraphic'}]}]},
+            feMorphologyDefaults: { type: 'feMorphology', attributes: [{ operator: 'dilate' }, { in: '' }, { radius: 2 }, { result: 'morph' }] },
+            feOffsetDefaults: { type: 'feOffset', attributes: [{ dx: 0 }, { dy: 5 }, { in: '' }, { result: 'offset' }]},
+            feSpecularLightingFeDistantLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularDistant' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feDistantLight', attributes: [{ azimuth: 0 }, { elevation: 0 }]}]},
+            feSpecularLightingFePointLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularPoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
+            feSpecularLightingFeSpotLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularSpot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
+            feTileDefaults: { type: 'feTile', attributes: [{in:''}, {result: 'tile'}]},
+            feTurbulenceDefaults: { type: 'feTurbulence', attributes: [{ in: '' }, { result: 'turbulence' }, { baseFrequency: .005 }, { numOctaves: 5 }, { seed: 0 }, { type: 'turbulence' }, { stitchTiles: 'stitch' }]}
             
         }
     }
@@ -229,6 +168,16 @@ class FilterRoute extends Component {
             })
         
     }
+
+    handleMergeNodes = () => {
+        const feMergeDefaults = {...this.state.feMergeDefaults}
+        console.log(feMergeDefaults);
+        feMergeDefaults.children[0].attributes.push({in: 'SourceGraphic'})
+        console.log(feMergeDefaults);
+        this.setState({feMergeDefaults})
+        
+    }
+
     handleNewFilterData = () => {
 
         console.log('handle new filter data');
@@ -308,27 +257,6 @@ class FilterRoute extends Component {
         
     }
 
-    handleClick(i) {
-        const radius = this.state.radius.slice();
-        console.log('circles', radius)
-        radius[i] = radius[i] + 1
-        this.setState({ radius: radius });
-    }
-
-    handleInputY = (e) => {
-        console.log('y', e.target.value)
-
-        console.log(this.state.offsetY)
-        this.setState({ offsetY: e.target.value })
-    }
-
-    handleInputX = (e) => {
-        console.log('x', e.target.value)
-
-        console.log(this.state.offsetX)
-        this.setState({ offsetX: e.target.value })
-    }
-
     handleDelete = (param, key) => (e) => {
         console.log('e', e);
         console.log('etarget', e.target);
@@ -380,12 +308,6 @@ class FilterRoute extends Component {
         console.log('elso', els);
         // }
     }
-    // $ctrl.moveUp = function (idx) {
-        //     if (idx !== 0) {
-            //         var splice = $ctrl.data.splice(idx, 1)
-            //         $ctrl.data.splice(idx - 1, 0, splice[0])
-            //     }
-            // }
             
             handleMoveDown = (param, key) => (e) => {
                 console.log('e', e);
@@ -418,15 +340,6 @@ class FilterRoute extends Component {
             // }
     }
 
-
-    // $ctrl.moveDown = function (idx) {
-    //     if (idx !== $ctrl.data.length - 1) {
-    //         var splice = $ctrl.data.splice(idx, 1)
-    //         $ctrl.data.splice(idx + 1, 0, splice[0])
-    //     }
-
-    // }
-
     handleSelectSourceGraphic = (e) => {
         this.setState({selectedSourceGraphic: e.target.value})
     }
@@ -450,15 +363,7 @@ class FilterRoute extends Component {
 
                 this.setState({ filterData: data[0].filterData })
             })
-        
-        
-        // this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`]})
-        // const sga = this.state.SourceGraphicAttrs.slice();
-        // sga[2] = {fill: `url(#${e.target.value})`}
-        // this.setState({ SourceGraphicAttrs: sga})
-        // const ga = this.state.gradientAttrs.slice();
-        // ga[7] = {id: e.target.value}
-        // this.setState({gradientAttrs: ga})
+
     }
 
     handleNewFilter = e => {
@@ -549,8 +454,6 @@ class FilterRoute extends Component {
                 this.setState({ filterData });
                 break;
             
-                
-                
                 case 'feMorphology': 
                 
                 filterData.push(this.state.feMorphologyDefaults);
@@ -560,7 +463,8 @@ class FilterRoute extends Component {
                 case 'feOffset': {
     
                     const filterData = this.state.filterData.slice();
-                    filterData.push(this.state.feOffsetDefaults);
+                    const feOffsetDefaults = {...this.state.feOffsetDefaults}
+                    filterData.push(feOffsetDefaults);
                     this.setState({filterData});
                     break;
                 }
@@ -603,185 +507,6 @@ class FilterRoute extends Component {
     }
 
 
-    handleChange = (e) => {
-        console.log('selected index', e.target.selectedIndex);
-        
-        const els = this.state.elements.slice()
-        const nameOfElss = this.state.nameOfEls.slice()
-        const edge = EdgeDetection;
-        const offset = FeOffset;
-        const blur = FeGaussianBlur;
-        const composite = FeComposite;
-        const merge = FeMerge;
-        const morphology = FeMorphology;
-        const flood = FeFlood;
-        const image = FeImage;
-        const tile = FeTile;
-        const blend = FeBlend;
-        const colormatrix = FeColorMatrix;
-        const displacementmap = FeDisplacementMap;
-        const turbulence = FeTurbulence;
-        const transfer = FeComponentTransfer;
-        const convolve = FeConvolveMatrix;
-        const specpoint = FeSpecularLightingFePointLight;
-        const specspot = FeSpecularLightingFeSpotLight;
-        const specdistant = FeSpecularLightingFeDistantLight;
-        const diffusepoint = FeDiffuseLightingFePointLight;
-        const diffusespot = FeDiffuseLightingFeSpotLight;
-        const diffusedistant = FeDiffuseLightingFeDistantLight;
-        nameOfElss.push(e.target.value + 'Attrs' + this.state.inc)
-        switch (e.target.value) {
-            case 'FeGaussianBlur':
-
-                els.push(blur);
-                break;
-            case 'FeOffset':
-
-                els.push(offset);
-                break;
-            case 'EdgeDetection':
-
-                els.push(edge);
-                break;
-
-            case 'FeComposite':
-
-                els.push(composite);
-                break;
-
-            case 'FeMerge':
-
-                els.push(merge);
-                break;
-
-            case 'FeMorphology':
-
-                els.push(morphology);
-                break;
-
-            case 'FeFlood':
-
-                els.push(flood);
-                break;
-
-            case 'FeImage':
-
-                els.push(image);
-                break;
-
-            case 'FeTile':
-
-                els.push(tile);
-                break;
-
-            case 'FeBlend':
-
-                els.push(blend);
-                break;
-
-            case 'FeColorMatrix':
-
-                els.push(colormatrix);
-                break;
-
-            case 'FeDisplacementMap':
-
-                els.push(displacementmap);
-                break;
-
-            case 'FeTurbulence':
-
-                els.push(turbulence);
-                break;
-
-            case 'FeComponentTransfer':
-
-                els.push(transfer);
-                break;
-
-            case 'FeConvolveMatrix':
-
-                els.push(convolve);
-                break;
-
-            case 'FeSpecularLightingFePointLight':
-
-                els.push(specpoint)
-                break;
-
-            case 'FeSpecularLightingFeSpotLight':
-
-                els.push(specspot)
-                break;
-
-            case 'FeSpecularLightingFeDistantLight':
-
-                els.push(specdistant)
-                break;
-
-            case 'FeDiffuseLightingFePointLight':
-
-                els.push(diffusepoint)
-                break;
-
-            case 'FeDiffuseLightingFeSpotLight':
-
-                els.push(diffusespot)
-                break;
-
-            case 'FeDiffuseLightingFeDistantLight':
-
-                els.push(diffusedistant)
-                break;
-
-            default:
-                console.log('you should never see me');
-
-                break;
-        }
-
-        console.log('e.tartget.value', e.target.value)
-        console.log('elsss', els);
-
-        this.setState({ elements: els })
-        this.setState({ foo: e.target.value })
-        console.log('inc', this.state.inc);
-        this.setState({ nameOfEls: nameOfElss })
-        // let at = `${this}${e.target.value}Attrs`
-        // console.log('at',at);
-        const ai = this.state.attrIndex.slice();
-        ai.push(this.state.inc)
-        this.setState({ attrIndex: ai })
-        console.log('attrindex', this.state.attrIndex)
-        this.setState({ [`${e.target.value}Attrs${this.state.inc}`]: this.state[`${e.target.value}Attrs`] })
-        this.setState({ inc: this.state.inc + 1 })
-        // this.setState({[this.state.inc]: this.state.inc + 1})
-        console.log('inc', this.state.inc);
-
-        // this.setState({[inc]: inc})
-        console.log('after switch elements', this.state.elements);
-
-    }
-
-    handleAttrs = (e) => {
-        // e.stopPropagation();
-        // e.nativeEvent.stopImmediatePropagation();
-        console.log(this.state[`${this.state.foo}Attrs${this.state.inc - 1}`])
-        console.log(e);
-
-    }
-
-    handlePassedEl = (param, key, i) => e => {
-        console.log(e.target);
-        console.log(e.target.name);
-        console.log('param', param);
-        console.log('key', key);
-        console.log('i', i);
-        const els = this.state[`${param}Attrs${this.state.attrIndex[key]}`].slice();
-        console.log('handleEls', els);
-
-    }
-
     handleStopChange = (param, index) => e => {
         console.log(param);
         console.log(index);
@@ -797,83 +522,6 @@ class FilterRoute extends Component {
         this.setState({stops: stops})
         
         
-    }
-
-    handleInputChanges = (param, key) => e => {
-        console.log('param and key', param, key);
-
-        console.log('e ', e);
-        console.log('changes e name ', e.target.name);
-        console.log('changes evalue ', e.target.value);
-
-        console.log('e', e);
-        // console.log('e',e.target.name);
-
-        const els = this.state[`${param}Attrs${this.state.attrIndex[key]}`].slice();
-        console.log('els:', els);
-        const n = e.target.name;
-        const val = e.target.value;
-        const add_obj = {};
-        add_obj[n] = val
-        console.log('typeof', typeof val);
-
-        console.log('add obj', add_obj);
-
-        console.log(`name = ${n} and value = ${val}`);
-
-        console.log('input change', e.target.value)
-        console.log('input name', e.target.name)
-        // const blurAttr = this.state[`${this.state.foo}Attrs`].map(item => Object.keys(item)).reduce((prev, curr) => curr.concat(prev),[])
-        const blurAttrIndex = this.state[`${param}Attrs${this.state.attrIndex[key]}`].findIndex(item => {
-            console.log('a', item);
-            console.log('b', Object.keys(item));
-            console.log('c', item[Object.keys(item)]);
-
-            return Object.keys(item) == e.target.name
-        })
-        console.log('blurattrindex', blurAttrIndex);
-        els.splice(blurAttrIndex, 1, add_obj);
-
-        this.setState({ [`${param}Attrs${this.state.attrIndex[key]}`]: els });
-        console.log('elsafterstatechange', els);
-
-        console.log(`from handleInputChange${param}Attrs${this.state.attrIndex[key]}`);
-
-    }
-
-
-    handleInputChange = e => {
-        console.log('e', e);
-        // console.log('e',e.target.name);
-
-        const els = this.state[`${this.state.foo}Attrs${this.state.inc - 1}`].slice();
-        console.log('els:', els);
-        const n = e.target.name;
-        const val = e.target.value;
-        const add_obj = {};
-        add_obj[n] = val
-        console.log('typeof', typeof val);
-
-        console.log('add obj', add_obj);
-
-        console.log(`name = ${n} and value = ${val}`);
-
-        console.log('input change', e.target.value)
-        console.log('input name', e.target.name)
-        // const blurAttr = this.state[`${this.state.foo}Attrs`].map(item => Object.keys(item)).reduce((prev, curr) => curr.concat(prev),[])
-        const blurAttrIndex = this.state[`${this.state.foo}Attrs${this.state.inc - 1}`].findIndex(item => {
-            console.log('a', item);
-            console.log('b', Object.keys(item));
-            console.log('c', item[Object.keys(item)]);
-
-            return Object.keys(item) == e.target.name
-        })
-        console.log('blurattrindex', blurAttrIndex);
-        els.splice(blurAttrIndex, 1, add_obj);
-        this.setState({ [`${this.state.foo}Attrs${this.state.inc - 1}`]: els });
-        console.log('elsafterstatechange', els);
-        console.log(`from handleInputChange${this.state.foo}Attrs${this.state.inc - 1}`);
-
     }
 
     handleFuncData = (item, index, kidIndex, idx, a) => e => {
@@ -901,79 +549,25 @@ class FilterRoute extends Component {
         
     }
 
-    handleFilterData = index => e => {
+    handleFilterData = (index,idx) => e => {
         
         console.log(index);
         console.log(e.target.value);
         console.log(e.target.name);
-        const filterData = this.state.filterData.slice();
-        let foo = filterData[index].attributes
-        let bar = foo.findIndex(item => Object.keys(item) == e.target.name) 
-        // bar = e.target.value;
-        foo.splice(bar, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value))  ? e.target.value : parseInt(e.target.value)})
-        console.log(bar);
-        console.log(foo);
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].attributes.slice();
+        console.log(x);
         
-        this.setState({ filterData})
+        x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseInt(e.target.value) })
+        newfilterData[index].attributes = x;
+        this.setState({ filterData: newfilterData})
 
-        // filterData: [{ type: 'feOffset', attributes: [{ dx: 0 }, { dy: 5 }, { in: 'SourceGraphic' }, { result: '' }] }, { type: 'feComposite', attributes: [{ operator: 'over' }, { in: 'foo' }, { in2: 'bar' }, { result: 'composite' }] }],
+        
     }
 
 
     render() {
-
-        let stateEndingInNumber = Object.keys(this.state).filter(item => {
-
-            return item.match(/\d$/)
-        })
-        let stateEndingInNumbers = stateEndingInNumber.map(item => {
-            return (
-                <h1 key={item}>{item}</h1>
-            )
-        })
-
-        // console.log('elementss', this.state.elements);
-
-        let circles = this.state.numberOfCircles.map((c, i) => {
-
-            return (
-
-                <Circle key={c}
-                    rad={this.state.radius[c]}
-                    cx={this.state.cx[c]}
-                    onClick={() => this.handleClick(c)}
-                    filter={i == 0 ? '' : 'url(#f)'}
-                />
-            )
-
-
-        })
-
-        // let filterElements = Object.keys(this.state).filter(item => item.includes('lement'))
-        // console.log('filterElements ', filterElements);
-
-
-        let els = this.state.elements.map((el, index, array) => {
-            console.log('el', el);
-            console.log('el name', el.name);
-            console.log('index', index);
-            console.log('array', array);
-            console.log('inc', this.state.inc);
-            // let inc = this.state.inc;
-            let props = this.state[`${el.name}Attrs${this.state.attrIndex[index]}`]
-            console.log('propws:', this.state[`${el.name}Attrs${this.state.inc - 1}`]);
-            console.log('propwssss:', this.state[`${el.name}Attrs${this.state.attrIndex[index]}`]);
-            console.log('props:', props);
-            console.log(this.state);
-
-            var newObj = Object.assign({ key: index }, ...props)
-            console.log(`obj:${JSON.stringify(newObj)}`);
-
-
-            return (
-                React.createElement(el, newObj)
-            )
-        })
 
         let stopEls = this.state.stops.map((el,index,arrar) => {
              
@@ -993,8 +587,6 @@ class FilterRoute extends Component {
                     {this.state.filterData.map( (item,index) => {
                         console.log(item.attributes);
                         // console.log(JSON.stringify(item.children[item.children.findIndex( i => i.type === 'feFuncR')].attributes));
-                        
-       
 
                         const attrs = item.attributes.reduce((prev, curr) => {
                             let key = Object.keys(curr)[0];
@@ -1203,12 +795,22 @@ class FilterRoute extends Component {
                             }
 
                             case 'feMerge': 
-
+                                console.log(item.children);
+                                console.log(item.children[0].attributes);
+                                
                                 return (
                                     <item.type key={index} {...attrs}>
-                                        {Array(this.state.filterData.length).fill().map( item => {
+                                        {/* {Array(this.state.filterData.length).fill().map( (item,i) => {
                                             return (
                                                 <feMergeNode in='SourceGraphic' />
+                                            )
+                                        })} */}
+                                        {item.children[0].attributes.map((i,idx) => {
+                                            console.log(i);
+                                            
+                                            
+                                            return (
+                                                <feMergeNode key={idx} in={Object.values(i)}  />
                                             )
                                         })}
                                     </item.type>
@@ -1234,10 +836,10 @@ class FilterRoute extends Component {
                         console.log(i.children);
                         // feComponentTransferDefaults: {type: 'feComponentTransfer', attributes:[{in:''},{result:''}], children:[{type: 'feFuncR', attributes:[{type: 'discrete'}, {tableValues:'0 1'}]}]},
                         return (
-                            <div className='filterData' key={index}>
+                            <div className='filterData' key={i+index}>
                      
                             
-                            {i.attributes.map( item => {
+                            {i.attributes.map( (item, idx) => {
                                     console.log(i);
                                     console.log(i.type);
                                     console.log(Object.keys(item)[0]);
@@ -1255,18 +857,7 @@ class FilterRoute extends Component {
                                             <option>gamma</option>
                                             <option>identity</option>
                                         </select>)
-                                        // if(item.type === 'gamma') {
-                                        //     return (<label>amp<input name='amplitude' value='4'/></label>)
-                                        // }
                                     }
-
-                                    // else if ('feComponentTransfer' ) {
-                                    //     console.log(i.children[0].attributes);
-                                        
-                                    //     {i.children[0].attributes.map(attr => {
-                                    //         return (<label>{Object.keys(attr)}</label>)
-                                    //     })}
-                                    // }
 
                                 else if(Object.keys(item)[0] === 'dx') {
                                     return (<label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index)} name={Object.keys(item)} type='range' value={Object.values(item)}/></label>)
@@ -1291,7 +882,7 @@ class FilterRoute extends Component {
                                 } 
 
                             else { 
-                                    return (<label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index)} /></label>)
+                                    return (<label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index,idx)} /></label>)
                                 }
                             }
                             
@@ -1344,13 +935,8 @@ class FilterRoute extends Component {
                         );
 
                     })}
-                    <button onClick={this.handleNewFilterData}>new filter data</button>
-                    <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label>
-                    <SourceGraphicEditor  changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
-                    <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
-                    <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
                     <div className='select-wrapper'>
-                        <FilterSelect selectedIndex={this.handleSelectedIndex} selectChange={this.handleChange} />
+                        {/* <FilterSelect selectedIndex={this.handleSelectedIndex} selectChange={this.handleChange} /> */}
                         <FilterMenu selectFilter={this.handleNewFilter} />
                         <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
                         <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
@@ -1360,6 +946,12 @@ class FilterRoute extends Component {
                             return item.name;
                         })}/>
                     </div>
+                    <button onClick={this.handleNewFilterData}>new filter data</button>
+                    <button onClick={this.handleMergeNodes}>more mergeNodes</button>
+                    <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label>
+                    <SourceGraphicEditor  changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
+                    <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
+                    <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
                     <svg width='0' height='0'>
                         <defs>
                         <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} />
@@ -1394,24 +986,12 @@ class FilterRoute extends Component {
                             <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
                             <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' />
                             <Pattern />
-                            <EmptyFilter>
-                                {els}
-                            </EmptyFilter>
                             <filter id='f' width='200%' height='200%' x='-20%' y='-20%' colorInterpolationFilters='sRGB'>
-                                {els}
+                                {/* {els} */}
                             </filter>
                         </defs>
                     </svg>
                     <div className='rep-svg-wrapper'>
-                        <HTMLRepresentation 
-                            deleteFilter={this.handleDelete} 
-                            moveUp={this.handleMoveUp} 
-                            moveDown={this.handleMoveDown}
-                            changeInputs={this.handleInputChanges} 
-                            passEl={this.handlePassedEl}
-                            >
-                            {els}
-                        </HTMLRepresentation >
                         <LinearGradientRepresentation>
                             {this.state.stops.map((el,index,array) => {
                                 return (
