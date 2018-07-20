@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import RouterTest from './RouterTest';
+import { SketchPicker } from 'react-color';
 import Filter from './Filter';
 import Circle from './Circle';
 import SourceGraphic from './SourceGraphic';
@@ -41,7 +42,7 @@ class FilterRoute extends Component {
             feBlendDefaults: { type: 'feBlend', attributes: [{ in: '' }, { in2: '' }, {result: 'blend'}, {mode:'normal'} ]},
             feColorMatrixDefaults: { type: 'feColorMatrix', attributes: [{ in: '' }, { result: 'colorMatrix' }, { type: 'matrix' }, { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0`}]},
             feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: 'componentTransfer' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }]}]},
-            feCompositeDefaults: {type: 'feComposite', attributes: [{operator: 'over'}, {in: ''}, {in2: ''}, {result: 'composite'}]},
+            feCompositeDefaults: {type: 'feComposite', attributes: [{operator: 'over'}, {in: ''}, {in2: ''},{k1: 0}, {k2:1}, {k3:1}, {k4:0}, {result: 'composite'}]},
             feConvolveMatrixDefaults: { type: 'feConvolveMatrix', attributes: [{ in: '' }, { result: 'convolveMatrix' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { kernelUnitLength: 1 }, { preserveAlpha: false }, { order: 3 }]},
             feDiffuseLightingFeDistantLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseDistant' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }], children: [{type:'feDistantLight', attributes: [{azimuth: 0}, {elevation: 0}]}]},
             feDiffuseLightingFePointLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffusePoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
@@ -549,6 +550,21 @@ class FilterRoute extends Component {
         
     }
 
+    handleChangeComplete =   (index,idx) =>(color)  => {
+        console.log(index);
+        console.log(idx);
+        console.log(color)
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].attributes.slice();
+        console.log(x);
+
+        x.splice(idx, 1, { 'floodColor': color.hex })
+        newfilterData[index].attributes = x;
+        this.setState({ filterData: newfilterData })
+        
+    };
+
     handleFilterData = (index,idx) => e => {
         
         console.log(index);
@@ -586,8 +602,6 @@ class FilterRoute extends Component {
                     <filter id='filterData'>
                     {this.state.filterData.map( (item,index) => {
                         console.log(item.attributes);
-                        // console.log(JSON.stringify(item.children[item.children.findIndex( i => i.type === 'feFuncR')].attributes));
-
                         const attrs = item.attributes.reduce((prev, curr) => {
                             let key = Object.keys(curr)[0];
                             console.log(Object.keys(curr));
@@ -800,15 +814,8 @@ class FilterRoute extends Component {
                                 
                                 return (
                                     <item.type key={index} {...attrs}>
-                                        {/* {Array(this.state.filterData.length).fill().map( (item,i) => {
-                                            return (
-                                                <feMergeNode in='SourceGraphic' />
-                                            )
-                                        })} */}
                                         {item.children[0].attributes.map((i,idx) => {
                                             console.log(i);
-                                            
-                                            
                                             return (
                                                 <feMergeNode key={idx} in={Object.values(i)}  />
                                             )
@@ -816,7 +823,6 @@ class FilterRoute extends Component {
                                     </item.type>
                                 )
                             
-
                             default:
 
                             return (
@@ -830,19 +836,17 @@ class FilterRoute extends Component {
                     </filter>
                 </svg>
 
-
                     {this.state.filterData.map( (i, index) => {
                         console.log(i.attributes);
                         console.log(i.children);
-                        // feComponentTransferDefaults: {type: 'feComponentTransfer', attributes:[{in:''},{result:''}], children:[{type: 'feFuncR', attributes:[{type: 'discrete'}, {tableValues:'0 1'}]}]},
                         return (
                             <div className='filterData' key={i+index}>
-                     
-                            
+                      
                             {i.attributes.map( (item, idx) => {
                                     console.log(i);
                                     console.log(i.type);
                                     console.log(Object.keys(item)[0]);
+                                    console.log(Object.values(item)[0]);
                                     
                                     console.log(Object.keys(item));
                                     console.log(index);
@@ -860,21 +864,50 @@ class FilterRoute extends Component {
                                     }
 
                                 else if(Object.keys(item)[0] === 'dx') {
-                                    return (<label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index)} name={Object.keys(item)} type='range' value={Object.values(item)}/></label>)
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
                                 }
+                                else if(Object.keys(item)[0] === 'dy') {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                else if(Object.keys(item)[0] === 'stdDeviation') {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                else if(Object.keys(item)[0] === 'floodColor') {
+                                        return (
+                                            <SketchPicker onChangeComplete={this.handleChangeComplete(index,idx)}/>
+                                    )
+                                }
+                            
                                 else if ( i.type === 'feComposite' && Object.keys(item)[0] === 'operator') {
-                                    return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
+                                    return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                         <option disabled selected >{Object.keys(item)}</option>
                                         <option>over</option>
                                         <option>in</option>
                                         <option>out</option>
                                         <option>atop</option>
                                         <option>xor</option>
+                                        <option>arithmetic</option>
                                             </select>)
-                            } 
+                            }
+                               
                             //need to add arithmetic logic
                                 else if (Object.keys(item)[0] === 'operator') {
-                                    return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
+                                    return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                         <option>{Object.keys(item)}</option>
                                         <option>dilate</option>
                                         <option>erode</option>
@@ -907,6 +940,12 @@ class FilterRoute extends Component {
                                         } 
                                         else if (Object.keys(a) == 'limitingConeAngle'){
                                             return (<label key={Object.keys(a)}>{Object.keys(a)} value={Object.values(a)}<input type='range' min="0" max="360" step="1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+
+                                        } 
+                                        else if (Object.keys(a) == 'lightingColor'){
+                                            return (
+                                                <SketchPicker />
+                                            )
 
                                         } 
                                         else if (Object.keys(a) == 'type'){
@@ -1007,11 +1046,10 @@ class FilterRoute extends Component {
                             })}
                         </LinearGradientRepresentation>
                         <svg id='sourceGraphic' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
-                            {/* <Text/> */}
                             { this.state.selectedSourceGraphic == 'text' ? (
                             <SourceGraphic 
                                 text={Object.values(this.state.SourceGraphicAttrs[11])} 
-                                elements={this.state.elements} 
+                                elements={this.state.filterData} 
                                 x={Object.values(this.state.SourceGraphicAttrs[0])}
                                 y={Object.values(this.state.SourceGraphicAttrs[1])}
                                 fill={Object.values(this.state.SourceGraphicAttrs[2]) }

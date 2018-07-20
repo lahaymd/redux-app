@@ -11,7 +11,7 @@ class SourceGraphic extends Component {
         }
 
         return (
-            <svg>
+            
                 <text 
                     x={this.props.x} 
                     y={this.props.y} 
@@ -27,7 +27,7 @@ class SourceGraphic extends Component {
                     textAnchor={this.props.textAnchor}
                     alignmentBaseline={this.props.alignmentBaseline}
                     >{this.props.text}</text>
-            </svg>
+           
         )
     }
 }
