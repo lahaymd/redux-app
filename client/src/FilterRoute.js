@@ -332,7 +332,6 @@ class FilterRoute extends Component {
         
         
         
-        
         this.setState({ elements: els })
         this.setState({ attrIndex: ai })
         // delete this.state[`${param}Attrs${key}`];
@@ -507,7 +506,6 @@ class FilterRoute extends Component {
         }
     }
 
-
     handleStopChange = (param, index) => e => {
         console.log(param);
         console.log(index);
@@ -522,7 +520,6 @@ class FilterRoute extends Component {
         stops.splice(index,1, obj )
         this.setState({stops: stops})
         
-        
     }
 
     handleFuncData = (item, index, kidIndex, idx, a) => e => {
@@ -533,12 +530,36 @@ class FilterRoute extends Component {
         console.log(a);
         console.log(e.target.name);
         console.log(e.target.value);
+        const newArr = this.state.filterData.map(obj => ({ ...obj }))
+        console.log(newArr);    
+        const newArray = newArr.map(obj => ({ ...obj }))[index].children
+            .map(ob => ({ ...ob }));
+        console.log(newArray);
+        const nA = newArray[kidIndex].attributes.map(o => ({ ...o }))
+        console.log(nA);
+        const g = nA.map((item1, i) => {
+            console.log(i);
+            console.log(idx);
+            console.log(item1);
+            if (idx == i) {console.log('fuck');
+             item1 = Object.assign({}, {[`${Object.keys(item1)}`]: e.target.value}) };
+            console.log(item1);
+            return item1; })
+        console.log(nA);
+        console.log(g);
+        // const filterData = [...this.state.filterData];
+        // console.log(filterData);
+        // filterData[index].children[kidIndex].attributes[idx][Object.keys(filterData[index].children[kidIndex].attributes[idx])] = e.target.value;
+        console.log(newArr[index].children[kidIndex].attributes)
+        console.log(newArray[kidIndex])
+        console.log(newArray);
+        newArray[kidIndex].attributes = g;
+        console.log(newArray);
+        
+        newArr[index].children = newArray;
 
-        const filterData = [...this.state.filterData];
-        console.log(filterData);
-        filterData[index].children[kidIndex].attributes[idx][Object.keys(filterData[index].children[kidIndex].attributes[idx])] = e.target.value;
-        console.log(filterData);
-        this.setState({filterData})
+        console.log(newArr);
+        this.setState({filterData: newArr})
         
         
         
@@ -550,18 +571,94 @@ class FilterRoute extends Component {
         
     }
 
-    handleChangeComplete =   (index,idx) =>(color)  => {
+    handleChangeComplete =   (index,idx,item) =>(color)  => {
         console.log(index);
         console.log(idx);
         console.log(color)
-        const newfilterData = [...this.state.filterData]
-        console.log(newfilterData);
-        const x = newfilterData[index].attributes.slice();
+        console.log(item);
+        const newColor = Object.assign({}, color)
+        console.log(newColor);
+        const hex = newColor.hex
+        console.log(hex);
         console.log(x);
+   
+  
+        const newArr = this.state.filterData.map(obj => ({ ...obj }))
+        const newArray = newArr.map(obj => ({ ...obj }))[index].attributes
+                            .map(o => ({...o}));
+        console.log(newArray);
+        const newA = newArray[idx]
+        console.log(newA);
+        
+        const bar = Object.assign({}, { [`${Object.keys(item)}`] : hex })
+        const g = newArray.map((item1, i) => {
+            console.log(bar);
+            console.log(i);
+            console.log(idx);
+            console.log(item1);
 
-        x.splice(idx, 1, { 'floodColor': color.hex })
-        newfilterData[index].attributes = x;
-        this.setState({ filterData: newfilterData })
+
+
+            if (Object.keys(item1)[0] == Object.keys(item)[0]) { 
+                console.log('meow');
+             item1 = Object.assign({}, bar) };
+            console.log(Object.keys(item1));
+            console.log(Object.keys(item));
+            
+            return item1;
+        })
+        console.log(newArray);
+        console.log(g);
+        
+        
+        const newfilterData = [...this.state.filterData]
+        console.log(this.state.filterData);
+        
+        console.log(newfilterData);
+        const foo = {...newfilterData[index]}
+        console.log(foo);
+        const baz = [...foo.attributes]
+        console.log(baz);
+            const d = {...baz[idx]};
+        console.log(d);
+        
+        // const a = Object.assign({}, baz[idx])
+        // console.log(a);
+        
+        const x = [...newfilterData[index].attributes];
+        
+        // const e =baz.map( (item, i) => {
+        //     console.log(bar);
+        //     console.log(i);
+        //     console.log(idx);
+        //     console.log(item);
+            
+            
+            
+        //     if (Object.keys(item) == 'lightingColor') { item = Object.assign({}, bar)};
+        //     return item;
+        // })
+        // baz.splice(idx, 1, bar)
+        // baz.splice(idx, 1, bar)
+        // console.log(bar);
+        
+        console.log(baz);
+        // console.log(e);
+        
+        const quz = [...baz]
+        console.log(quz);
+        
+        // x.splice(idx, 1, bar)
+        const b = Object.assign({})
+        console.log(newfilterData);
+        this.state
+console.log(newArray);
+
+        // newfilterData[index].attributes = answer;
+        newArr[index].attributes = g;
+        console.log(newArr);
+        
+        this.setState({ filterData: newArr })
         
     };
 
@@ -888,10 +985,19 @@ class FilterRoute extends Component {
                                     )
                                 }
                                 else if(Object.keys(item)[0] === 'floodColor') {
+                                        console.log(Object.values(this.state.filterData[index].attributes[idx])[0]);
+                                        
                                         return (
-                                            <SketchPicker onChangeComplete={this.handleChangeComplete(index,idx)}/>
+                                            <SketchPicker color={Object.values(this.state.filterData[index].attributes[idx])[0]} onChange={this.handleChangeComplete(index,idx,item)}/>
                                     )
                                 }
+
+                                    else if (Object.keys(item)[0] == 'lightingColor') {
+                                        return (
+                                            <SketchPicker color={Object.values(this.state.filterData[index].attributes[idx])[0]} onChange={this.handleChangeComplete(index, idx, item)} />
+                                        )
+
+                                    } 
                             
                                 else if ( i.type === 'feComposite' && Object.keys(item)[0] === 'operator') {
                                     return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
@@ -942,14 +1048,9 @@ class FilterRoute extends Component {
                                             return (<label key={Object.keys(a)}>{Object.keys(a)} value={Object.values(a)}<input type='range' min="0" max="360" step="1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
 
                                         } 
-                                        else if (Object.keys(a) == 'lightingColor'){
-                                            return (
-                                                <SketchPicker />
-                                            )
-
-                                        } 
+   
                                         else if (Object.keys(a) == 'type'){
-                                            return (<select onChange={this.handleFilterData(index)} name={Object.keys(a)} key={Object.keys(a)}>
+                                            return (<select onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} key={Object.keys(a)}>
                                                 <option disabled selected >{Object.keys(a)}</option>
                                                 <option>discrete</option>
                                                 <option>table</option>
