@@ -58,7 +58,7 @@ class FilterRoute extends Component {
             feSpecularLightingFePointLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularPoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
             feSpecularLightingFeSpotLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularSpot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
             feTileDefaults: { type: 'feTile', attributes: [{in:''}, {result: 'tile'}]},
-            feTurbulenceDefaults: { type: 'feTurbulence', attributes: [{ in: '' }, { result: 'turbulence' }, { baseFrequency: .005 }, { numOctaves: 5 }, { seed: 0 }, { type: 'turbulence' }, { stitchTiles: 'stitch' }]}
+            feTurbulenceDefaults: { type: 'feTurbulence', attributes: [{ in: '' }, { result: 'turbulence' }, { baseFrequency: .05 }, { numOctaves: 5 }, { seed: 0 }, { type: 'turbulence' }, { stitchTiles: 'stitch' }]}
             
         }
     }
@@ -258,86 +258,33 @@ class FilterRoute extends Component {
         
     }
 
-    handleDelete = (param, key) => (e) => {
-        console.log('e', e);
-        console.log('etarget', e.target);
-        console.log('param', param);
+    handleDelete = ( key) => (e) => {
         console.log('key', key);
-        const els = this.state.elements.slice()
-        const ai = this.state.attrIndex.slice()
-        console.log('elsooo', els);
-        els.splice(key, 1)
-        ai.splice(key, 1)
-
-        let props = this.state[`${param}Attrs${key}`]
-        console.log('PROPS', props);
-
-        this.setState({ elements: els })
-        this.setState({ attrIndex: ai })
-        delete this.state[`${param}Attrs${key}`];
-        console.log('elsooo', els);
-
+        const filterData = [...this.state.filterData]
+        console.log(filterData);
+        filterData.splice(key,1)
+        this.setState({filterData})
+        console.log(filterData);
     }
-
-    handleMoveUp = (param, key) => (e) => {
-        console.log('e', e);
-        console.log('etarget', e.target);
-        console.log('param', param);
+    
+    handleMoveUp = (key) => (e) => {
         console.log('key', key);
-
-        // if(key !== this.state.elements.length - 1) {
-        const els = this.state.elements.slice()
-        const ai = this.state.attrIndex.slice()
-
-        console.log('elsooo', els);
-        console.log('els key', els[key]);
-
-        console.log('ai', ai);
-        let splice = els.splice(key, 1)
+        const filterData = [...this.state.filterData]
+        console.log(filterData);
+        let splice = filterData.splice(key, 1)
         console.log('splice', splice);
-        let spliceai = ai.splice(key, 1)
-        ai.splice(key - 1, 0, spliceai[0])
-        els.splice(key - 1, 0, splice[0])
-
-
-
-
-        this.setState({ elements: els })
-        this.setState({ attrIndex: ai })
-        // delete this.state[`${param}Attrs${key}`];
-        console.log('ai', ai);
-        console.log('elso', els);
-        // }
+        filterData.splice(key - 1, 0, splice[0])
+        this.setState({filterData})
     }
-            
-            handleMoveDown = (param, key) => (e) => {
-                console.log('e', e);
-                console.log('etarget', e.target);
-                console.log('param', param);
-                console.log('key', key);
-                
-                // if(key !== this.state.elements.length - 1) {
-                    const els = this.state.elements.slice()
-                    const ai = this.state.attrIndex.slice()
-      
-        console.log('elsooo', els);
-        console.log('els key', els[key]);
-       
-        console.log('ai', ai);
-        let splice = els.splice(key, 1)
+    
+    handleMoveDown = (key) => (e) => {
+        console.log('key', key);
+        const filterData = [...this.state.filterData];
+        console.log(filterData);
+        let splice = filterData.splice(key, 1)
         console.log('splice',splice);
-        let spliceai = ai.splice(key, 1)
-        ai.splice(key + 1, 0, spliceai[0])
-        els.splice(key + 1, 0, splice[0])
-        
-        
-        
-        this.setState({ elements: els })
-        this.setState({ attrIndex: ai })
-        // delete this.state[`${param}Attrs${key}`];
-        console.log('ai', ai);
-        console.log('elso', els);
-            // }
+        filterData.splice(key + 1, 0, splice[0])
+        this.setState({filterData})
     }
 
     handleSelectSourceGraphic = (e) => {
@@ -938,6 +885,9 @@ console.log(newArray);
                         console.log(i.children);
                         return (
                             <div className='filterData' key={i+index}>
+                                <button onClick={this.handleDelete(index)}>DELETE</button>
+                                <button onClick={this.handleMoveUp(index)}>MOVE UP</button>
+                                <button onClick={this.handleMoveDown(index)}>MOVE DOWN</button>
                       
                             {i.attributes.map( (item, idx) => {
                                     console.log(i);
@@ -962,24 +912,40 @@ console.log(newArray);
 
                                 else if(Object.keys(item)[0] === 'dx') {
                                         return (
-                                            <div>
-                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                            <div key={Object.keys(item)[0]+idx}>
+                                        <label key={Object.keys(item)+'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
                                         <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
                                             </div>
                                     )
                                 }
                                 else if(Object.keys(item)[0] === 'dy') {
                                         return (
-                                            <div>
-                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                            <div key={Object.keys(item)[0] + idx}>
+                                        <label key={Object.keys(item)+'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
                                         <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
                                             </div>
                                     )
                                 }
                                 else if(Object.keys(item)[0] === 'stdDeviation') {
                                         return (
+                                            <div key={Object.keys(item)[0] + idx}>
+                                        <label key={Object.keys(item)+'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                else if(Object.keys(item)[0] === 'scale') {
+                                        return (
                                             <div>
-                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-100" max="100" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                else if(Object.keys(item)[0] === 'baseFrequency') {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min=".1" max="1" step=".1" value={Object.values(item)} />{Object.values(item)}</label>
                                         <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
                                             </div>
                                     )
@@ -1010,6 +976,22 @@ console.log(newArray);
                                         <option>arithmetic</option>
                                             </select>)
                             }
+                                else if ( i.type === 'feColorMatrix' && Object.keys(item)[0] === 'type') {
+                                    return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                        <option disabled selected >{Object.keys(item)}</option>
+                                        <option>matrix</option>
+                                        <option>hueRotate</option>
+                                        <option>saturate</option>
+                                        <option>luminanceToAlpha</option>
+                                            </select>)
+                            }
+                                else if ( i.type === 'feTurbulence' && Object.keys(item)[0] === 'type') {
+                                    return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                        <option disabled selected >{Object.keys(item)}</option>
+                                        <option>turbulence</option>
+                                        <option>fractalNoise</option>
+                                            </select>)
+                            }
                                
                             //need to add arithmetic logic
                                 else if (Object.keys(item)[0] === 'operator') {
@@ -1017,6 +999,27 @@ console.log(newArray);
                                         <option>{Object.keys(item)}</option>
                                         <option>dilate</option>
                                         <option>erode</option>
+                                    </select>)
+                                } 
+                                else if (Object.keys(item)[0] === 'mode') {
+                                    return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                        <option>{Object.keys(item)}</option>
+                                        <option>normal</option>
+                                        <option>screen</option>
+                                        <option>lighten</option>
+                                        <option>darken</option>
+                                        <option>multiply</option>
+                                        <option>overlay</option>
+                                         <option>color-dodge</option>
+                                        <option>color-burn</option>
+                                        <option>hard-light</option>
+                                        <option>soft-light</option>
+                                        <option>difference</option>
+                                        <option>exclusion</option>
+                                        <option>hue</option>
+                                        <option>saturation</option>
+                                        <option>color</option>
+                                        <option>luminosity</option>
                                     </select>)
                                 } 
 
