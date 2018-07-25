@@ -20,6 +20,7 @@ import LinearGradients from './LinearGradients';
 import LinearGradientSelect from './LinearGradientSelect';
 import FilterNameSelect from './FilterNameSelect';
 import FilterMenu from './FilterMenu'
+import WebCam from './WebCam'
 
 class FilterRoute extends Component {
 
@@ -1168,6 +1169,8 @@ console.log(newArray);
                             />
                               )  : this.state.selectedSourceGraphic == 'image' ?   (
                         <image className={   this.state.elements.length? 'filter': ''} href='http://mikelahay.com/images/cooper.png' width='500' height='500' preserveAspectRatio='none'/>
+                              ) : this.state.selectedSourceGraphic == 'webcam' ? (
+                                    <WebCam/>
                               ) : (
                         <Circle elements={this.state.elements}/>
                     ) }

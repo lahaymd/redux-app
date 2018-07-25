@@ -1,4 +1,4 @@
-.filter {
+.filter, video {
     filter: url(#filterData)
 }
 

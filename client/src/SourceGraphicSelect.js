@@ -14,6 +14,7 @@ class SourceGraphicSelect extends Component {
                 <option value='circle' >circle</option>
                 <option value='text'>text</option>
                 <option value='image'>image</option>
+                <option value='webcam'>webcam</option>
             </select>
         )
     }
