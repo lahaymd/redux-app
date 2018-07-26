@@ -320,35 +320,35 @@ class FilterRoute extends Component {
         switch (e.target.value) {
 
             case 'feBlend': 
-    
-                filterData.push(this.state.feBlendDefaults);
+                const feBlendDefaults = { ...this.state.feBlendDefaults }
+                filterData.push(feBlendDefaults);
                 this.setState({filterData});
                 break;
 
             case 'feColorMatrix': 
-    
-                filterData.push(this.state.feColorMatrixDefaults);
+                const feColorMatrixDefaults = { ...this.state.feColorMatrixDefaults }
+                filterData.push(feColorMatrixDefaults);
                 this.setState({filterData});
                 break;
 
             case 'feComponentTransfer':
-
-                filterData.push(this.state.feComponentTransferDefaults);
+                const feComponentTransferDefaults = { ...this.state.feComponentTransferDefaults }
+                filterData.push(feComponentTransferDefaults);
                 this.setState({ filterData });
                 break;
 
 
             case 'feComposite': {
 
-                const filterData = this.state.filterData.slice();
-                filterData.push(this.state.feCompositeDefaults);
+                const feCompositeDefaults = { ...this.state.feCompositeDefaults }
+                filterData.push(feCompositeDefaults);
                 this.setState({ filterData });
                 break;
             }
 
             case 'feConvolveMatrix':
-
-                filterData.push(this.state.feConvolveMatrixDefaults);
+                const feConvolveMatrixDefaults = { ...this.state.feConvolveMatrixDefaults }
+                filterData.push(feConvolveMatrixDefaults);
                 this.setState({ filterData });
                 break;
 
@@ -371,46 +371,45 @@ class FilterRoute extends Component {
                 break;
 
             case 'feDisplacementMap':
-
-                filterData.push(this.state.feDisplacementMapDefaults);
+                const feDisplacementMapDefaults = { ...this.state.feDisplacementMapDefaults }
+                filterData.push(feDisplacementMapDefaults);
                 this.setState({ filterData });
                 break;
 
             case 'feFlood':
-
-                filterData.push(this.state.feFloodDefaults);
+                const feFloodDefaults = { ...this.state.feFloodDefaults }
+                filterData.push(feFloodDefaults);
                 this.setState({ filterData });
                 break;
 
             case 'feGaussianBlur': {
 
-                const filterData = this.state.filterData.slice();
-                filterData.push(this.state.feGaussianBlurDefaults);
+                const feGaussianBlurDefaults = { ...this.state.feGaussianBlurDefaults }
+                filterData.push(feGaussianBlurDefaults);
                 this.setState({filterData});
                 break;
             }
 
             case 'feImage':
-
-                filterData.push(this.state.feImageDefaults);
+                const feImageDefaults = { ...this.state.feImageDefaults }
+                filterData.push(feImageDefaults);
                 this.setState({ filterData });
                 break;
 
             case 'feMerge':
-
-                filterData.push(this.state.feMergeDefaults);
+                const feMergeDefaults = { ...this.state.feMergeDefaults }
+                filterData.push(feMergeDefaults);
                 this.setState({ filterData });
                 break;
             
                 case 'feMorphology': 
-                
-                filterData.push(this.state.feMorphologyDefaults);
+                const feMorphologyDefaults = { ...this.state.feMorphologyDefaults }
+                filterData.push(feMorphologyDefaults);
                 this.setState({filterData});
                 break;
                 
                 case 'feOffset': {
     
-                    const filterData = this.state.filterData.slice();
                     const feOffsetDefaults = {...this.state.feOffsetDefaults}
                     filterData.push(feOffsetDefaults);
                     this.setState({filterData});
@@ -437,13 +436,15 @@ class FilterRoute extends Component {
 
             case 'feTile':
 
-                filterData.push(this.state.feTileDefaults);
+                const feTileDefaults = { ...this.state.feTileDefaults }
+                filterData.push(feTileDefaults);
                 this.setState({ filterData });
                 break;
 
             case 'feTurbulence':
 
-                filterData.push(this.state.feTurbulenceDefaults);
+                const feTurbulenceDefaults = { ...this.state.feTurbulenceDefaults }
+                filterData.push(feTurbulenceDefaults);
                 this.setState({ filterData });
                 break;
 
