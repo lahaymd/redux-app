@@ -34,7 +34,7 @@ class FilterRoute extends Component {
             stopColor: '',
             stopOpacity: '',
             SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 400}, {textLength: 500}, {lengthAdjust: 'spacingAndGlyphs'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}, {text: 'SVG'}],
-            gradientAttrs: [{x1: 0}, {x2: 0}, {y1: 1}, {y2: 0}, {spreadMethod: 'reflect'}, {gradientTransform: 0}, {gradientUnits:'objectBoundingBox'}, {id: 'linear'}],
+            gradientAttrs: [{x1: 0}, {x2: 1}, {y1: 0}, {y2: 0}, {spreadMethod: 'reflect'}, {gradientTransform: 0}, {gradientUnits:'objectBoundingBox'}, {id: 'linear'}],
             images: [],
             selectedSourceGraphic: 'text',
             filterData: [],
@@ -51,7 +51,7 @@ class FilterRoute extends Component {
             feDisplacementMapDefaults: { type: 'feDisplacementMap', attributes: [{ in: '' }, { in2: '' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }, { result: 'displace' }]},
             feFloodDefaults: { type: 'feFlood' , attributes: [{ floodOpacity: '1' }, { in: '' }, { floodColor: 'coral' }, { result: 'flood' }] },
             feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, { in: '' }, { result: 'blur' }] },
-            feImageDefaults: {type: 'feImage', attributes:[{x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {href: 's.svg'}, {result: 'image'}]},
+            feImageDefaults: {type: 'feImage', attributes:[{x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {href: '#rect'}, {result: 'image'}]},
             feMergeDefaults: { type: 'feMerge', attributes: [{in:''}, {result: 'merge'}], children: [{type: 'feMergeNode', attributes: [{in: 'SourceGraphic'}, {in: 'SourceGraphic'}]}]},
             feMorphologyDefaults: { type: 'feMorphology', attributes: [{ operator: 'dilate' }, { in: '' }, { radius: 2 }, { result: 'morph' }] },
             feOffsetDefaults: { type: 'feOffset', attributes: [{ dx: 0 }, { dy: 5 }, { in: '' }, { result: 'offset' }]},
@@ -134,7 +134,7 @@ class FilterRoute extends Component {
 
         let data = {
             name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
-            stops: [],
+            stops: this.state.stops,
             x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))),
             x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))),
             y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))),
@@ -181,19 +181,13 @@ class FilterRoute extends Component {
     }
 
     handleNewFilterData = () => {
-
         console.log('handle new filter data');
-
         let data = {
             name: this.state.filterName,
             filterData: this.state.filterData,
-            // attributes: this.state.filterData.attributes,
-            // children: this.state.filterData.children
-
         }
         console.log(data);
         
-
         fetch('/filter_data',
             {
                 method: 'POST',
@@ -207,17 +201,44 @@ class FilterRoute extends Component {
         )
             .then( res => res.json())
             .then(data => { console.log('post filter data' + JSON.stringify(data));
-
-
                 console.log(data.filterData);
-                
-
                 this.setState({ filterData: data.filterData })
-
-
             })
-        
     }
+    // handleConcatFilterData = (e) => {
+    //     console.log(e.target.value);
+    //     fetch(`/filter_data/name/?name=${e.target.value}`)
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             console.log(data);
+    //             console.log(data[0].filterData);
+
+    //             this.setState({ filterData: data[0].filterData })
+    //         })
+    //     console.log('handle concat filter data');
+    //     let data = {
+    //         name: this.state.filterName,
+    //         filterData: this.state.filterData,
+    //     }
+    //     console.log(data);
+        
+    //     fetch('/filter_data',
+    //         {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Accept': 'application/json',
+    //                 'Content-Type': 'application/json',
+    //                 'Access-Control-Allow-Origin': '*'
+    //             },
+    //             body: JSON.stringify(data)
+    //         }
+    //     )
+    //         .then( res => res.json())
+    //         .then(data => { console.log('post filter data' + JSON.stringify(data));
+    //             console.log(data.filterData);
+    //             this.setState({ filterData: data.filterData })
+    //         })
+    // }
 
 
     handlePushStop = () => e => {
@@ -645,7 +666,7 @@ console.log(newArray);
                 <div className="App">
                 <svg width='500' height='500'>
                     <text textAnchor='middle' x='50%' y='50%' style={{fontSize: '500px', fill: 'orange'}} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text>
-                    <filter id='filterData'>
+                    <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
                     {this.state.filterData.map( (item,index) => {
                         console.log(item.attributes);
                         const attrs = item.attributes.reduce((prev, curr) => {
@@ -987,6 +1008,16 @@ console.log(newArray);
                                         <option>luminanceToAlpha</option>
                                             </select>)
                             }
+                                    else if (i.type === 'feColorMatrix' && Object.keys(item)[0] === 'values' && Object.values(i.attributes[2])[0] === 'hueRotate' ) {
+                                        console.log(Object.values(i.attributes[2]));
+                                        
+                                        return (<label key={Object.keys(item) + 'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="360" step="1" value={Object.values(item)} />{Object.values(item)}</label>)
+                            }
+                                    else if (i.type === 'feColorMatrix' && Object.keys(item)[0] === 'values' && Object.values(i.attributes[2])[0] === 'saturate' ) {
+                                        console.log(Object.values(i.attributes[2]));
+                                        
+                                        return (<label key={Object.keys(item) + 'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="10" step="1" value={Object.values(item)} />{Object.values(item)}</label>)
+                            }
                                 else if ( i.type === 'feTurbulence' && Object.keys(item)[0] === 'type') {
                                     return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                         <option disabled selected >{Object.keys(item)}</option>
@@ -1092,6 +1123,7 @@ console.log(newArray);
                         })}/>
                     </div>
                     <button onClick={this.handleNewFilterData}>new filter data</button>
+                    {/* <button onClick={this.handleConcatFilterData}>concat filter data</button> */}
                     <button onClick={this.handleMergeNodes}>more mergeNodes</button>
                     <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label>
                     <SourceGraphicEditor  changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>

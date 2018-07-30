@@ -12,6 +12,7 @@ class Gradient extends Component {
                 y2={this.props.y2}
                 spreadMethod={this.props.spreadMethod}
                 gradientTransform={`rotate(${this.props.gradientTransform} 250 250)`}
+                gradientUnits={this.props.gradientUnits}
             >
                 {this.props.children}
             </linearGradient>
