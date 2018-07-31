@@ -52,7 +52,6 @@ class GradientEditor extends Component {
                         )
                     } else {
 
-                        
                         return (
                             <label key={index} className='html-label-wrapper'> {Object.keys(item)} : {Object.values(item)}
                             <input 
