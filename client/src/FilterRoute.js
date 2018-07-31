@@ -1201,11 +1201,11 @@ console.log(newArray);
                                 alignmentBaseline={Object.values(this.state.SourceGraphicAttrs[10])}
                             />
                               )  : this.state.selectedSourceGraphic == 'image' ?   (
-                        <image className={   this.state.elements.length? 'filter': ''} href='http://mikelahay.com/images/cooper.png' width='500' height='500' preserveAspectRatio='none'/>
+                        <image className={   this.state.filterData.length? 'filter': ''} href='http://mikelahay.com/images/cooper.png' width='500' height='500' preserveAspectRatio='none'/>
                               ) : this.state.selectedSourceGraphic == 'webcam' ? (
                                     <WebCam/>
                               ) : (
-                        <Circle elements={this.state.elements}/>
+                        <Circle elements={this.state.filterData}/>
                     ) }
 
                         </svg>

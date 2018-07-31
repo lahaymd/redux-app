@@ -11,6 +11,7 @@ class Gradient extends Component {
                 y1={this.props.y1}
                 y2={this.props.y2}
                 spreadMethod={this.props.spreadMethod}
+                // gradientTransform={`translate(${this.props.gradientTransform})`}
                 gradientTransform={`rotate(${this.props.gradientTransform} 250 250)`}
                 gradientUnits={this.props.gradientUnits}
             >
