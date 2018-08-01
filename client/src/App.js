@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import RouterTest from './RouterTest';
 import Filter from './Filter';
 import FilterRoute from './FilterRoute';
+import GradientEditor from './GradientEditor';
 // import SourceGraphicEditor from './SourceGraphicEditor';
 
 
@@ -18,7 +19,7 @@ class App extends Component {
     return (
     <Router>
         <div className="AppRouter">
-          {/* <nav>
+          <nav>
             <ul>
                 <li>
                 <svg viewBox='0 0 10 10' preserveAspectRatio='xMinYMid' height='1em' className='svg-icon'><circle cx='5' cy='5' r='5' /></svg>
@@ -26,11 +27,12 @@ class App extends Component {
                 </li>
                 <li>
                 <svg viewBox='0 0 10 10' preserveAspectRatio='xMinYMid' height='1em' className='svg-icon'><circle cx='5' cy='5' r='5' /></svg>
-                  <Link to='/filter'>filter</Link>
+                  <Link to='/linear'>filter</Link>
                 </li>
             </ul>
-          </nav> */}
+          </nav>
           <Route exact path='/' component={FilterRoute}/>
+          {/* <Route exact path='/linear' component={GradientEditor}/> */}
         </div>
     </Router>
     );

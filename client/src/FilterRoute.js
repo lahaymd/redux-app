@@ -1043,7 +1043,7 @@ console.log(newArray);
                                     else if (i.type === 'feColorMatrix' && Object.keys(item)[0] === 'values' && Object.values(i.attributes[2])[0] === 'matrix' ) {
                                         console.log(Object.values(i.attributes[2]));
                                         
-                                        return (<ColorMatrix key='ColorMatrix' changeMatrix={this.handleColorMatrixData(index, idx, Object.values(this.state.feColorMatrixDefaults.attributes[3])[0])} matrixValues={Object.values(this.state.feColorMatrixDefaults.attributes[3])[0]}/>)
+                                        return (<ColorMatrix key='ColorMatrix' changeMatrix={this.handleColorMatrixData(index, idx, Object.values(this.state.feColorMatrixDefaults.attributes[3])[0])} matrixValues={Object.values(this.state.filterData[index].attributes[3])[0]}/>)
                             }
                                     else if (i.type === 'feColorMatrix' && Object.keys(item)[0] === 'values' && Object.values(i.attributes[2])[0] === 'hueRotate' ) {
                                         console.log(Object.values(i.attributes[2]));
@@ -1070,6 +1070,24 @@ console.log(newArray);
                                         <option>dilate</option>
                                         <option>erode</option>
                                     </select>)
+                                } 
+                                else if (Object.keys(item)[0] === 'kernelMatrix') {
+                                    return (
+                                        <div>
+                                            <select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                                <option>{Object.keys(item)}</option>
+                                                <option>-1 -1 -1 -1 8 -1 -1 -1 -1</option>
+                                                <option>1 0 0 0 0 0 0 0 -1</option>
+                                                <option>3 0 0 0 0 0 0 0 -3</option>
+                                                <option> 0 -1 0 -1 5 -1 0 -1 0</option>
+                                                <option>0 0 0 -1 1 0 0 0 0</option>
+                                                <option>-2 -1 0 -1 1 1 0 1 2</option>
+                                                <option>0 0 0 0 0 0 0 0 1</option>
+                                                <option>erode</option>
+                                            </select>
+                                            <label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index, idx)} /></label>
+                                        </div>
+                                    )
                                 } 
                                 else if (Object.keys(item)[0] === 'mode') {
                                     return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
