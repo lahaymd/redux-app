@@ -19,8 +19,9 @@ import RectWithGradient from './RectWithGradient';
 import LinearGradients from './LinearGradients';
 import LinearGradientSelect from './LinearGradientSelect';
 import FilterNameSelect from './FilterNameSelect';
-import FilterMenu from './FilterMenu'
-import WebCam from './WebCam'
+import FilterMenu from './FilterMenu';
+import WebCam from './WebCam';
+import ColorMatrix from './ColorMatrix';
 
 class FilterRoute extends Component {
 
@@ -632,6 +633,37 @@ console.log(newArray);
         
     };
 
+    handleColorMatrixData = (index, idx, matrix) => e => {
+
+        console.log(newMatrix);
+        console.log(index);
+        console.log(idx);
+        console.log(matrix);
+        
+        console.log(e.target.value);
+        console.log(e.target.name);
+        console.log(e.target);
+        console.log(e.target.index);
+        // const newMatrix = Object.values(this.state.feColorMatrixDefaults.attributes[3])[0].split(' ')
+        const newMatrix = Object.values(this.state.filterData[index].attributes[3])[0].split(' ')
+        // console.log(newMatrix1);
+        
+        console.log(newMatrix);
+        newMatrix.splice(parseInt(e.target.name), 1, e.target.value)
+        console.log(newMatrix);
+        const newMatrix1 = newMatrix.join(' ')
+        console.log(newMatrix1);
+        
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].attributes.slice();
+        console.log(x);
+        
+        x.splice(idx, 1, {values: newMatrix1 })
+        newfilterData[index].attributes = x;
+        this.setState({ filterData: newfilterData})
+    }
+
     handleFilterData = (index,idx) => e => {
         
         console.log(index);
@@ -1007,6 +1039,11 @@ console.log(newArray);
                                         <option>saturate</option>
                                         <option>luminanceToAlpha</option>
                                             </select>)
+                            }
+                                    else if (i.type === 'feColorMatrix' && Object.keys(item)[0] === 'values' && Object.values(i.attributes[2])[0] === 'matrix' ) {
+                                        console.log(Object.values(i.attributes[2]));
+                                        
+                                        return (<ColorMatrix key='ColorMatrix' changeMatrix={this.handleColorMatrixData(index, idx, Object.values(this.state.feColorMatrixDefaults.attributes[3])[0])} matrixValues={Object.values(this.state.feColorMatrixDefaults.attributes[3])[0]}/>)
                             }
                                     else if (i.type === 'feColorMatrix' && Object.keys(item)[0] === 'values' && Object.values(i.attributes[2])[0] === 'hueRotate' ) {
                                         console.log(Object.values(i.attributes[2]));
