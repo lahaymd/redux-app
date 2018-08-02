@@ -22,6 +22,7 @@ import FilterNameSelect from './FilterNameSelect';
 import FilterMenu from './FilterMenu';
 import WebCam from './WebCam';
 import ColorMatrix from './ColorMatrix';
+import ConcatFilters from './ConcatFilters';
 
 class FilterRoute extends Component {
 
@@ -206,40 +207,47 @@ class FilterRoute extends Component {
                 this.setState({ filterData: data.filterData })
             })
     }
-    // handleConcatFilterData = (e) => {
-    //     console.log(e.target.value);
-    //     fetch(`/filter_data/name/?name=${e.target.value}`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             console.log(data);
-    //             console.log(data[0].filterData);
 
-    //             this.setState({ filterData: data[0].filterData })
-    //         })
-    //     console.log('handle concat filter data');
-    //     let data = {
-    //         name: this.state.filterName,
-    //         filterData: this.state.filterData,
-    //     }
-    //     console.log(data);
+    handleConcatFilterData = (e) => {
+        console.log(e.target.value);
+        fetch(`/filter_data/name/?name=${e.target.value}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                console.log(data[0].filterData);
+                const filterData = [...this.state.filterData]
+                console.log(filterData);
+                filterData.push(data[0].filterData)
+                console.log(filterData);
+                const flat =filterData.reduce( (prev, curr) => prev.concat(curr),[])
+                console.log(flat);
+                
+                this.setState({ filterData: flat })
+            })
+        // console.log('handle concat filter data');
+        // let data = {
+        //     name: this.state.filterName,
+        //     filterData: this.state.filterData,
+        // }
+        // console.log(data);
         
-    //     fetch('/filter_data',
-    //         {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json',
-    //                 'Access-Control-Allow-Origin': '*'
-    //             },
-    //             body: JSON.stringify(data)
-    //         }
-    //     )
-    //         .then( res => res.json())
-    //         .then(data => { console.log('post filter data' + JSON.stringify(data));
-    //             console.log(data.filterData);
-    //             this.setState({ filterData: data.filterData })
-    //         })
-    // }
+        // fetch('/filter_data',
+        //     {
+        //         method: 'POST',
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json',
+        //             'Access-Control-Allow-Origin': '*'
+        //         },
+        //         body: JSON.stringify(data)
+        //     }
+        // )
+        //     .then( res => res.json())
+        //     .then(data => { console.log('post filter data' + JSON.stringify(data));
+        //         console.log(data.filterData);
+        //         this.setState({ filterData: data.filterData })
+        //     })
+    }
 
 
     handlePushStop = () => e => {
@@ -1171,6 +1179,7 @@ console.log(newArray);
                         <FilterMenu selectFilter={this.handleNewFilter} />
                         <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
                         <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
+                        <ConcatFilters emitSelectedFilterName={this.handleConcatFilterData} names={this.state.filterNames}/>
                         <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.map(item => {
                             console.log('item name ' +item.name);
                             
@@ -1178,7 +1187,6 @@ console.log(newArray);
                         })}/>
                     </div>
                     <button onClick={this.handleNewFilterData}>new filter data</button>
-                    {/* <button onClick={this.handleConcatFilterData}>concat filter data</button> */}
                     <button onClick={this.handleMergeNodes}>more mergeNodes</button>
                     <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label>
                     <SourceGraphicEditor  changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
