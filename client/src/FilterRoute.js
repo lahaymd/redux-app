@@ -1236,12 +1236,16 @@ console.log(newArray);
                             {this.state.stops.map((el,index,array) => {
                                 return (
                                     <div className='linear-rep' key={index}>
-                                        <label  >{index}
+                                        <label  >offset
                                             <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name='offset' value={el.offset} />
-                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' name='stopColor' value={el.stopColor} />
-                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name='stopOpacity' value={el.stopOpacity} />
-                                            <button onClick={this.handleDeleteStop(index)}>DELETE</button>
                                         </label>
+                                        <label  >stop-color
+                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' name='stopColor' value={el.stopColor} />
+                                        </label>
+                                        <label  >stop-opactiy
+                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name='stopOpacity' value={el.stopOpacity} />
+                                        </label>
+                                            <button onClick={this.handleDeleteStop(index)}>DELETE</button>
                                     </div>
                                 )
                             })}
