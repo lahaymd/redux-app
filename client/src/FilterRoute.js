@@ -29,6 +29,7 @@ class FilterRoute extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showSourceGraphicEditor: true,
             elements: [],
             stops: [],
             linearGradients: [],
@@ -342,6 +343,12 @@ class FilterRoute extends Component {
                 this.setState({ filterData: data[0].filterData })
             })
 
+    }
+
+    handleToggleSourceGraphicEditor = (e) => {
+        console.log('htsge');
+        this.setState({showSourceGraphicEditor: !this.state.showSourceGraphicEditor})
+        
     }
 
     handleNewFilter = e => {
@@ -704,8 +711,8 @@ console.log(newArray);
            
 
                 <div className="App">
-                <svg width='500' height='500'>
-                    <text textAnchor='middle' x='50%' y='50%' style={{fontSize: '500px', fill: 'orange'}} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text>
+                <svg width='500' height='300'>
+                    <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text>
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
                     {this.state.filterData.map( (item,index) => {
                         console.log(item.attributes);
@@ -1175,7 +1182,7 @@ console.log(newArray);
 
                     })}
                     <div className='select-wrapper'>
-                        {/* <FilterSelect selectedIndex={this.handleSelectedIndex} selectChange={this.handleChange} /> */}
+                    <button onClick={this.handleToggleSourceGraphicEditor}>HIDE/SHOW</button>
                         <FilterMenu selectFilter={this.handleNewFilter} />
                         <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
                         <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
@@ -1189,7 +1196,7 @@ console.log(newArray);
                     <button onClick={this.handleNewFilterData}>new filter data</button>
                     <button onClick={this.handleMergeNodes}>more mergeNodes</button>
                     <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label>
-                    <SourceGraphicEditor  changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
+                    <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
                     <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
                     <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
                     <svg width='0' height='0'>

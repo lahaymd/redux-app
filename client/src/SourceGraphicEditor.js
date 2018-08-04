@@ -8,8 +8,8 @@ class SourceGraphicEditor extends Component {
 
     
         return (
-
-            <div id='SourceGraphicEditor' className='htmlcard label-wrapper2 label'>
+            <div className={this.props.showSourceGraphicEditor ? '' : 'hideSourceGraphicEditor'}>
+            <div id='SourceGraphicEditor' className={`htmlcard label-wrapper2 label`} >
                 {this.props.attrs.map((item,index) => {
                     // console.log('object keys', Object.keys(this.state.SourceGraphicAttrs));
                         // console.log('item', item);
@@ -30,7 +30,7 @@ class SourceGraphicEditor extends Component {
                     
                
             </div>
-           
+           </div>
         )
     }
 }
