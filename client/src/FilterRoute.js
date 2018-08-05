@@ -45,7 +45,7 @@ class FilterRoute extends Component {
             filterNames: [],
             feBlendDefaults: { type: 'feBlend', attributes: [{ in: '' }, { in2: '' }, {result: 'blend'}, {mode:'normal'} ]},
             feColorMatrixDefaults: { type: 'feColorMatrix', attributes: [{ in: '' }, { result: 'colorMatrix' }, { type: 'matrix' }, { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0`}]},
-            feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: 'componentTransfer' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }]}]},
+            feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: 'componentTransfer' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: .5}, {intercept: .5}, {amplitude: 4}, {exponent: 7}, {offset:.5}] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: .5}, {intercept: .5}, {amplitude: 4}, {exponent: 7}, {offset:.5}] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: .5}, {intercept: .5}, {amplitude: 4}, {exponent: 7}, {offset:.5}] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: .5}, {intercept: .5}, {amplitude: 4}, {exponent: 7}, {offset:.5}]}]},
             feCompositeDefaults: {type: 'feComposite', attributes: [{operator: 'over'}, {in: ''}, {in2: ''},{k1: 0}, {k2:1}, {k3:1}, {k4:0}, {result: 'composite'}]},
             feConvolveMatrixDefaults: { type: 'feConvolveMatrix', attributes: [{ in: '' }, { result: 'convolveMatrix' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { kernelUnitLength: 1 }, { preserveAlpha: false }, { order: 3 }]},
             feDiffuseLightingFeDistantLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseDistant' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }], children: [{type:'feDistantLight', attributes: [{azimuth: 0}, {elevation: 0}]}]},
@@ -711,7 +711,7 @@ console.log(newArray);
            
 
                 <div className="App">
-                <svg width='500' height='300'>
+                <svg width='500' height='300' id='sticky-svg'>
                     <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text>
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
                     {this.state.filterData.map( (item,index) => {
@@ -1004,6 +1004,14 @@ console.log(newArray);
                                             </div>
                                     )
                                 }
+                                else if(Object.keys(item)[0] === 'radius') {
+                                        return (
+                                            <div key={Object.keys(item)[0] + idx}>
+                                        <label key={Object.keys(item)+'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="10" step=".1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
                                 else if(Object.keys(item)[0] === 'scale') {
                                         return (
                                             <div>
@@ -1136,11 +1144,86 @@ console.log(newArray);
                            
                                 {i.children ? i.children.map( (kid, kidIndex) => {
                                     console.log(kid);
+                                    console.log(Object.values(kid.attributes[0])[0]);
                                     
                                     return (<label key={kid.type}>{kid.type}
                                                 {kid.attributes.map( (a, idx) => {
                                                     console.log(kid.attributes[0]);
                                                     console.log(a);
+                                                    console.log(kid.type);
+                                                    const regex = /Func/
+                                                    console.log(regex.test(kid.type));
+
+                                                    if (Object.keys(a) == 'type'){
+                                            return (<select onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} key={Object.keys(a)}>
+                                            <option disabled selected >{Object.keys(a)}</option>
+                                            <option>discrete</option>
+                                            <option>table</option>
+                                            <option>linear</option>
+                                            <option>gamma</option>
+                                            <option>identity</option>
+                                        </select>)
+
+                                    }
+                                                
+
+                                            if (regex.test(kid.type)) {
+                                            console.log('feFuncR');
+                                            
+                                            if (Object.values(kid.attributes[0])[0] === 'discrete') {
+                                                console.log('im discrete');
+                                                
+                                                if(Object.keys(a) == 'tableValues') {
+                                                    console.log('im tablevalues');
+                                                    
+
+                                                    return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                                } else {
+                                                    return null;
+                                                }
+                                            }
+                                            if (Object.values(kid.attributes[0])[0] === 'table') {
+                                                console.log('im discrete');
+                                                
+                                                if(Object.keys(a) == 'tableValues') {
+                                                    console.log('im tablevalues');
+                                                    
+
+                                                    return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                                } else {
+                                                    return null;
+                                                }
+                                            }
+                                            
+                                            if (Object.values(kid.attributes[0])[0] === 'linear') {
+                                                console.log('im discrete');
+                                                
+                                                if (Object.keys(a) == 'slope' || Object.keys(a) == 'intercept' ) {
+                                                    console.log('im tablevalues');
+                                                    
+
+                                                    return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                                } else {
+                                                    return null;
+                                                }
+                                            }
+
+                                            if (Object.values(kid.attributes[0])[0] === 'gamma') {
+                                                console.log('im discrete');
+                                                
+                                                if (Object.keys(a) == 'amplitude' || Object.keys(a) == 'exponent' || Object.keys(a) == 'offset' ) {
+                                                    console.log('im tablevalues');
+                                                    
+
+                                                    return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                                } else {
+                                                    return null;
+                                                }
+                                            }
+                                            
+
+
+                                        }
                                                     
                                         if(Object.keys(a)== 'azimuth') {
                                             
@@ -1154,18 +1237,12 @@ console.log(newArray);
                                             return (<label key={Object.keys(a)}>{Object.keys(a)} value={Object.values(a)}<input type='range' min="0" max="360" step="1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
 
                                         } 
+                                        
+                                        // else if (Object.values(kid.attributes[0])[0] === 'discrete') {
+                                            
+                                        // }
    
-                                        else if (Object.keys(a) == 'type'){
-                                            return (<select onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} key={Object.keys(a)}>
-                                                <option disabled selected >{Object.keys(a)}</option>
-                                                <option>discrete</option>
-                                                <option>table</option>
-                                                <option>linear</option>
-                                                <option>gamma</option>
-                                                <option>identity</option>
-                                            </select>)
-
-                                        } 
+             
                                         else {
 
                                                     return (
