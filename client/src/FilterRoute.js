@@ -689,7 +689,7 @@ console.log(newArray);
         const x = newfilterData[index].attributes.slice();
         console.log(x);
         
-        x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseInt(e.target.value) })
+        x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseFloat(e.target.value) })
         newfilterData[index].attributes = x;
         this.setState({ filterData: newfilterData})
 
@@ -969,6 +969,37 @@ console.log(newArray);
                                     console.log(index);
                                     
                                 
+                                    if (i.type === 'feComposite' && Object.keys(item)[0] === 'operator') {
+                                        return (<select onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                            <option disabled selected >{Object.keys(item)}</option>
+                                            <option>over</option>
+                                            <option>in</option>
+                                            <option>out</option>
+                                            <option>atop</option>
+                                            <option>xor</option>
+                                            <option>arithmetic</option>
+                                        </select>)
+                                    }
+                                    
+                                    if (i.type == 'feComposite' && Object.values(i.attributes[0])[0] == 'arithmetic') {
+                                        console.log('comp arithmetic');
+                                        console.log(Object.keys(item)[0]);
+                                        
+                                        // if(Object.keys(item)[0] == 'k1') {
+                                            console.log('k1 son');
+                                     return   Object.keys(item)[0].charAt(0) == 'k' ? 
+                                             (
+                                                <div key={Object.keys(item)[0] + idx}>
+                                                    <label key={Object.keys(item) + 'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="2" step="0.1" value={Object.values(item)} />{Object.values(item)}</label>
+                                                    <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                                </div>
+                                         ) : (<label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>)
+                                        // } else {return null;}
+                                        
+                                    } else {
+                                        if(Object.keys(item)[0].charAt(0) == 'k' ) {return null;}
+                                    }
+                                    
                                     if ((i.type =='feComponentTransfer') && Object.keys(item)[0] === 'type') {
                                         return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
                                             <option disabled selected >{Object.keys(item)}</option>
@@ -979,6 +1010,7 @@ console.log(newArray);
                                             <option>identity</option>
                                         </select>)
                                     }
+                                    
 
                                 else if(Object.keys(item)[0] === 'dx') {
                                         return (
@@ -1023,7 +1055,7 @@ console.log(newArray);
                                 else if(Object.keys(item)[0] === 'baseFrequency') {
                                         return (
                                             <div>
-                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min=".1" max="1" step=".1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min=".001" max="1" step=".001" value={Object.values(item)} />{Object.values(item)}</label>
                                         <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
                                             </div>
                                     )
@@ -1043,17 +1075,7 @@ console.log(newArray);
 
                                     } 
                             
-                                else if ( i.type === 'feComposite' && Object.keys(item)[0] === 'operator') {
-                                    return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
-                                        <option disabled selected >{Object.keys(item)}</option>
-                                        <option>over</option>
-                                        <option>in</option>
-                                        <option>out</option>
-                                        <option>atop</option>
-                                        <option>xor</option>
-                                        <option>arithmetic</option>
-                                            </select>)
-                            }
+
                                 else if ( i.type === 'feColorMatrix' && Object.keys(item)[0] === 'type') {
                                     return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                         <option disabled selected >{Object.keys(item)}</option>
