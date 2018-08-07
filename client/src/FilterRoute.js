@@ -1060,6 +1060,47 @@ console.log(newArray);
                                             </div>
                                     )
                                 }
+                                else if(Object.keys(item)[0] === 'floodOpacity') {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="1" step=".1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                else if(Object.keys(item)[0] === 'surfaceScale') {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="1" max="100" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                else if(Object.keys(item)[0] === 'diffuseConstant') {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min=".1" max="2" step=".1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                    else if (Object.keys(item)[0] === 'specularConstant' || Object.keys(item)[0] === 'specularExponent') {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="1" max="50" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                    else if (Object.keys(item)[0] === 'x' || Object.keys(item)[0] === 'y' || Object.keys(item)[0] === 'width' || Object.keys(item)[0] === 'height') {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="1" max="500" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+
                                 else if(Object.keys(item)[0] === 'floodColor') {
                                         console.log(Object.values(this.state.filterData[index].attributes[idx])[0]);
                                         
@@ -1258,7 +1299,17 @@ console.log(newArray);
                                         else if (Object.keys(a) == 'limitingConeAngle'){
                                             return (<label key={Object.keys(a)}>{Object.keys(a)} value={Object.values(a)}<input type='range' min="0" max="360" step="1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
 
-                                        } 
+                                        }
+                                        
+                                        else if (Object.keys(a) == 'x' || Object.keys(a) == 'y' || Object.keys(a) == 'z' || Object.keys(a) == 'pointsAtX' || Object.keys(a) == 'pointsAtY' || Object.keys(a) == 'pointsAtZ' ) {
+                                            return (
+                                                <div>
+                                                    <label key={Object.keys(a) + 'a'}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)}  name={Object.keys(a)} type='range' min="1" max="500" step="1" value={Object.values(a)} />{Object.values(a)}</label>
+                                                    <label key={Object.keys(a)}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)}  name={Object.keys(a)} type='text' value={Object.values(a)} />{Object.values(a)}</label>
+                                                </div>
+                                            )
+                                        }
+                                    
                                         
                                         // else if (Object.values(kid.attributes[0])[0] === 'discrete') {
                                             
