@@ -22,6 +22,7 @@ import FilterNameSelect from './FilterNameSelect';
 import FilterMenu from './FilterMenu';
 import WebCam from './WebCam';
 import ColorMatrix from './ColorMatrix';
+import TableValues from './TableValues';
 import ConcatFilters from './ConcatFilters';
 
 class FilterRoute extends Component {
@@ -53,7 +54,7 @@ class FilterRoute extends Component {
             feDiffuseLightingFeSpotLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseSpot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
             feDisplacementMapDefaults: { type: 'feDisplacementMap', attributes: [{ in: '' }, { in2: '' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }, { result: 'displace' }]},
             feFloodDefaults: { type: 'feFlood' , attributes: [{ floodOpacity: '1' }, { in: '' }, { floodColor: 'coral' }, { result: 'flood' }] },
-            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, { in: '' }, { result: 'blur' }] },
+            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: 1 }, {edgeMode: ''}, { in: '' }, { result: 'blur' }] },
             feImageDefaults: {type: 'feImage', attributes:[{x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {href: '#rect'}, {result: 'image'}]},
             feMergeDefaults: { type: 'feMerge', attributes: [{in:''}, {result: 'merge'}], children: [{type: 'feMergeNode', attributes: [{in: 'SourceGraphic'}, {in: 'SourceGraphic'}]}]},
             feMorphologyDefaults: { type: 'feMorphology', attributes: [{ operator: 'dilate' }, { in: '' }, { radius: 2 }, { result: 'morph' }] },
@@ -648,6 +649,63 @@ console.log(newArray);
         
     };
 
+    handleNumberOfTableValues = (index, idx, kidIndex) => e => {
+        console.log(index);
+        console.log(idx);
+        console.log(kidIndex);
+        console.log(e.target.value);
+        console.log(e.target.name);
+        console.log(e.target);
+        console.log(e.target.index);
+
+        console.log(Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0].split(' '));
+        const newTableValues = Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0].split(' ') 
+        const mimi = Array(parseInt(e.target.value)).fill(0).map( (item,index) => index/e.target.value)
+        console.log(mimi);
+        console.log(mimi.join(' '));
+        const mimi1 = mimi.join(' ');
+        
+        newTableValues.splice(parseInt(e.target.name), 1, e.target.value)
+        console.log(newTableValues);
+        const newTableValues1 = newTableValues.join(' ');
+
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].children[kidIndex].attributes.slice();
+        console.log(x);
+
+        x.splice(idx, 1, { tableValues: mimi1 })
+        // x.splice(idx, 1, { tableValues: newTableValues1 })
+        newfilterData[index].children[kidIndex].attributes = x;
+        this.setState({ filterData: newfilterData })
+
+    }
+
+    handleTableValues = (index,idx, kidIndex) => e => {
+        console.log(index);
+        console.log(idx);
+        console.log(kidIndex);
+        console.log(e.target.value);
+        console.log(e.target.name);
+        console.log(e.target);
+        console.log(e.target.index);
+        console.log(Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0].split(' '));
+        const newTableValues = Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0].split(' ')
+        newTableValues.splice(parseInt(e.target.name), 1, e.target.value)
+        console.log(newTableValues);
+        const newTableValues1 =newTableValues.join(' ');
+        
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].children[kidIndex].attributes.slice();
+        console.log(x);
+
+        x.splice(idx, 1, { tableValues: newTableValues1})
+        newfilterData[index].children[kidIndex].attributes = x;
+        this.setState({ filterData: newfilterData })
+        
+    }
+
     handleColorMatrixData = (index, idx, matrix) => e => {
 
         console.log(newMatrix);
@@ -996,9 +1054,23 @@ console.log(newArray);
                                          ) : (<label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>)
                                         // } else {return null;}
                                         
-                                    } else {
-                                        if(Object.keys(item)[0].charAt(0) == 'k' ) {return null;}
-                                    }
+                                    } 
+                                    if (i.type == 'feComposite' && Object.values(i.attributes[0])[0] != 'arithmetic') {
+                                        console.log('comp arithmetic');
+                                        console.log(Object.keys(item)[0]);
+                                        
+                                        // if(Object.keys(item)[0] == 'k1') {
+                                            console.log('k1 son');
+                                     return   Object.keys(item)[0].charAt(0) == 'k' ? 
+                                             (
+                                               null
+                                         ) : (<label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>)
+                                        // } else {return null;}
+                                        
+                                    } 
+                                    // else {
+                                    //     if(Object.keys(item)[0].charAt(0) == 'k' ) {return null;}
+                                    // }
                                     
                                     if ((i.type =='feComponentTransfer') && Object.keys(item)[0] === 'type') {
                                         return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
@@ -1060,6 +1132,14 @@ console.log(newArray);
                                             </div>
                                     )
                                 }
+                                    else if (Object.keys(item)[0] === 'numOctaves' || Object.keys(item)[0] === 'seed') {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="1" max="10" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
                                 else if(Object.keys(item)[0] === 'floodOpacity') {
                                         return (
                                             <div>
@@ -1096,6 +1176,14 @@ console.log(newArray);
                                         return (
                                             <div>
                                         <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="1" max="500" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                    else if (Object.keys(item)[0] === 'divisor' || Object.keys(item)[0] === 'bias' || Object.keys(item)[0] === 'targetX' || Object.keys(item)[0] === 'targetY' ) {
+                                        return (
+                                            <div>
+                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="10" step="1" value={Object.values(item)} />{Object.values(item)}</label>
                                         <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
                                             </div>
                                     )
@@ -1148,6 +1236,22 @@ console.log(newArray);
                                         <option>fractalNoise</option>
                                             </select>)
                             }
+                                else if ( Object.keys(item)[0] === 'preserveAlpha') {
+                                    return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                        <option disabled selected >{Object.keys(item)}</option>
+                                        <option>true</option>
+                                        <option>false</option>
+                                            </select>)
+                            }
+                               
+                                else if ( Object.keys(item)[0] === 'edgeMode') {
+                                    return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                        <option disabled selected >{Object.keys(item)}</option>
+                                        <option>duplicate</option>
+                                        <option>wrap</option>
+                                        <option>none</option>
+                                            </select>)
+                            }
                                
                             //need to add arithmetic logic
                                 else if (Object.keys(item)[0] === 'operator') {
@@ -1169,10 +1273,20 @@ console.log(newArray);
                                                 <option>0 0 0 -1 1 0 0 0 0</option>
                                                 <option>-2 -1 0 -1 1 1 0 1 2</option>
                                                 <option>0 0 0 0 0 0 0 0 1</option>
-                                                <option>erode</option>
                                             </select>
                                             <label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index, idx)} /></label>
                                         </div>
+                                    )
+                                } 
+                                    else if (Object.keys(item)[0] === 'xChannelSelector' || Object.keys(item)[0] === 'yChannelSelector' ) {
+                                    return (
+                                            <select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                                <option>{Object.keys(item)}</option>
+                                                <option>R</option>
+                                                <option>G</option>
+                                                <option>B</option>
+                                                <option>A</option>
+                                            </select>
                                     )
                                 } 
                                 else if (Object.keys(item)[0] === 'mode') {
@@ -1204,9 +1318,12 @@ console.log(newArray);
                             
                             )}
 
-                           
                                 {i.children ? i.children.map( (kid, kidIndex) => {
+                                    console.log(i);
+                                    console.log(i.children);
+                                    console.log(index);
                                     console.log(kid);
+                                    console.log(kidIndex);
                                     console.log(Object.values(kid.attributes[0])[0]);
                                     
                                     return (<label key={kid.type}>{kid.type}
@@ -1240,7 +1357,12 @@ console.log(newArray);
                                                     console.log('im tablevalues');
                                                     
 
-                                                    return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                                    // return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                                    return (
+                                                        <TableValues key='TableValues' changeTableValues={this.handleTableValues(index, idx, kidIndex)} changeNumberOfTableValues={this.handleNumberOfTableValues(index, idx, kidIndex)} tableValues={Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0]}/>
+                                                        // <ColorMatrix key='ColorMatrix' changeMatrix={this.handleColorMatrixData(index, idx, Object.values(this.state.feColorMatrixDefaults.attributes[3])[0])} matrixValues={Object.values(this.state.filterData[index].attributes[3])[0]} />)
+                                                        // <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
+                                                )
                                                 } else {
                                                     return null;
                                                 }
