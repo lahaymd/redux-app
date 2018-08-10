@@ -24,6 +24,7 @@ import WebCam from './WebCam';
 import ColorMatrix from './ColorMatrix';
 import TableValues from './TableValues';
 import ConcatFilters from './ConcatFilters';
+import Canvas from './Canvas';
 
 class FilterRoute extends Component {
 
@@ -1549,12 +1550,13 @@ console.log(newArray);
                               )  : this.state.selectedSourceGraphic == 'image' ?   (
                         <image className={   this.state.filterData.length? 'filter': ''} href='http://mikelahay.com/images/cooper.png' width='500' height='500' preserveAspectRatio='none'/>
                               ) : this.state.selectedSourceGraphic == 'webcam' ? (
-                                    <WebCam/>
+                                    <WebCam id='video'/>
                               ) : (
                         <Circle elements={this.state.filterData}/>
                     ) }
 
                         </svg>
+                        <Canvas/>
                     </div>
                 
                 </div>

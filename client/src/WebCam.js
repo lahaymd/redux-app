@@ -60,7 +60,7 @@ class WebCam extends Component {
 
         return (
             <foreignObject width='220%' preserveAspectRatio='xMinXMin slice'>
-            <video width='100%' height='100%' autoPlay ></video>
+            <video id={this.props.id} width='100%' height='100%' autoPlay ></video>
             </foreignObject>
         )
     }
