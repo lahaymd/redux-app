@@ -1,8 +1,21 @@
 import React, {Component} from 'react';
+import Canvas from './Canvas'
 
 class TableValues extends Component {
 
+    canvasRGBData =  e => {
+        console.log(e);
+        
+    }
+    handleRGBData =  e => {
+        console.log(e);
+        
+    }
+
     render() {
+        console.log(this.props);
+        console.log(this.refs);
+        
         console.log(this.props.tableValues);
         console.log(this.props.tableValues.split(' '));
         
@@ -20,6 +33,7 @@ class TableValues extends Component {
                     </div>
                 )
             })}
+                <Canvas ref='canvasParent' width='500' height='500' onClick={this.canvasRGBData} RGBData={this.handleRGBData} canvasProp={this.props.pixelData} canvasData={this.props.canvasData} />
             </div>
         )
     }

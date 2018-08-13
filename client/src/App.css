@@ -2,12 +2,16 @@
     filter: url(#filterData)
 }
 
+#canvas-video {
+    display: none;
+}
+
 *{
     box-sizing: border-box;
 }
 
 body {
-    margin: 0 8px;
+    margin: 0;
 }
 
 nav {
@@ -228,7 +232,7 @@ select {
 
 .filterData {
     background: cyan;
-    margin: 20px;
+    /* margin: 20px; */
 }
 
 .newFilter {

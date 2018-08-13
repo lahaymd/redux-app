@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import RouterTest from './RouterTest';
 import { SketchPicker } from 'react-color';
@@ -682,6 +683,57 @@ console.log(newArray);
 
     }
 
+    handleRGBData = (index, idx, kidIndex) =>  e => {
+        console.log(index);
+        console.log(idx);
+        console.log(kidIndex);
+        console.log('clicked');
+        console.log(e);
+        console.log(e.target);
+        console.log(e.target.getBoundingClientRect());
+        console.log(e.target.getBoundingClientRect().top);
+        console.log(e.clientY - e.target.getBoundingClientRect().top )
+        console.log(e.pageX);
+        console.log(e.clientX);
+        console.log(e.pageY);
+        console.log(e.clientY);
+
+        const ctx = e.target.getContext('2d');
+        var imgData = ctx.getImageData(e.clientX - e.target.getBoundingClientRect().left, e.clientY - e.target.getBoundingClientRect().top , 1, 1),
+            red = imgData.data[0],
+            green = imgData.data[1],
+            blue = imgData.data[2],
+            alpha = imgData.data[3];
+        console.log(red + " " + green + " " + blue + " " + alpha); 
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const feFunc = Object.values(newfilterData[index].children[kidIndex].attributes[1])[0].split(' ')
+        console.log(feFunc);
+        console.log(feFunc.length);
+        console.log(feFunc.length/256);
+        console.log(256/feFunc.length);
+        console.log(Math.floor(red/(256/feFunc.length)))
+        console.log(red);
+        console.log(red/256);
+        console.log(256/red);
+        feFunc[Math.floor(red / (256 / feFunc.length))] = 0
+        console.log(feFunc);
+        const feFunc1 = feFunc.join(' ')
+        console.log(feFunc1);
+        if(kidIndex == 0) {
+            console.log('red')
+        }
+        
+        const x = newfilterData[index].children[kidIndex].attributes.slice();
+        console.log(x);
+
+        x.splice(idx, 1, { tableValues: feFunc1 })
+        newfilterData[index].children[kidIndex].attributes = x;
+        this.setState({ filterData: newfilterData })
+     
+    }
+
+
     handleTableValues = (index,idx, kidIndex) => e => {
         console.log(index);
         console.log(idx);
@@ -843,6 +895,7 @@ console.log(newArray);
                                     <feFuncB   {...funcBAttrs}/>
                                     <feFuncA   {...funcAAttrs}/>
                                 </item.type>
+                               
                             )
                             
                         }
@@ -1360,7 +1413,7 @@ console.log(newArray);
 
                                                     // return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
                                                     return (
-                                                        <TableValues key='TableValues' changeTableValues={this.handleTableValues(index, idx, kidIndex)} changeNumberOfTableValues={this.handleNumberOfTableValues(index, idx, kidIndex)} tableValues={Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0]}/>
+                                                        <TableValues key='TableValues' pixelData={this.handleRGBData(index, idx, kidIndex)} changeTableValues={this.handleTableValues(index, idx, kidIndex)} changeNumberOfTableValues={this.handleNumberOfTableValues(index, idx, kidIndex)} tableValues={Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0]}/>
                                                         // <ColorMatrix key='ColorMatrix' changeMatrix={this.handleColorMatrixData(index, idx, Object.values(this.state.feColorMatrixDefaults.attributes[3])[0])} matrixValues={Object.values(this.state.filterData[index].attributes[3])[0]} />)
                                                         // <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
                                                 )
@@ -1369,7 +1422,7 @@ console.log(newArray);
                                                 }
                                             }
                                             if (Object.values(kid.attributes[0])[0] === 'table') {
-                                                console.log('im discrete');
+                                                console.log('im table');
                                                 
                                                 if(Object.keys(a) == 'tableValues') {
                                                     console.log('im tablevalues');
@@ -1382,7 +1435,7 @@ console.log(newArray);
                                             }
                                             
                                             if (Object.values(kid.attributes[0])[0] === 'linear') {
-                                                console.log('im discrete');
+                                                console.log('im linear');
                                                 
                                                 if (Object.keys(a) == 'slope' || Object.keys(a) == 'intercept' ) {
                                                     console.log('im tablevalues');
@@ -1395,7 +1448,7 @@ console.log(newArray);
                                             }
 
                                             if (Object.values(kid.attributes[0])[0] === 'gamma') {
-                                                console.log('im discrete');
+                                                console.log('im gamma');
                                                 
                                                 if (Object.keys(a) == 'amplitude' || Object.keys(a) == 'exponent' || Object.keys(a) == 'offset' ) {
                                                     console.log('im tablevalues');
@@ -1556,7 +1609,7 @@ console.log(newArray);
                     ) }
 
                         </svg>
-                        <Canvas/>
+                        {/* <Canvas width='250' height='250'/> */}
                     </div>
                 
                 </div>
