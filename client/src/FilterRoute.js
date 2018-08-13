@@ -707,28 +707,46 @@ console.log(newArray);
         console.log(red + " " + green + " " + blue + " " + alpha); 
         const newfilterData = [...this.state.filterData]
         console.log(newfilterData);
-        const feFunc = Object.values(newfilterData[index].children[kidIndex].attributes[1])[0].split(' ')
-        console.log(feFunc);
-        console.log(feFunc.length);
-        console.log(feFunc.length/256);
-        console.log(256/feFunc.length);
-        console.log(Math.floor(red/(256/feFunc.length)))
+        const feFuncR = Object.values(newfilterData[index].children[0].attributes[1])[0].split(' ')
+        const feFuncG = Object.values(newfilterData[index].children[1].attributes[1])[0].split(' ')
+        const feFuncB = Object.values(newfilterData[index].children[2].attributes[1])[0].split(' ')
+        const feFuncA = Object.values(newfilterData[index].children[3].attributes[1])[0].split(' ')
+        console.log(feFuncR);
+        console.log(feFuncR.length);
+        console.log(feFuncR.length/256);
+        console.log(256/feFuncR.length);
+        console.log(Math.floor(red/(256/feFuncR.length)))
         console.log(red);
         console.log(red/256);
         console.log(256/red);
-        feFunc[Math.floor(red / (256 / feFunc.length))] = 0
-        console.log(feFunc);
-        const feFunc1 = feFunc.join(' ')
-        console.log(feFunc1);
+        feFuncR[Math.floor(red / (256 / feFuncR.length))] = 0
+        feFuncG[Math.floor(green / (256 / feFuncG.length))] = 0
+        feFuncB[Math.floor(blue / (256 / feFuncB.length))] = 0
+        feFuncA[Math.floor(alpha / (256 / feFuncA.length))] = 0
+        console.log(feFuncR);
+        const feFuncR1 = feFuncR.join(' ')
+        const feFuncG1 = feFuncG.join(' ')
+        const feFuncB1 = feFuncB.join(' ')
+        const feFuncA1 = feFuncA.join(' ')
+        console.log(feFuncR1);
         if(kidIndex == 0) {
             console.log('red')
         }
         
-        const x = newfilterData[index].children[kidIndex].attributes.slice();
-        console.log(x);
+        const r = newfilterData[index].children[0].attributes.slice();
+        const g = newfilterData[index].children[1].attributes.slice();
+        const b = newfilterData[index].children[2].attributes.slice();
+        const a = newfilterData[index].children[3].attributes.slice();
+        console.log(r);
 
-        x.splice(idx, 1, { tableValues: feFunc1 })
-        newfilterData[index].children[kidIndex].attributes = x;
+        r.splice(idx, 1, { tableValues: feFuncR1 })
+        g.splice(idx, 1, { tableValues: feFuncG1 })
+        b.splice(idx, 1, { tableValues: feFuncB1 })
+        a.splice(idx, 1, { tableValues: feFuncA1 })
+        newfilterData[index].children[0].attributes = r;
+        newfilterData[index].children[1].attributes = g;
+        newfilterData[index].children[2].attributes = b;
+        // newfilterData[index].children[3].attributes = a;
         this.setState({ filterData: newfilterData })
      
     }
