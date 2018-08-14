@@ -65,7 +65,7 @@ class FilterRoute extends Component {
             feSpecularLightingFePointLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularPoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
             feSpecularLightingFeSpotLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularSpot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
             feTileDefaults: { type: 'feTile', attributes: [{in:''}, {result: 'tile'}]},
-            feTurbulenceDefaults: { type: 'feTurbulence', attributes: [{ in: '' }, { result: 'turbulence' }, { baseFrequency: .05 }, { numOctaves: 5 }, { seed: 0 }, { type: 'turbulence' }, { stitchTiles: 'stitch' }]}
+            feTurbulenceDefaults: { type: 'feTurbulence', attributes: [{ in: '' }, { result: 'turbulence' }, { baseFrequency: [.05, .05] }, { numOctaves: 5 }, { seed: 0 }, { type: 'turbulence' }, { stitchTiles: 'stitch' }]}
             
         }
     }
@@ -808,6 +808,29 @@ console.log(newArray);
         this.setState({ filterData: newfilterData})
     }
 
+    handleBaseFrequencyData = (index,idx, bindex) => e => {
+        
+        console.log(index);
+        console.log(idx);
+        console.log(bindex);
+        console.log(e.target.value);
+        console.log(e.target.name);
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].attributes.slice();
+        console.log(x);
+        const baseFrequencyValue = Object.values(newfilterData[index].attributes[2])[0].slice()
+        console.log(baseFrequencyValue)
+        baseFrequencyValue[bindex] = parseFloat(e.target.value);
+        console.log(baseFrequencyValue)
+        x[2] = {baseFrequency:baseFrequencyValue};
+        // x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseFloat(e.target.value) })
+        newfilterData[index].attributes = x;
+        this.setState({ filterData: newfilterData})
+
+        
+    }
+
     handleFilterData = (index,idx) => e => {
         
         console.log(index);
@@ -1183,7 +1206,7 @@ console.log(newArray);
                                 else if(Object.keys(item)[0] === 'radius') {
                                         return (
                                             <div key={Object.keys(item)[0] + idx}>
-                                        <label key={Object.keys(item)+'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="10" step=".1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)+'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="100" step=".1" value={Object.values(item)} />{Object.values(item)}</label>
                                         <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
                                             </div>
                                     )
@@ -1197,10 +1220,20 @@ console.log(newArray);
                                     )
                                 }
                                 else if(Object.keys(item)[0] === 'baseFrequency') {
+                                        console.log(Object.values(item)[0]);
+                                        console.log(Object.values(item)[0][0]);
+                                        
                                         return (
                                             <div>
-                                        <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min=".001" max="1" step=".001" value={Object.values(item)} />{Object.values(item)}</label>
-                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            { Object.values(item)[0].map((value,bindex) => {
+                                                return (
+                                                    <div>
+                                                        <label key={Object.keys(item) + 'a'}>{Object.keys(item)}<input onChange={this.handleBaseFrequencyData(index, idx, bindex)} name={Object.keys(item)} type='range' min=".001" max="1" step=".001" value={value} />{value}</label>
+                                                <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={value} />{value}</label>
+                                                    </div>
+
+                                                )
+                                            })}
                                             </div>
                                     )
                                 }
