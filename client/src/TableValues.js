@@ -30,6 +30,7 @@ class TableValues extends Component {
                             <input name={index} onChange={this.props.changeTableValues} />
                             {item}
                         </label>
+                        <label key={index + 'a'}>{item}<input onChange={this.props.changeTableValues} name={index} type='range' min="0" max="2" step=".01" value={item} />{item}</label>
                     </div>
                 )
             })}
