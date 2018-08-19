@@ -177,12 +177,29 @@ class FilterRoute extends Component {
         
     }
 
-    handleMergeNodes = () => {
-        const feMergeDefaults = {...this.state.feMergeDefaults}
-        console.log(feMergeDefaults);
-        feMergeDefaults.children[0].attributes.push({in: 'SourceGraphic'})
-        console.log(feMergeDefaults);
-        this.setState({feMergeDefaults})
+    handleMergeNodes = (index, idx) => e => {
+        // const feMergeDefaults = {...this.state.feMergeDefaults}
+        // console.log(feMergeDefaults);
+        // feMergeDefaults.children[0].attributes.push({in: 'SourceGraphic'})
+        // console.log(feMergeDefaults);
+        // this.setState({feMergeDefaults})
+
+        console.log(index);
+        console.log(idx);
+        // console.log(e.target.value);
+        // console.log(e.target.name);
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].children[0].attributes.slice();
+        console.log(x);
+        x.push({ in: 'SourceGraphic' });
+        console.log(x);
+        // x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseFloat(e.target.value) })
+        newfilterData[index].children[0].attributes = x;
+        this.setState({ filterData: newfilterData })
+
+
+
         
     }
 
@@ -1128,7 +1145,14 @@ console.log(newArray);
                                     console.log(Object.keys(item));
                                     console.log(index);
                                     
-                                
+                                    if(i.type === 'feMerge' && Object.keys(item)[0] === 'result') {
+                                        return(
+                                            <div key='merge-result'>
+                                                <label key={Object.keys(item)+'result'} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index, idx)} /></label>
+                                                <button key='merge-button' onClick={this.handleMergeNodes(index,idx)}>more mergeNodes</button>
+                                            </div>
+                                        )
+                                    }
                                     if (i.type === 'feComposite' && Object.keys(item)[0] === 'operator') {
                                         return (<select onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                             <option disabled selected >{Object.keys(item)}</option>
@@ -1679,7 +1703,7 @@ console.log(newArray);
                         })}/>
                     </div>
                     <button onClick={this.handleNewFilterData}>new filter data</button>
-                    <button onClick={this.handleMergeNodes}>more mergeNodes</button>
+                    {/* <button onClick={this.handleMergeNodes}>more mergeNodes</button> */}
                     <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label>
                     <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
                     <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
