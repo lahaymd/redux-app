@@ -7,9 +7,9 @@ class GradientEditor extends Component {
         return (
             <div className='htmlcard label-wrapper2 label'>
                 {this.props.attrs.map( (item, index) => {
-                    console.log('gradienteditor'+JSON.stringify(item));
-                    console.log(this.props.attrs);
-                    console.log(Object.values(this.props.attrs[6])[0]);
+                    // console.log('gradienteditor'+JSON.stringify(item));
+                    // console.log(this.props.attrs);
+                    // console.log(Object.values(this.props.attrs[6])[0]);
                     
                     
                     if(Object.keys(item) == 'spreadMethod') {

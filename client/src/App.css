@@ -94,6 +94,24 @@ select:focus, input:focus {outline:0;}
     flex-direction: column;
 }
 
+.item-a {
+  grid-area: svg;
+  justify-self: center;
+}
+.item-b {
+  grid-area: filterdata;
+}
+
+.grid-svg-filterdata {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "filterdata svg" 
+        "filterdata svg";
+}
+
+
 .grid {
     display: grid;
     grid-template-columns:  1fr;
@@ -230,9 +248,14 @@ select {
     padding: 4px;
 }
 
+.filterData-wrapper {
+    height: 100vh;
+    overflow: scroll;
+}
+
 .filterData {
     background: cyan;
-    /* margin: 20px; */
+    /* display: grid; */
 }
 
 .newFilter {
@@ -243,10 +266,10 @@ select {
     display: none;
 }
 
-#sticky-svg {
+/* #sticky-svg {
  display: block;
  margin-left:  60%;
     position: sticky;
     top : 20px;
     
-}
+} */

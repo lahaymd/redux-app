@@ -80,7 +80,7 @@ class FilterRoute extends Component {
          fetch('/filter_data')
              .then(res => res.json())
              .then(data => {
-                 console.log('post stops' + JSON.stringify(data));
+                //  console.log('post stops' + JSON.stringify(data));
        
         this.setState({ filterNames: data.map(item => item.name)})
     })
@@ -887,8 +887,36 @@ console.log(newArray);
            
 
                 <div className="App">
-                <svg width='500' height='500' id='sticky-svg'>
-                    <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text>
+                <div className='grid-svg-filterdata'>
+               
+                <svg width='500' height='500'  className='item-a'>
+                        <svg id='sourceGraphic' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
+                            {this.state.selectedSourceGraphic == 'text' ? (
+                                <SourceGraphic
+                                    text={Object.values(this.state.SourceGraphicAttrs[11])}
+                                    elements={this.state.filterData}
+                                    x={Object.values(this.state.SourceGraphicAttrs[0])}
+                                    y={Object.values(this.state.SourceGraphicAttrs[1])}
+                                    fill={Object.values(this.state.SourceGraphicAttrs[2])}
+                                    stroke={Object.values(this.state.SourceGraphicAttrs[3])}
+                                    strokeWidth={Object.values(this.state.SourceGraphicAttrs[4])}
+                                    paintOrder={Object.values(this.state.SourceGraphicAttrs[5])}
+                                    fontSize={Object.values(this.state.SourceGraphicAttrs[6])}
+                                    textLength={Object.values(this.state.SourceGraphicAttrs[7])}
+                                    lengthAdjust={Object.values(this.state.SourceGraphicAttrs[8])}
+                                    textAnchor={Object.values(this.state.SourceGraphicAttrs[9])}
+                                    alignmentBaseline={Object.values(this.state.SourceGraphicAttrs[10])}
+                                />
+                            ) : this.state.selectedSourceGraphic == 'image' ? (
+                                <image className={this.state.filterData.length ? 'filter' : ''} href='http://mikelahay.com/images/cooper.png' width='500' height='500' preserveAspectRatio='none' />
+                            ) : this.state.selectedSourceGraphic == 'webcam' ? (
+                                <WebCam id='video' />
+                            ) : (
+                                            <Circle elements={this.state.filterData} />
+                                        )}
+
+                        </svg>
+                    {/* <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text> */}
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
                     {this.state.filterData.map( (item,index) => {
                         console.log(item.attributes);
@@ -1126,12 +1154,13 @@ console.log(newArray);
                     })}
                     </filter>
                 </svg>
-
+                <div className='filterData-wrapper'>
+              
                     {this.state.filterData.map( (i, index) => {
                         console.log(i.attributes);
                         console.log(i.children);
                         return (
-                            <div className='filterData' key={i+index}>
+                            <div className='filterData item-b' key={i+index}>
                                 <button onClick={this.handleDelete(index)}>DELETE</button>
                                 <button onClick={this.handleMoveUp(index)}>MOVE UP</button>
                                 <button onClick={this.handleMoveDown(index)}>MOVE DOWN</button>
@@ -1690,6 +1719,8 @@ console.log(newArray);
                         );
 
                     })}
+                    </div>
+                    </div>
                     <div className='select-wrapper'>
                     <button onClick={this.handleToggleSourceGraphicEditor}>HIDE/SHOW</button>
                         <FilterMenu selectFilter={this.handleNewFilter} />
@@ -1697,7 +1728,7 @@ console.log(newArray);
                         <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
                         <ConcatFilters emitSelectedFilterName={this.handleConcatFilterData} names={this.state.filterNames}/>
                         <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.map(item => {
-                            console.log('item name ' +item.name);
+                            // console.log('item name ' +item.name);
                             
                             return item.name;
                         })}/>

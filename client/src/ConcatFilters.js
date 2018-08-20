@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 class ConcatFilters extends Component {
 
     render() {
-        console.log('state' + JSON.stringify(this.props));
-        console.log('names' + JSON.stringify(this.props.names));
+        // console.log('state' + JSON.stringify(this.props));
+        // console.log('names' + JSON.stringify(this.props.names));
 
         return (
             <select onChange={this.props.emitSelectedFilterName}>
