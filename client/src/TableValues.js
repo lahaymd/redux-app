@@ -21,7 +21,8 @@ class TableValues extends Component {
         
         return (
             <div>
-                <input type='range' min='1' max='256' step='1' name='changeNumberOfTableValues' onChange={this.props.changeNumberOfTableValues} />
+                <input type='range' min='1' max='256' step='1' name='changeNumberOfTableValues' onChange={this.props.changeNumberOfTableValues} /> {this.props.tableValues.split(' ').length}
+                <input type='text' name='changeNumberOfTableValues' onChange={this.props.changeNumberOfTableValues} /> {this.props.tableValues.split(' ').length}
             {this.props.tableValues.split(' ').map( (item, index) => {
                 return (
                     <div>
@@ -30,7 +31,7 @@ class TableValues extends Component {
                             <input name={index} onChange={this.props.changeTableValues} />
                             {item}
                         </label>
-                        <label key={index + 'a'}>{item}<input onChange={this.props.changeTableValues} name={index} type='range' min="0" max="2" step=".01" value={item} />{item}</label>
+                        <label key={index + 'a'}><input onChange={this.props.changeTableValues} name={index} type='range' min="0" max="2" step=".01" value={item} />{item}</label>
                     </div>
                 )
             })}

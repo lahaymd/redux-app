@@ -49,21 +49,21 @@ class FilterRoute extends Component {
             feBlendDefaults: { type: 'feBlend', attributes: [{ in: '' }, { in2: '' }, {result: 'blend'}, {mode:'normal'} ]},
             feColorMatrixDefaults: { type: 'feColorMatrix', attributes: [{ in: '' }, { result: 'colorMatrix' }, { type: 'matrix' }, { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0`}]},
             feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: 'componentTransfer' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}]}]},
-            feCompositeDefaults: {type: 'feComposite', attributes: [{operator: 'over'}, {in: ''}, {in2: ''},{k1: 0}, {k2:1}, {k3:1}, {k4:0}, {result: 'composite'}]},
-            feConvolveMatrixDefaults: { type: 'feConvolveMatrix', attributes: [{ in: '' }, { result: 'convolveMatrix' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { kernelUnitLength: 1 }, { preserveAlpha: false }, { order: 3 }]},
-            feDiffuseLightingFeDistantLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseDistant' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }, { kernelUnitLength: 1 }], children: [{type:'feDistantLight', attributes: [{azimuth: 0}, {elevation: 0}]}]},
-            feDiffuseLightingFePointLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffusePoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
-            feDiffuseLightingFeSpotLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseSpot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
-            feDisplacementMapDefaults: { type: 'feDisplacementMap', attributes: [{ in: '' }, { in2: '' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }, { result: 'displace' }]},
-            feFloodDefaults: { type: 'feFlood' , attributes: [{ floodOpacity: '1' }, { in: '' }, { floodColor: 'coral' }, { result: 'flood' }] },
-            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ stdDeviation: [1 , 1] }, { in: '' }, { result: 'blur' }] },
-            feImageDefaults: {type: 'feImage', attributes:[{x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {href: '#rect'}, {result: 'image'}]},
+            feCompositeDefaults: { type: 'feComposite', attributes: [{ in: '' }, { result: 'composite' }, { operator: 'over' }, {in2: ''},{k1: 0}, {k2:1}, {k3:1}, {k4:0}]},
+            feConvolveMatrixDefaults: { type: 'feConvolveMatrix', attributes: [{ in: '' }, { result: 'convolveMatrix' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { preserveAlpha: false }, { order: 3 }]},
+            feDiffuseLightingFeDistantLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseDistant' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }], children: [{type:'feDistantLight', attributes: [{azimuth: 0}, {elevation: 0}]}]},
+            feDiffuseLightingFePointLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffusePoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
+            feDiffuseLightingFeSpotLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseSpot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
+            feDisplacementMapDefaults: { type: 'feDisplacementMap', attributes: [{ in: '' }, { in2: '' }, { result: 'displace' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }]},
+            feFloodDefaults: { type: 'feFlood', attributes: [{ in: '' }, { result: 'flood' }, { floodColor: 'coral' }, { floodOpacity: '1' }] },
+            feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ in: '' }, { result: 'blur' }, { stdDeviation: [1 , 1] }] },
+            feImageDefaults: { type: 'feImage', attributes: [{ result: 'image' }, {x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {href: '#rect'}]},
             feMergeDefaults: { type: 'feMerge', attributes: [{in:''}, {result: 'merge'}], children: [{type: 'feMergeNode', attributes: [{in: 'SourceGraphic'}, {in: 'SourceGraphic'}]}]},
-            feMorphologyDefaults: { type: 'feMorphology', attributes: [{ operator: 'dilate' }, { in: '' }, { radius: [2, 2] }, { result: 'morph' }] },
-            feOffsetDefaults: { type: 'feOffset', attributes: [{ dx: 0 }, { dy: 5 }, { in: '' }, { result: 'offset' }]},
-            feSpecularLightingFeDistantLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularDistant' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feDistantLight', attributes: [{ azimuth: 0 }, { elevation: 0 }]}]},
-            feSpecularLightingFePointLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularPoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
-            feSpecularLightingFeSpotLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularSpot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }, { kernelUnitLength: 1 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
+            feMorphologyDefaults: { type: 'feMorphology', attributes: [{ in: '' }, { result: 'morph' }, { operator: 'dilate' }, { radius: [2, 2] }] },
+            feOffsetDefaults: { type: 'feOffset', attributes: [{ in: '' }, { result: 'offset' }, { dx: 0 }, { dy: 5 }]},
+            feSpecularLightingFeDistantLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularDistant' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }], children: [{ type: 'feDistantLight', attributes: [{ azimuth: 0 }, { elevation: 0 }]}]},
+            feSpecularLightingFePointLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularPoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
+            feSpecularLightingFeSpotLightDefaults: { type: 'feSpecularLighting', attributes: [{ in: '' }, { result: 'specularSpot' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { specularConstant: 1 }, { specularExponent: 20 }], children: [{ type: 'feSpotLight', attributes: [{ limitingConeAngle: 30 }, { pointsAtX: 0 }, { pointsAtY: 0 }, { pointsAtZ: 30 }, { x: 500 }, { y: 400 }, { z: 20 }]}]},
             feTileDefaults: { type: 'feTile', attributes: [{in:''}, {result: 'tile'}]},
             feTurbulenceDefaults: { type: 'feTurbulence', attributes: [{ in: '' }, { result: 'turbulence' }, { baseFrequency: [.05, .05] }, { numOctaves: 5 }, { seed: 0 }, { type: 'turbulence' }, { stitchTiles: 'stitch' }]}
             
@@ -91,25 +91,25 @@ class FilterRoute extends Component {
 
     handleSourceChange = (item, index) => e => {
         const attrs = this.state.SourceGraphicAttrs.slice()
-        console.log('attrs', attrs);
+        // console.log('attrs', attrs);
         const obj = {[`${e.target.name}`]:e.target.value}
         
         attrs.splice(index,1, obj)
         
-        console.log(e.target.value, 'hsg');
-        console.log(e.target.name, 'hsg');
-        console.log('item', item);
+        // console.log(e.target.value, 'hsg');
+        // console.log(e.target.name, 'hsg');
+        // console.log('item', item);
         this.setState({SourceGraphicAttrs: attrs})        
-        console.log('attrs', attrs);
+        // console.log('attrs', attrs);
         
     }
     
     handleGradientChange = (item, index) => e => {
-        console.log('gradient');
-        console.log(`item ${JSON.stringify(item)}`);
-        console.log(`index ${index}`);
-        console.log(`e name ${e.target.name}`);
-        console.log(`e value ${e.target.value}`);
+        // console.log('gradient');
+        // console.log(`item ${JSON.stringify(item)}`);
+        // console.log(`index ${index}`);
+        // console.log(`e name ${e.target.name}`);
+        // console.log(`e value ${e.target.value}`);
         
         const gradAttrs = this.state.gradientAttrs.slice();
         const obj = {[`${e.target.name}`]:e.target.value}
@@ -120,14 +120,14 @@ class FilterRoute extends Component {
     }
 
     handleStop =   () => e => {
-        console.log(e.target.name);
+        // console.log(e.target.name);
 
         this.setState({[`${e.target.name}`]: e.target.value})
         
     }
 
     handleDeleteStop = (index) => e => {
-        console.log(`delete index  ${index}`);
+        // console.log(`delete index  ${index}`);
         const stops = this.state.stops.slice();
         stops.splice(index,1)
         this.setState({stops})
@@ -136,7 +136,7 @@ class FilterRoute extends Component {
 
     handleNewLinearGradient = () => e => {
 
-        console.log('handle new linear gradient');
+        // console.log('handle new linear gradient');
 
         let data = {
             name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
@@ -184,16 +184,16 @@ class FilterRoute extends Component {
         // console.log(feMergeDefaults);
         // this.setState({feMergeDefaults})
 
-        console.log(index);
-        console.log(idx);
+        // console.log(index);
+        // console.log(idx);
         // console.log(e.target.value);
         // console.log(e.target.name);
         const newfilterData = [...this.state.filterData]
-        console.log(newfilterData);
+        // console.log(newfilterData);
         const x = newfilterData[index].children[0].attributes.slice();
-        console.log(x);
+        // console.log(x);
         x.push({ in: 'SourceGraphic' });
-        console.log(x);
+        // console.log(x);
         // x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseFloat(e.target.value) })
         newfilterData[index].children[0].attributes = x;
         this.setState({ filterData: newfilterData })
@@ -204,12 +204,12 @@ class FilterRoute extends Component {
     }
 
     handleNewFilterData = () => {
-        console.log('handle new filter data');
+        // console.log('handle new filter data');
         let data = {
             name: this.state.filterName,
             filterData: this.state.filterData,
         }
-        console.log(data);
+        // console.log(data);
         
         fetch('/filter_data',
             {
@@ -230,18 +230,18 @@ class FilterRoute extends Component {
     }
 
     handleConcatFilterData = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         fetch(`/filter_data/name/?name=${e.target.value}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                console.log(data[0].filterData);
+                // console.log(data);
+                // console.log(data[0].filterData);
                 const filterData = [...this.state.filterData]
-                console.log(filterData);
+                // console.log(filterData);
                 filterData.push(data[0].filterData)
-                console.log(filterData);
+                // console.log(filterData);
                 const flat =filterData.reduce( (prev, curr) => prev.concat(curr),[])
-                console.log(flat);
+                // console.log(flat);
                 
                 this.setState({ filterData: flat })
             })
@@ -889,8 +889,7 @@ console.log(newArray);
                 <div className="App">
                 <div className='grid-svg-filterdata'>
                
-                <svg width='500' height='500'  className='item-a'>
-                        <svg id='sourceGraphic' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
+                        <svg className='item-a' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
                             {this.state.selectedSourceGraphic == 'text' ? (
                                 <SourceGraphic
                                     text={Object.values(this.state.SourceGraphicAttrs[11])}
@@ -912,11 +911,12 @@ console.log(newArray);
                             ) : this.state.selectedSourceGraphic == 'webcam' ? (
                                 <WebCam id='video' />
                             ) : (
-                                            <Circle elements={this.state.filterData} />
+                                <Circle elements={this.state.filterData} />
                                         )}
 
-                        </svg>
+                        {/* </svg> */}
                     {/* <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text> */}
+                {/* <svg width='0' height='0' style={{display: 'none'}}  > */}
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
                     {this.state.filterData.map( (item,index) => {
                         console.log(item.attributes);
@@ -1154,16 +1154,19 @@ console.log(newArray);
                     })}
                     </filter>
                 </svg>
-                <div className='filterData-wrapper'>
+                    <div className='filterData-wrapper item-b ' >
               
                     {this.state.filterData.map( (i, index) => {
                         console.log(i.attributes);
                         console.log(i.children);
                         return (
-                            <div className='filterData item-b' key={i+index}>
-                                <button onClick={this.handleDelete(index)}>DELETE</button>
-                                <button onClick={this.handleMoveUp(index)}>MOVE UP</button>
-                                <button onClick={this.handleMoveDown(index)}>MOVE DOWN</button>
+                            <div className={`filterData  ${i.type}`} key={i+index}>
+                                <div className='i-type'>{i.type}</div>
+                                <div className='button-wrapper'>
+                                    <button onClick={this.handleDelete(index)}>DELETE</button>
+                                    <button onClick={this.handleMoveUp(index)}>MOVE UP</button>
+                                    <button onClick={this.handleMoveDown(index)}>MOVE DOWN</button>
+                                </div>
                       
                             {i.attributes.map( (item, idx) => {
                                     console.log(i);
@@ -1227,31 +1230,29 @@ console.log(newArray);
                                     //     if(Object.keys(item)[0].charAt(0) == 'k' ) {return null;}
                                     // }
                                     
-                                    if ((i.type =='feComponentTransfer') && Object.keys(item)[0] === 'type') {
-                                        return (<select onChange={this.handleFilterData(index)} name={Object.keys(item)} key={Object.keys(item)}>
-                                            <option disabled selected >{Object.keys(item)}</option>
-                                            <option>discrete</option>
-                                            <option>table</option>
-                                            <option>linear</option>
-                                            <option>gamma</option>
-                                            <option>identity</option>
-                                        </select>)
+                                    if ((i.type =='feComponentTransfer') && Object.keys(item)[0] === 'result') {
+                                        console.log(Object.keys(item)[0])
+                                        return (
+                                            <div>
+                                            <label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index, idx)} /></label>
+                                            </div>
+                                        )
                                     }
                                     
 
                                 else if(Object.keys(item)[0] === 'dx') {
                                         return (
-                                            <div key={Object.keys(item)[0]+idx}>
-                                        <label key={Object.keys(item)+'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
-                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            <div className='dx' key={Object.keys(item)[0]+idx}>
+                                                <label key={Object.keys(item) + 'range'}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} /><span>{Object.values(item)}</span></label>
+                                                <label key={Object.keys(item)}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label>
                                             </div>
                                     )
                                 }
                                 else if(Object.keys(item)[0] === 'dy') {
                                         return (
-                                            <div key={Object.keys(item)[0] + idx}>
-                                        <label key={Object.keys(item)+'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} />{Object.values(item)}</label>
-                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            <div className='dy' key={Object.keys(item)[0] + idx}>
+                                                <label key={Object.keys(item) + 'range'}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} /><span>{Object.values(item)}</span></label>
+                                                <label key={Object.keys(item)}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label>
                                             </div>
                                     )
                                 }
@@ -1355,15 +1356,15 @@ console.log(newArray);
                                 }
                                 else if(Object.keys(item)[0] === 'surfaceScale') {
                                         return (
-                                            <div>
+                                            <div className='surfaceScale'>
                                         <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="1" max="100" step="1" value={Object.values(item)} />{Object.values(item)}</label>
-                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                                <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label>
                                             </div>
                                     )
                                 }
                                 else if(Object.keys(item)[0] === 'diffuseConstant') {
                                         return (
-                                            <div>
+                                            <div className='diffuseConstant'>
                                         <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min=".1" max="2" step=".1" value={Object.values(item)} />{Object.values(item)}</label>
                                         <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
                                             </div>
@@ -1567,7 +1568,11 @@ console.log(newArray);
                                 } 
 
                             else { 
-                                    return (<label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index,idx)} /></label>)
+                                        return (
+                                            <div className='in-or-result'>
+                                                <label  key={Object.keys(item)} ><span>{Object.keys(item)}</span><input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index,idx)} /></label>
+                                            </div>
+                                    )
                                 }
                             }
                             
@@ -1678,10 +1683,22 @@ console.log(newArray);
                                                     
                                         if(Object.keys(a)== 'azimuth') {
                                             
-                                            return (<label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="360" step="1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                            return (
+                                                // <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="40" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /><span>{Object.values(a)}</span></label>
+                                                <div>
+                                                    <label key={Object.keys(a) + 'a'}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} type='range' min="0" max="360" step="1" value={Object.values(a)} />{Object.values(a)}</label>
+                                                    <label key={Object.keys(a)}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} type='text' value={Object.values(a)} />{Object.values(a)}</label>
+                                                </div>
+                                            )
                                         }
                                         else if (Object.keys(a) == 'elevation'){
-                                            return (<label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="40" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                            return (
+                                            // <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="40" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /><span>{Object.values(a)}</span></label>
+                                                <div>
+                                                    <label key={Object.keys(a) + 'a'}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} type='range' min="0" max="500" step="1" value={Object.values(a)} />{Object.values(a)}</label>
+                                                    <label key={Object.keys(a)}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} type='text' value={Object.values(a)} />{Object.values(a)}</label>
+                                                </div>
+                                        )
 
                                         } 
                                         else if (Object.keys(a) == 'limitingConeAngle'){
@@ -1720,19 +1737,19 @@ console.log(newArray);
 
                     })}
                     </div>
-                    </div>
-                    <div className='select-wrapper'>
+                        <div className='select-wrapper item-c'>
+                            <FilterMenu selectFilter={this.handleNewFilter} />
+                            <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
+                            <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
+                            <ConcatFilters emitSelectedFilterName={this.handleConcatFilterData} names={this.state.filterNames}/>
+                            <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.map(item => {
+                                // console.log('item name ' +item.name);
+                                
+                                return item.name;
+                            })}/>
+                        </div>
+                </div>
                     <button onClick={this.handleToggleSourceGraphicEditor}>HIDE/SHOW</button>
-                        <FilterMenu selectFilter={this.handleNewFilter} />
-                        <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
-                        <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
-                        <ConcatFilters emitSelectedFilterName={this.handleConcatFilterData} names={this.state.filterNames}/>
-                        <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.map(item => {
-                            // console.log('item name ' +item.name);
-                            
-                            return item.name;
-                        })}/>
-                    </div>
                     <button onClick={this.handleNewFilterData}>new filter data</button>
                     {/* <button onClick={this.handleMergeNodes}>more mergeNodes</button> */}
                     <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label>
@@ -1797,7 +1814,7 @@ console.log(newArray);
                                 )
                             })}
                         </LinearGradientRepresentation>
-                        <svg id='sourceGraphic' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
+                        {/* <svg id='sourceGraphic' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
                             { this.state.selectedSourceGraphic == 'text' ? (
                             <SourceGraphic 
                                 text={Object.values(this.state.SourceGraphicAttrs[11])} 
@@ -1822,7 +1839,7 @@ console.log(newArray);
                         <Circle elements={this.state.filterData}/>
                     ) }
 
-                        </svg>
+                        </svg> */}
                         {/* <Canvas width='250' height='250'/> */}
                     </div>
                 

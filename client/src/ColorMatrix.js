@@ -11,11 +11,11 @@ class ColorMatrix extends Component {
         
         
         return (
-            <div>
+            <div className='colorMatrix'    >
                 {this.props.matrixValues.split(' ').map( (item,index) => {
                     return (
                         <label key={index}>
-                            <input type='range' min='-1' max='1' step='.1' name={index} onChange={this.props.changeMatrix} />
+                            <input type='range' min='-1' max='1' step='.1' name={index} value={item} onChange={this.props.changeMatrix} />
                             <input name={index} onChange={this.props.changeMatrix} />
                             {item}
                         </label>
