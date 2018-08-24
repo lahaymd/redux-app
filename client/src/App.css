@@ -1,3 +1,7 @@
+body {
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+}
 .filter, #video {
     filter: url(#filterData)
 }
@@ -115,7 +119,7 @@ select:focus, input:focus {outline:0;}
     grid-template-columns:  50% 1fr;
     /* grid-template-rows: 150px 1fr; */
     grid-gap: 1em;
-    margin: 2em;
+    margin: 0 2em;
     grid-template-areas: 
         "filterdata menu" 
         "filterdata svg";
@@ -240,7 +244,7 @@ select {
 }
 
 .filterData-wrapper {
-    /* grid-template-columns: repeat(auto-fill, minmax(min-content, 100%)); */
+    grid-template-columns: 100%;
     /* grid-auto-columns: auto; */
     display: grid;
     grid-gap: .5rem;
@@ -263,15 +267,16 @@ select {
     display: none;
 }
 
-.colorMatrix {
+#colorMatrix {
     display: grid;
     grid-template-columns: repeat(5, 20%)
 
 }
 
-.colorMatrix label {
+#colorMatrix label {
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: 40% 30% 30%;
+    margin: .3em 0;
 }
 
 .feImage {
@@ -357,4 +362,82 @@ select {
 
  input[type="text"] {
   width: 98%;
+}
+
+.filterData div label {
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+    margin: .2em 1em;
+}
+
+@media screen and (max-width:667px) {
+
+    .feOffset {
+    background: tomato;
+    /* display: grid; */
+    /* grid-template-columns: repeat(auto-fill, min-content);
+    grid-auto-columns:  minmax(max-content, 2fr); */
+    /* justify-content: center; */
+}
+
+    .grid-svg-filterdata {
+    /* display: grid; */
+    grid-template-columns:   1fr 1fr;
+    grid-template-rows: 45vh 1fr;
+    grid-gap: 1em;
+    margin: 0 2em;
+    grid-template-areas: 
+        " menu svg"
+        "filterdata filterdata";
+}
+
+
+    .filterData-wrapper {
+    /* grid-template-columns: repeat(auto-fill, minmax(min-content, 100%)); */
+    /* grid-auto-columns: auto; */
+    display: grid;
+    grid-gap: .5rem;
+    align-content: start;
+    height: 50vh;
+    overflow: scroll;
+}
+
+
+}
+
+@media screen and (max-width: 375px) {
+
+        .feOffset {
+    background: rebeccapurple;
+    /* display: grid; */
+    /* grid-template-columns: repeat(auto-fill, min-content);
+    grid-auto-columns:  minmax(max-content, 2fr); */
+    /* justify-content: center; */
+}
+
+    .grid-svg-filterdata {
+    height: 100vh;
+    /* display: grid; */
+    grid-template-columns:   1fr ;
+    grid-template-rows: 1fr 33vh 1fr;
+    grid-gap: 0;
+    margin: 0 2em;
+    grid-template-areas: 
+        "menu"
+        "svg"
+        "filterdata";
+}
+
+
+    .filterData-wrapper {
+    /* grid-template-columns: repeat(auto-fill, minmax(min-content, 100%)); */
+    /* grid-auto-columns: auto; */
+    display: grid;
+    grid-gap: .5rem;
+    align-content: start;
+    /* height: 50vh; */
+    height: auto;
+    overflow: scroll;
+}
+
 }

@@ -889,7 +889,7 @@ console.log(newArray);
                 <div className="App">
                 <div className='grid-svg-filterdata'>
                
-                        <svg className='item-a' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
+                        <svg className='item-a' viewBox='0 0 500 500' width='100%' height='100%' preserveAspectRatio='xMidYMin meet'>
                             {this.state.selectedSourceGraphic == 'text' ? (
                                 <SourceGraphic
                                     text={Object.values(this.state.SourceGraphicAttrs[11])}
@@ -1749,17 +1749,17 @@ console.log(newArray);
                             })}/>
                         </div>
                 </div>
-                    <button onClick={this.handleToggleSourceGraphicEditor}>HIDE/SHOW</button>
-                    <button onClick={this.handleNewFilterData}>new filter data</button>
+                    {/* <button onClick={this.handleToggleSourceGraphicEditor}>HIDE/SHOW</button> */}
+                    {/* <button onClick={this.handleNewFilterData}>new filter data</button> */}
                     {/* <button onClick={this.handleMergeNodes}>more mergeNodes</button> */}
-                    <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label>
-                    <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
-                    <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
-                    <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
-                    <svg width='0' height='0'>
-                        <defs>
-                        <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} />
-                            <Gradient 
+                    {/* <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label> */}
+                    {/* <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/> */}
+                    {/* <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} /> */}
+                    {/* <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} /> */}
+                    {/* <svg width='0' height='0'> */}
+                        {/* <defs> */}
+                        {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} /> */}
+                            {/* <Gradient 
                                 id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
                                 x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
                                 x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))}
@@ -1774,29 +1774,29 @@ console.log(newArray);
                                         <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
                                     )
                                 })}
-                            </Gradient>
-                            <LinearGradients gradientData={this.state.linearGradients}/>
-                            <rect id='bi' width='10' height='10' fill='url(#p)' />
-                            <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
+                            </Gradient> */}
+                            {/* <LinearGradients gradientData={this.state.linearGradients}/> */}
+                            {/* <rect id='bi' width='10' height='10' fill='url(#p)' /> */}
+                            {/* <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
                                 <stop stopColor="white" offset="82%" />
                                 <stop stopColor="gold" offset="92%" />
                                 <stop stopColor="gold" offset="30%" />
                                 <stop stopColor="goldenrod" offset="70%" />
                                 <stop stopColor="darkgoldenrod" offset="100%" />
-                            </linearGradient>
-                            <RadialGradient />
-                            <rect id='gold' width='100' height='100' fill='url(#coin)' />
-                            <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
-                            <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
-                            <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' />
-                            <Pattern />
-                            <filter id='f' width='200%' height='200%' x='-20%' y='-20%' colorInterpolationFilters='sRGB'>
+                            </linearGradient> */}
+                            {/* <RadialGradient /> */}
+                            {/* <rect id='gold' width='100' height='100' fill='url(#coin)' /> */}
+                            {/* <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} /> */}
+                            {/* <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' /> */}
+                            {/* <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' /> */}
+                            {/* <Pattern /> */}
+                            {/* <filter id='f' width='200%' height='200%' x='-20%' y='-20%' colorInterpolationFilters='sRGB'> */}
                                 {/* {els} */}
-                            </filter>
-                        </defs>
-                    </svg>
-                    <div className='rep-svg-wrapper'>
-                        <LinearGradientRepresentation>
+                            {/* </filter> */}
+                        {/* </defs> */}
+                    {/* </svg> */}
+                    {/* <div className='rep-svg-wrapper'> */}
+                        {/* <LinearGradientRepresentation>
                             {this.state.stops.map((el,index,array) => {
                                 return (
                                     <div className='linear-rep' key={index}>
@@ -1813,7 +1813,7 @@ console.log(newArray);
                                     </div>
                                 )
                             })}
-                        </LinearGradientRepresentation>
+                        </LinearGradientRepresentation> */}
                         {/* <svg id='sourceGraphic' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
                             { this.state.selectedSourceGraphic == 'text' ? (
                             <SourceGraphic 
@@ -1841,7 +1841,7 @@ console.log(newArray);
 
                         </svg> */}
                         {/* <Canvas width='250' height='250'/> */}
-                    </div>
+                    {/* </div> */}
                 
                 </div>
             
