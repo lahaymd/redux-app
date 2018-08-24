@@ -2,6 +2,7 @@
   "name": "redux-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://svg-filters.herokuapp.com",
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
     "gulp": "^3.9.1",
