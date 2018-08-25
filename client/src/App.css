@@ -276,7 +276,7 @@ select {
 
 #colorMatrix label {
     display: grid;
-    grid-template-columns: calc((20vw - 1em) / 3) calc((20vw - 1em) / 3)  30%;
+    grid-template-columns: 22px 22px 22px;
     margin: .3em 0;
 }
 
