@@ -907,7 +907,7 @@ console.log(newArray);
                                     alignmentBaseline={Object.values(this.state.SourceGraphicAttrs[10])}
                                 />
                             ) : this.state.selectedSourceGraphic == 'image' ? (
-                                <image className={this.state.filterData.length ? 'filter' : ''} href='http://mikelahay.com/images/cooper.png' width='500' height='500' preserveAspectRatio='none' />
+                                <image className={this.state.filterData.length ? 'filter' : ''} href='images/tiger.svg' width='500' height='500' preserveAspectRatio='none' />
                             ) : this.state.selectedSourceGraphic == 'webcam' ? (
                                 <WebCam id='video' />
                             ) : (
@@ -917,6 +917,41 @@ console.log(newArray);
                         {/* </svg> */}
                     {/* <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text> */}
                 {/* <svg width='0' height='0' style={{display: 'none'}}  > */}
+                <defs>
+                            <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} />
+                            <Gradient 
+                                id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
+                                x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
+                                x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))}
+                                y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))}
+                                y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))}
+                                spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod'))}
+                                gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))}
+                                gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits'))}
+                            >
+                                {this.state.stops.map( (stop, index) => {
+                                    return (
+                                        <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
+                                    )
+                                })}
+                            </Gradient>
+                            <LinearGradients gradientData={this.state.linearGradients}/>
+                            <rect id='bi' width='10' height='10' fill='url(#p)' />
+                            <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
+                                <stop stopColor="white" offset="82%" />
+                                <stop stopColor="gold" offset="92%" />
+                                <stop stopColor="gold" offset="30%" />
+                                <stop stopColor="goldenrod" offset="70%" />
+                                <stop stopColor="darkgoldenrod" offset="100%" />
+                            </linearGradient>
+                            <RadialGradient />
+                            <rect id='gold' width='100' height='100' fill='url(#coin)' />
+                            <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
+                            <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
+                            <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' />
+                            <Pattern />
+
+               
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
                     {this.state.filterData.map( (item,index) => {
                         console.log(item.attributes);
@@ -1153,6 +1188,7 @@ console.log(newArray);
                         
                     })}
                     </filter>
+                </defs>
                 </svg>
                     <div className='filterData-wrapper item-b ' >
               
@@ -1743,10 +1779,13 @@ console.log(newArray);
                             <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
                             <ConcatFilters emitSelectedFilterName={this.handleConcatFilterData} names={this.state.filterNames}/>
                             <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.map(item => {
-                                // console.log('item name ' +item.name);
+                            
                                 
                                 return item.name;
                             })}/>
+                        <label className='new-filter-data'>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} />
+                        <button onClick={this.handleNewFilterData}>new filter data</button>
+                        </label>
                         </div>
                 </div>
                     {/* <button onClick={this.handleToggleSourceGraphicEditor}>HIDE/SHOW</button> */}

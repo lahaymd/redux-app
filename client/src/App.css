@@ -2,6 +2,18 @@ body {
   overscroll-behavior-y: none;
   overscroll-behavior-x: none;
 }
+
+.new-filter-data {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 45%;
+}
+
+.new-filter-data * {
+    flex: 1 1 33%;
+}
+
 .filter, #video {
     filter: url(#filterData)
 }
@@ -117,7 +129,7 @@ select:focus, input:focus {outline:0;}
 .grid-svg-filterdata {
     display: grid;
     grid-template-columns:  50% 1fr;
-    /* grid-template-rows: 150px 1fr; */
+    grid-template-rows: 150px 1fr;
     grid-gap: 1em;
     margin: 0 2em;
     grid-template-areas: 
@@ -385,7 +397,7 @@ select {
     /* display: grid; */
     grid-template-columns:   1fr 1fr;
     grid-template-rows: 40vh 1fr;
-    grid-gap: 1em;
+    grid-gap: 1em; 
     margin: 0 2em;
     grid-template-areas: 
         " menu svg"
