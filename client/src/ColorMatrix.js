@@ -16,7 +16,7 @@ class ColorMatrix extends Component {
                     return (
                         <label key={index}>
                             <input type='range' min='-1' max='1' step='.1' name={index} value={item} onChange={this.props.changeMatrix} />
-                            <input name={index} onChange={this.props.changeMatrix} />
+                            <input size='3'name={index} onChange={this.props.changeMatrix} />
                             <span>{item}</span>
                         </label>
                     )
