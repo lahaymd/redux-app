@@ -889,7 +889,7 @@ console.log(newArray);
                 <div className="App">
                 <div className='grid-svg-filterdata'>
                
-                        <svg className='item-a' viewBox='0 0 500 500' width='100%' height='100%' preserveAspectRatio='xMidYMin meet'>
+                    <svg className='item-a' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 0 500 500' width='100%' height='100%' preserveAspectRatio='xMidYMin meet'>
                             {this.state.selectedSourceGraphic == 'text' ? (
                                 <SourceGraphic
                                     text={Object.values(this.state.SourceGraphicAttrs[11])}
@@ -907,7 +907,7 @@ console.log(newArray);
                                     alignmentBaseline={Object.values(this.state.SourceGraphicAttrs[10])}
                                 />
                             ) : this.state.selectedSourceGraphic == 'image' ? (
-                                <image className={this.state.filterData.length ? 'filter' : ''} href='images/tiger.svg' width='500' height='500' preserveAspectRatio='none' />
+                                <image className={this.state.filterData.length ? 'filter' : ''} xlinkHref='images/tiger.svg' width='500px' height='500px' preserveAspectRatio='none' />
                             ) : this.state.selectedSourceGraphic == 'webcam' ? (
                                 <WebCam id='video' />
                             ) : (
