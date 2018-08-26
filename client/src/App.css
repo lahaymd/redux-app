@@ -385,6 +385,11 @@ select {
 
 @media screen and (max-width:667px) {
 
+    #colorMatrix label input {
+
+        width: 25px;
+}
+
     .feOffset {
     background: tomato;
     /* display: grid; */
