@@ -288,7 +288,7 @@ select {
 
 #colorMatrix label {
     display: grid;
-    grid-template-columns: 22px 22px 22px;
+    grid-template-columns: 50% 2em 1fr;
     margin: .3em 0;
 }
 
