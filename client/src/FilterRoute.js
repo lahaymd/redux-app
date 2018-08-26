@@ -57,7 +57,7 @@ class FilterRoute extends Component {
             feDisplacementMapDefaults: { type: 'feDisplacementMap', attributes: [{ in: '' }, { in2: '' }, { result: 'displace' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }]},
             feFloodDefaults: { type: 'feFlood', attributes: [{ in: '' }, { result: 'flood' }, { floodColor: 'coral' }, { floodOpacity: '1' }] },
             feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ in: '' }, { result: 'blur' }, { stdDeviation: [1 , 1] }] },
-            feImageDefaults: { type: 'feImage', attributes: [{ result: 'image' }, {x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {href: '#rect'}]},
+            feImageDefaults: { type: 'feImage', attributes: [{ result: 'image' }, {x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {xlinkHref: '#rect'}]},
             feMergeDefaults: { type: 'feMerge', attributes: [{in:''}, {result: 'merge'}], children: [{type: 'feMergeNode', attributes: [{in: 'SourceGraphic'}, {in: 'SourceGraphic'}]}]},
             feMorphologyDefaults: { type: 'feMorphology', attributes: [{ in: '' }, { result: 'morph' }, { operator: 'dilate' }, { radius: [2, 2] }] },
             feOffsetDefaults: { type: 'feOffset', attributes: [{ in: '' }, { result: 'offset' }, { dx: 0 }, { dy: 5 }]},
