@@ -1552,7 +1552,7 @@ console.log(newArray);
                                         <option>luminosity</option>
                                     </select>)
                                 } 
-                                else if (Object.keys(item)[0] === 'href') {
+                                    else if (Object.keys(item)[0] === 'xlinkHref') {
                                     return (
                                     <div>
                                     <select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
