@@ -384,8 +384,8 @@ select {
 }
 
 .filterData div label {
-    display: grid;
-    grid-template-columns: min-content 1fr min-content;
+    /* display: grid; */
+    /* grid-template-columns: min-content 1fr min-content; */
     margin: 5em 1em;
 }
 
