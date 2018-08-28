@@ -1655,7 +1655,11 @@ console.log(newArray);
 
                                                     // return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
                                                     return (
-                                                        <TableValues key='TableValues' pixelData={this.handleRGBData(index, idx, kidIndex)} changeTableValues={this.handleTableValues(index, idx, kidIndex)} changeNumberOfTableValues={this.handleNumberOfTableValues(index, idx, kidIndex)} tableValues={Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0]}/>
+                                                        <div>
+                                                            <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
+                                                            <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="-2" max="2" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
+                                                        </div>
+                                                        // <TableValues key='TableValues' pixelData={this.handleRGBData(index, idx, kidIndex)} changeTableValues={this.handleTableValues(index, idx, kidIndex)} changeNumberOfTableValues={this.handleNumberOfTableValues(index, idx, kidIndex)} tableValues={Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0]}/>
                                                         // <ColorMatrix key='ColorMatrix' changeMatrix={this.handleColorMatrixData(index, idx, Object.values(this.state.feColorMatrixDefaults.attributes[3])[0])} matrixValues={Object.values(this.state.filterData[index].attributes[3])[0]} />)
                                                         // <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
                                                 )
@@ -1783,9 +1787,11 @@ console.log(newArray);
                                 
                                 return item.name;
                             })}/>
-                        <label className='new-filter-data'>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} />
-                        <button onClick={this.handleNewFilterData}>new filter data</button>
-                        </label>
+                            <div className='new-filter-data'>
+                                <input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} />
+                                <button onClick={this.handleNewFilterData}>new filter</button>
+                            </div>
+                       
                         </div>
                 </div>
                     {/* <button onClick={this.handleToggleSourceGraphicEditor}>HIDE/SHOW</button> */}

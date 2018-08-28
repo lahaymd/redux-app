@@ -6,12 +6,18 @@ body {
 .new-filter-data {
     margin-top: 10px;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     width: 45%;
+    height: 34px;
 }
 
-.new-filter-data * {
-    flex: 1 1 33%;
+.new-filter-data input {
+    width: 60%;
+}
+
+.new-filter-data button {
+
+    width: 40%;
 }
 
 .filter, #video {
@@ -117,7 +123,7 @@ select:focus, input:focus {outline:0;}
 .item-a {
   grid-area: svg;
   justify-self: center;
-  border: 1px solid seagreen;
+  /* border: 1px solid seagreen; */
 }
 .item-b {
   grid-area: filterdata;
@@ -131,7 +137,7 @@ select:focus, input:focus {outline:0;}
     grid-template-columns:  50% 1fr;
     grid-template-rows: 150px 1fr;
     grid-gap: 1em;
-    margin: 0 2em;
+    /* margin: 0 2em; */
     grid-template-areas: 
         "filterdata menu" 
         "filterdata svg";
@@ -403,7 +409,7 @@ select {
     grid-template-columns:   1fr 1fr;
     grid-template-rows: 40vh 1fr;
     grid-gap: 1em; 
-    margin: 0 2em;
+    /* margin: 0 2em; */
     grid-template-areas: 
         " menu svg"
         "filterdata filterdata";
@@ -437,9 +443,9 @@ select {
     height: 100vh;
     /* display: grid; */
     grid-template-columns:   1fr ;
-    grid-template-rows: 140px 33vh 1fr;
+    grid-template-rows: 140px 100vw 1fr;
     grid-gap: 0;
-    margin: 0 2em;
+    /* margin: 0 .5em; */
     grid-template-areas: 
         "menu"
         "svg"
