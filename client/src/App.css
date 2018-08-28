@@ -386,7 +386,7 @@ select {
 .filterData div label {
     display: grid;
     grid-template-columns: min-content 1fr min-content;
-    margin: 2em 1em;
+    margin: 5em 1em;
 }
 
 @media screen and (max-width:667px) {
