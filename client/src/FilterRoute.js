@@ -39,7 +39,7 @@ class FilterRoute extends Component {
             offset: '',
             stopColor: '',
             stopOpacity: '',
-            SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 400}, {textLength: 300}, {lengthAdjust: 'glyphs'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}, {text: 'SVG'}],
+            SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 240}, {textLength: 450}, {lengthAdjust: 'spacing'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}, {text: 'SVG'}],
             gradientAttrs: [{x1: 0}, {x2: 1}, {y1: 0}, {y2: 0}, {spreadMethod: 'reflect'}, {gradientTransform: 0}, {gradientUnits:'objectBoundingBox'}, {id: 'linear'}],
             images: [],
             selectedSourceGraphic: 'text',
@@ -896,7 +896,7 @@ console.log(newArray);
                     {/* <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text> */}
                 {/* <svg width='0' height='0' style={{display: 'none'}}  > */}
                 <defs>
-                            {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} />
+                            {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} /> */}
                             <Gradient 
                                 id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
                                 x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
@@ -912,7 +912,7 @@ console.log(newArray);
                                         <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
                                     )
                                 })}
-                            </Gradient> */}
+                            </Gradient>
                             <LinearGradients gradientData={this.state.linearGradients}/>
                             {/* <rect id='bi' width='10' height='10' fill='url(#p)' />
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
@@ -1801,8 +1801,8 @@ console.log(newArray);
                     {/* <button onClick={this.handleMergeNodes}>more mergeNodes</button> */}
                     {/* <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label> */}
                     <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
-                    {/* <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} /> */}
-                    {/* <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} /> */}
+                    <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
+                    <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
                     {/* <svg width='0' height='0'> */}
                         {/* <defs> */}
                         {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} /> */}
@@ -1843,7 +1843,7 @@ console.log(newArray);
                         {/* </defs> */}
                     {/* </svg> */}
                     {/* <div className='rep-svg-wrapper'> */}
-                        {/* <LinearGradientRepresentation>
+                        <LinearGradientRepresentation>
                             {this.state.stops.map((el,index,array) => {
                                 return (
                                     <div className='linear-rep' key={index}>
@@ -1859,34 +1859,9 @@ console.log(newArray);
                                             <button onClick={this.handleDeleteStop(index)}>DELETE</button>
                                     </div>
                                 )
-                            })}
-                        </LinearGradientRepresentation> */}
-                        {/* <svg id='sourceGraphic' viewBox='0 0 500 500' width='100%' preserveAspectRatio='xMinYMin meet'>
-                            { this.state.selectedSourceGraphic == 'text' ? (
-                            <SourceGraphic 
-                                text={Object.values(this.state.SourceGraphicAttrs[11])} 
-                                elements={this.state.filterData} 
-                                x={Object.values(this.state.SourceGraphicAttrs[0])}
-                                y={Object.values(this.state.SourceGraphicAttrs[1])}
-                                fill={Object.values(this.state.SourceGraphicAttrs[2]) }
-                                stroke={Object.values(this.state.SourceGraphicAttrs[3])}
-                                strokeWidth={Object.values(this.state.SourceGraphicAttrs[4])}
-                                paintOrder={Object.values(this.state.SourceGraphicAttrs[5])}
-                                fontSize={Object.values(this.state.SourceGraphicAttrs[6])}
-                                textLength={Object.values(this.state.SourceGraphicAttrs[7])}
-                                lengthAdjust={Object.values(this.state.SourceGraphicAttrs[8])}
-                                textAnchor={Object.values(this.state.SourceGraphicAttrs[9])}
-                                alignmentBaseline={Object.values(this.state.SourceGraphicAttrs[10])}
-                            />
-                              )  : this.state.selectedSourceGraphic == 'image' ?   (
-                        <image className={   this.state.filterData.length? 'filter': ''} href='http://mikelahay.com/images/cooper.png' width='500' height='500' preserveAspectRatio='none'/>
-                              ) : this.state.selectedSourceGraphic == 'webcam' ? (
-                                    <WebCam id='video'/>
-                              ) : (
-                        <Circle elements={this.state.filterData}/>
-                    ) }
-
-                        </svg> */}
+                            })} 
+                        </LinearGradientRepresentation> 
+                 
                         {/* <Canvas width='250' height='250'/> */}
                     {/* </div> */}
                 
