@@ -918,7 +918,7 @@ console.log(newArray);
                     {/* <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text> */}
                 {/* <svg width='0' height='0' style={{display: 'none'}}  > */}
                 <defs>
-                            <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} />
+                            {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} />
                             <Gradient 
                                 id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
                                 x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
@@ -934,7 +934,7 @@ console.log(newArray);
                                         <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
                                     )
                                 })}
-                            </Gradient>
+                            </Gradient> */}
                             <LinearGradients gradientData={this.state.linearGradients}/>
                             <rect id='bi' width='10' height='10' fill='url(#p)' />
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
