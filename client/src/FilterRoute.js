@@ -49,7 +49,7 @@ class FilterRoute extends Component {
             feBlendDefaults: { type: 'feBlend', attributes: [{ in: '' }, { in2: '' }, {result: 'blend'}, {mode:'normal'} ]},
             feColorMatrixDefaults: { type: 'feColorMatrix', attributes: [{ in: '' }, { result: 'colorMatrix' }, { type: 'matrix' }, { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0`}]},
             feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: 'componentTransfer' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}]}]},
-            feCompositeDefaults: { type: 'feComposite', attributes: [{ in: '' }, { result: 'composite' }, { operator: 'over' }, {in2: ''},{k1: 0}, {k2:1}, {k3:1}, {k4:0}]},
+            feCompositeDefaults: { type: 'feComposite', attributes: [{ in: '' }, { in2: '' }, { result: 'composite' }, { operator: 'over' },{k1: 0}, {k2:1}, {k3:1}, {k4:0}]},
             feConvolveMatrixDefaults: { type: 'feConvolveMatrix', attributes: [{ in: '' }, { result: 'convolveMatrix' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { preserveAlpha: false }, { order: 3 }]},
             feDiffuseLightingFeDistantLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseDistant' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }], children: [{type:'feDistantLight', attributes: [{azimuth: 0}, {elevation: 0}]}]},
             feDiffuseLightingFePointLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffusePoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
@@ -1800,7 +1800,7 @@ console.log(newArray);
                     {/* <button onClick={this.handleNewFilterData}>new filter data</button> */}
                     {/* <button onClick={this.handleMergeNodes}>more mergeNodes</button> */}
                     {/* <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label> */}
-                    {/* <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/> */}
+                    <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
                     {/* <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} /> */}
                     {/* <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} /> */}
                     {/* <svg width='0' height='0'> */}
