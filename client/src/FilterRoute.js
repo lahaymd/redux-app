@@ -914,7 +914,7 @@ console.log(newArray);
                                 })}
                             </Gradient> */}
                             <LinearGradients gradientData={this.state.linearGradients}/>
-                            <rect id='bi' width='10' height='10' fill='url(#p)' />
+                            {/* <rect id='bi' width='10' height='10' fill='url(#p)' />
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
                                 <stop stopColor="white" offset="82%" />
                                 <stop stopColor="gold" offset="92%" />
@@ -927,7 +927,7 @@ console.log(newArray);
                             <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
                             <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
                             <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' />
-                            <Pattern />
+                            <Pattern /> */}
 
                
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
