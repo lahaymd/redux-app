@@ -5,6 +5,7 @@ import RouterTest from './RouterTest';
 import Filter from './Filter';
 import FilterRoute from './FilterRoute';
 import GradientEditor from './GradientEditor';
+import LinearGradientRoute from './LinearGradientRoute';
 // import SourceGraphicEditor from './SourceGraphicEditor';
 
 
@@ -20,20 +21,20 @@ class App extends Component {
     return (
     <Router>
         <div className="AppRouter">
-          {/* <nav>
+          <nav>
             <ul>
                 <li>
                 <svg viewBox='0 0 10 10' preserveAspectRatio='xMinYMid' height='1em' className='svg-icon'><circle cx='5' cy='5' r='5' /></svg>
-                  <Link to='/'>home</Link>
+                  <Link to='/'>Filter</Link>
                 </li>
                 <li>
                 <svg viewBox='0 0 10 10' preserveAspectRatio='xMinYMid' height='1em' className='svg-icon'><circle cx='5' cy='5' r='5' /></svg>
-                  <Link to='/linear'>filter</Link>
+                  <Link to='/linear'>Linear Gradient</Link>
                 </li>
             </ul>
-          </nav> */}
+          </nav>
           <Route exact path='/' component={FilterRoute}/>
-          {/* <Route exact path='/linear' component={GradientEditor}/> */}
+          <Route exact path='/linear' component={LinearGradientRoute}/>
         </div>
     </Router>
     );

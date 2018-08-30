@@ -9,10 +9,10 @@ class LinearGradientSelect extends Component {
         return (
             <select onChange={this.props.emitSelectedLinearGradient}>
                 <option value="" disabled selected>Linear Gradients</option>
-                {this.props.names.map(item => {
+                {this.props.names.map((item, index) => {
 
                    return (
-                        <option key={item} value={item}>{item}</option>
+                        <option key={item} id={index} value={item}>{item}</option>
 
                     )
                     }

@@ -4,11 +4,31 @@ class GradientEditor extends Component {
 
     render() {
 
+        console.log(this.props.attrs);
+        let data = [];
+        if(this.props.attrs){
+             data = Object.keys(this.props.attrs).map((item, index, array) => {
+                console.log(this.props.attrs);
+
+                return { [`${item}`]: Object.values(this.props.attrs)[index] }
+            })
+            
+            console.log(Object.keys(this.props.attrs).map( (item,index,array) => {
+                console.log(this.props.attrs);
+                
+                return {[`${item}`]: Object.values(this.props.attrs)[index]}
+            })
+        );
+            // let objToArray = Array.from(Object.keys(this.props.attrs))
+            // console.log(objToArray);
+            
+        }
         return (
             <div className='htmlcard label-wrapper2 label'>
-                {this.props.attrs.map( (item, index) => {
+                { 
+                data.map( (item, index) => {
                     // console.log('gradienteditor'+JSON.stringify(item));
-                    // console.log(this.props.attrs);
+                    console.log(this.props.attrs);
                     // console.log(Object.values(this.props.attrs[6])[0]);
                     
                     
@@ -50,19 +70,21 @@ class GradientEditor extends Component {
                                 value={Object.values(item)} name={Object.keys(item)} onChange={this.props.changeGradient(item, index)}/>
                             </label>
                         )
-                    } else {
+                    } 
+                    // else 
+                    // {
 
-                        return (
-                            <label key={index} className='html-label-wrapper'> {Object.keys(item)} : {Object.values(item)}
-                            <input 
-                                type='range'
-                                min='0'
-                                max={Object.values(this.props.attrs[6])[0] === 'objectBoundingBox' ? 1 : 500}
-                                step={Object.values(this.props.attrs[6])[0] === 'objectBoundingBox' ? .01 : 1}
-                                value={Object.values(item)} name={Object.keys(item)} onChange={this.props.changeGradient(item, index)}/>
-                            </label>
-                                )
-                    }
+                    //     return (
+                    //         <label key={index} className='html-label-wrapper'> {Object.keys(item)} : {Object.values(item)}
+                    //         <input 
+                    //             type='range'
+                    //             min='0'
+                    //             max={Object.values(this.props.attrs[6])[0] === 'objectBoundingBox' ? 1 : 500}
+                    //             step={Object.values(this.props.attrs[6])[0] === 'objectBoundingBox' ? .01 : 1}
+                    //             value={Object.values(item)} name={Object.keys(item)} onChange={this.props.changeGradient(item, index)}/>
+                    //         </label>
+                    //             )
+                    // }
                 } )
                 }
                 <button onClick={this.props.createNewLinearGradient()}>Create New Linear Gradient</button>

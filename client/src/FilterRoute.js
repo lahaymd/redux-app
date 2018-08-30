@@ -49,7 +49,7 @@ class FilterRoute extends Component {
             feBlendDefaults: { type: 'feBlend', attributes: [{ in: '' }, { in2: '' }, {result: 'blend'}, {mode:'normal'} ]},
             feColorMatrixDefaults: { type: 'feColorMatrix', attributes: [{ in: '' }, { result: 'colorMatrix' }, { type: 'matrix' }, { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0`}]},
             feComponentTransferDefaults: { type: 'feComponentTransfer', attributes: [{ in: '' }, { result: 'componentTransfer' }], children: [{ type: 'feFuncR', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}] }, { type: 'feFuncG', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}] }, { type: 'feFuncB', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}] }, { type: 'feFuncA', attributes: [{ type: 'discrete' }, { tableValues: '0 1' }, {slope: 1}, {intercept: 0}, {amplitude: 1}, {exponent: 1}, {offset:0}]}]},
-            feCompositeDefaults: { type: 'feComposite', attributes: [{ in: '' }, { in2: '' }, { result: 'composite' }, { operator: 'over' },{k1: 0}, {k2:1}, {k3:1}, {k4:0}]},
+            feCompositeDefaults: { type: 'feComposite', attributes: [{ in: '' }, { in2: '' }, { result: 'composite' }, { operator: 'over' }, {k1: 0}, {k2:1}, {k3:1}, {k4:0}]},
             feConvolveMatrixDefaults: { type: 'feConvolveMatrix', attributes: [{ in: '' }, { result: 'convolveMatrix' }, { kernelMatrix: '-1 -1 -1 -1 8 -1 -1 -1 -1' }, { divisor: 1 }, { bias: 0 }, { targetX: 2 }, { targetY: 2 }, { edgeMode: 'duplicate' }, { preserveAlpha: false }, { order: 3 }]},
             feDiffuseLightingFeDistantLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffuseDistant' }, { lightingColor: 'yellow' }, { surfaceScale: 1 }, { diffuseConstant: 2 }], children: [{type:'feDistantLight', attributes: [{azimuth: 0}, {elevation: 0}]}]},
             feDiffuseLightingFePointLightDefaults: { type: 'feDiffuseLighting', attributes: [{ in: '' }, { result: 'diffusePoint' }, { lightingColor: 'red' }, { surfaceScale: 1 }, { diffuseConstant: 1 }], children: [{ type: 'fePointLight', attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]}]},
@@ -104,6 +104,9 @@ class FilterRoute extends Component {
         
     }
     
+
+
+
     handleGradientChange = (item, index) => e => {
         // console.log('gradient');
         // console.log(`item ${JSON.stringify(item)}`);
@@ -176,6 +179,81 @@ class FilterRoute extends Component {
             })
         
     }
+
+
+    handlePushStop = () => e => {
+
+        console.log('push stop');
+        let stops = this.state.stops.slice();
+        stops.push({ offset: this.state.offset, stopColor: this.state.stopColor, stopOpacity: this.state.stopOpacity })
+        this.setState({ stops: stops })
+        let data = {
+            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+            stops: stops
+        }
+
+        fetch('/linear_gradient',
+            {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+            .then(res => res.json())
+            .then(data => {
+
+                console.log('post stops' + JSON.stringify(data));
+
+                const foo = this.state.linearGradients.slice();
+                const info = foo.findIndex(item => item.name === data.name);
+                foo.splice(info, 1, data)
+
+
+
+                this.setState({ linearGradients: foo })
+                console.log('post stops' + JSON.stringify(data));
+            })
+
+    }
+
+
+
+
+
+    handleStopChange = (param, index) => e => {
+        console.log(param);
+        console.log(index);
+        console.log(e.target.name);
+        console.log(e.target.value);
+        const stops = this.state.stops.slice();
+        const obj = { ...stops[index] }
+        console.log(obj);
+        obj[`${e.target.name}`] = e.target.value;
+        console.log(obj);
+
+        stops.splice(index, 1, obj)
+        this.setState({ stops: stops })
+
+    }
+
+
+
+
+
+    handleSelectedLinearGradient = (e) => {
+        this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`] })
+        const sga = this.state.SourceGraphicAttrs.slice();
+        sga[2] = { fill: `url(#${e.target.value})` }
+        this.setState({ SourceGraphicAttrs: sga })
+        const ga = this.state.gradientAttrs.slice();
+        ga[7] = { id: e.target.value }
+        this.setState({ gradientAttrs: ga })
+    }
+
 
     handleMergeNodes = (index, idx) => e => {
         // const feMergeDefaults = {...this.state.feMergeDefaults}
@@ -271,44 +349,7 @@ class FilterRoute extends Component {
     }
 
 
-    handlePushStop = () => e => {
 
-        console.log('push stop');
-        let stops = this.state.stops.slice();
-        stops.push({offset: this.state.offset, stopColor: this.state.stopColor, stopOpacity: this.state.stopOpacity})
-        this.setState({stops: stops})
-        let data = {
-            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
-            stops: stops
-        }
-
-        fetch('/linear_gradient',
-            {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify(data)
-            }
-        )
-            .then( res => res.json())
-            .then(data => { 
-                
-                console.log('post stops' + JSON.stringify(data));
-                
-                const foo = this.state.linearGradients.slice();
-                const info = foo.findIndex( item => item.name === data.name);
-                foo.splice(info, 1 , data)
-                
-                
-                
-                this.setState({linearGradients: foo})
-                console.log('post stops' + JSON.stringify(data));
-            })
-        
-    }
 
     handleDelete = ( key) => (e) => {
         console.log('key', key);
@@ -343,15 +384,7 @@ class FilterRoute extends Component {
         this.setState({selectedSourceGraphic: e.target.value})
     }
 
-    handleSelectedLinearGradient = (e) => {
-        this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`]})
-        const sga = this.state.SourceGraphicAttrs.slice();
-        sga[2] = {fill: `url(#${e.target.value})`}
-        this.setState({ SourceGraphicAttrs: sga})
-        const ga = this.state.gradientAttrs.slice();
-        ga[7] = {id: e.target.value}
-        this.setState({gradientAttrs: ga})
-    }
+
      handleSelectedFilterName = (e) => {
         console.log(e.target.value);
         fetch(`/filter_data/name/?name=${e.target.value}`)
@@ -512,21 +545,7 @@ class FilterRoute extends Component {
         }
     }
 
-    handleStopChange = (param, index) => e => {
-        console.log(param);
-        console.log(index);
-        console.log(e.target.name);
-        console.log(e.target.value);
-        const stops = this.state.stops.slice();
-        const obj = { ...stops[index]}
-        console.log(obj);
-        obj[`${e.target.name}`] = e.target.value;
-        console.log(obj);
-        
-        stops.splice(index,1, obj )
-        this.setState({stops: stops})
-        
-    }
+
 
     handleFuncData = (item, index, kidIndex, idx, a) => e => {
         console.log(item);
@@ -1235,7 +1254,7 @@ console.log(newArray);
                                         </select>)
                                     }
                                     
-                                    if (i.type == 'feComposite' && Object.values(i.attributes[0])[0] == 'arithmetic') {
+                                    if (i.type == 'feComposite' && Object.values(i.attributes[3])[0] == 'arithmetic') {
                                         console.log('comp arithmetic');
                                         console.log(Object.keys(item)[0]);
                                         
@@ -1800,9 +1819,9 @@ console.log(newArray);
                     {/* <button onClick={this.handleNewFilterData}>new filter data</button> */}
                     {/* <button onClick={this.handleMergeNodes}>more mergeNodes</button> */}
                     {/* <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label> */}
-                    <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/>
-                    <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} />
-                    <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
+                    {/* <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/> */}
+                    {/* <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} /> */}
+                    {/* <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} /> */}
                     {/* <svg width='0' height='0'> */}
                         {/* <defs> */}
                         {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} /> */}
@@ -1843,7 +1862,7 @@ console.log(newArray);
                         {/* </defs> */}
                     {/* </svg> */}
                     {/* <div className='rep-svg-wrapper'> */}
-                        <LinearGradientRepresentation>
+                        {/* <LinearGradientRepresentation>
                             {this.state.stops.map((el,index,array) => {
                                 return (
                                     <div className='linear-rep' key={index}>
@@ -1860,7 +1879,7 @@ console.log(newArray);
                                     </div>
                                 )
                             })} 
-                        </LinearGradientRepresentation> 
+                        </LinearGradientRepresentation>  */}
                  
                         {/* <Canvas width='250' height='250'/> */}
                     {/* </div> */}
