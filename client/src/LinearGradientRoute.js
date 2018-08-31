@@ -30,16 +30,39 @@ class LinearGradientRoute extends Component {
     }
 
     handleGradientChange = (item, index) => e => {
+        console.log(item);
+        console.log(index);
+        
         // console.log('gradient');
         // console.log(`item ${JSON.stringify(item)}`);
         // console.log(`index ${index}`);
         // console.log(`e name ${e.target.name}`);
         // console.log(`e value ${e.target.value}`);
-
-        const gradAttrs = this.state.gradientAttrs.slice();
+        // const attrs = this.state.linearGradients[]
+        const newLinearGradients = [...this.state.linearGradients]
+        console.log(newLinearGradients);
+        
+        const newAttrs = {...this.state.linearGradients[this.state.selectedGradientIndex]}
+        console.log(newAttrs);
+        newAttrs[`${e.target.name}`] = e.target.value;
+        console.log(newAttrs);
+        const gradIndex = newLinearGradients.findIndex(item => item['name'] == newAttrs['name'])
+        console.log(gradIndex);
+        
+        newLinearGradients.splice(gradIndex, 1, newAttrs)
+        this.setState({ linearGradients: newLinearGradients})
         const obj = { [`${e.target.name}`]: e.target.value }
-        gradAttrs.splice(index, 1, obj)
-        this.setState({ gradientAttrs: gradAttrs });
+        console.log(obj);
+        
+        console.log(Object.values(item)[0]);
+        console.log(Object.keys(item)[0]);
+        
+        // newAttrs.splice(index, 1, obj)
+        
+        // const gradAttrs = this.state.gradientAttrsl.slice();
+        // const obj = { [`${e.target.name}`]: e.target.value }
+        // gradAttrs.splice(index, 1, obj)
+        // this.setState({ gradientAttrs: gradAttrs });
 
 
     }
@@ -152,14 +175,15 @@ class LinearGradientRoute extends Component {
         console.log(index);
         console.log(e.target.name);
         console.log(e.target.value);
-        const stops = this.state.stops.slice();
-        const obj = { ...stops[index] }
-        console.log(obj);
-        obj[`${e.target.name}`] = e.target.value;
-        console.log(obj);
+        
+        // const stops = this.state.stops.slice();
+        // const obj = { ...stops[index] }
+        // console.log(obj);
+        // obj[`${e.target.name}`] = e.target.value;
+        // console.log(obj);
 
-        stops.splice(index, 1, obj)
-        this.setState({ stops: stops })
+        // stops.splice(index, 1, obj)
+        // this.setState({ stops: stops })
 
     }
 
@@ -169,10 +193,17 @@ class LinearGradientRoute extends Component {
 
     handleSelectedLinearGradient = (e) => {
         this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`] })
-       this.setState({selectedGradient: e.target.id})
-        const ga = this.state.gradientAttrs.slice();
-        ga[7] = { id: e.target.value }
-        this.setState({ gradientAttrs: ga })
+        console.log(e.target);
+        console.log(e.target.selectedIndex);
+        
+       this.setState({selectedGradientIndex : e.target.selectedIndex - 1})
+       this.setState({fill: e.target.value })
+        const newGradient = {...this.state.linearGradients[e.target.selectedIndex - 1]}
+        console.log(newGradient);
+        
+        // const ga = this.state.gradientAttrs.slice();
+        // ga[7] = { id: e.target.value }
+        // this.setState({ gradientAttrs: ga })
     }
 
 
@@ -207,7 +238,7 @@ class LinearGradientRoute extends Component {
                         </Gradient> */}
                         <LinearGradients gradientData={this.state.linearGradients} />
                     </defs>
-                    <rect width='500' height='200' fill={`url(#${Object.values(this.state.gradientAttrs[7])[0]})`} />
+                    <rect width='500' height='200' fill={`url(#${this.state.fill})`} />
                 </svg>
                 <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.linearGradients[this.state.selectedGradientIndex]} changeGradient={this.handleGradientChange} />
                 <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
