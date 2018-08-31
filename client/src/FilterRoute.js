@@ -916,7 +916,7 @@ console.log(newArray);
                 {/* <svg width='0' height='0' style={{display: 'none'}}  > */}
                 <defs>
                             {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} /> */}
-                            <Gradient 
+                            {/* <Gradient 
                                 id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
                                 x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
                                 x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))}
@@ -931,7 +931,7 @@ console.log(newArray);
                                         <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
                                     )
                                 })}
-                            </Gradient>
+                            </Gradient> */}
                             <LinearGradients gradientData={this.state.linearGradients}/>
                             {/* <rect id='bi' width='10' height='10' fill='url(#p)' />
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
