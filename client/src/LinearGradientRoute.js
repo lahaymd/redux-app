@@ -17,7 +17,8 @@ class LinearGradientRoute extends Component {
         gradientAttrs: [{ x1: 0 }, { x2: 1 }, { y1: 0 }, { y2: 0 }, { spreadMethod: 'reflect' }, { gradientTransform: 0 }, { gradientUnits: 'objectBoundingBox' }, { id: 'linear1' }],
         stops: [],
         selectedGradientIndex: 0,
-        linearGradients: []
+        linearGradients: [],
+        newLinearGradientName: ''
     }
 
     async componentDidMount() {
@@ -32,6 +33,7 @@ class LinearGradientRoute extends Component {
     handleGradientChange = (item, index) => e => {
         console.log(item);
         console.log(index);
+        console.log(e.target.name);
         
         // console.log('gradient');
         // console.log(`item ${JSON.stringify(item)}`);
@@ -46,7 +48,7 @@ class LinearGradientRoute extends Component {
         console.log(newAttrs);
         newAttrs[`${e.target.name}`] = e.target.value;
         console.log(newAttrs);
-        const gradIndex = newLinearGradients.findIndex(item => item['name'] == newAttrs['name'])
+        const gradIndex = [...this.state.linearGradients].findIndex(item => item['name'] == newAttrs['name'])
         console.log(gradIndex);
         
         newLinearGradients.splice(gradIndex, 1, newAttrs)
@@ -68,7 +70,7 @@ class LinearGradientRoute extends Component {
     }
 
     handleStop = () => e => {
-        // console.log(e.target.name);
+        console.log(e.target.name);
 
         this.setState({ [`${e.target.name}`]: e.target.value })
 
@@ -82,22 +84,38 @@ class LinearGradientRoute extends Component {
 
     }
 
+    handleChangeLinearGradientName = () => e => {
+        this.setState({newLinearGradientName: e.target.value})
+    }
+
     handleNewLinearGradient = () => e => {
 
         // console.log('handle new linear gradient');
 
         let data = {
-            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
-            stops: this.state.stops,
-            x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))),
-            x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))),
-            y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))),
-            y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))),
-            spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod')),
-            gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))),
-            gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits')),
+            name: this.state.newLinearGradientName,
+            stops: this.state.linearGradients[this.state.selectedGradientIndex]['stops'],
+            x1: +(this.state.linearGradients[this.state.selectedGradientIndex]['x1']),
+            x2: +(this.state.linearGradients[this.state.selectedGradientIndex]['x2']),
+            y1: +(this.state.linearGradients[this.state.selectedGradientIndex]['y1']),
+            y2: +(this.state.linearGradients[this.state.selectedGradientIndex]['y2']),
+            spreadMethod: this.state.linearGradients[this.state.selectedGradientIndex]['spreadMethod'],
+            gradientTransform: +(this.state.linearGradients[this.state.selectedGradientIndex]['gradientTransform']),
+            gradientUnits: this.state.linearGradients[this.state.selectedGradientIndex]['gradientUnits'],
 
         }
+        // let data = {
+        //     name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+        //     stops: this.state.stops,
+        //     x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))),
+        //     x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))),
+        //     y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))),
+        //     y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))),
+        //     spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod')),
+        //     gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))),
+        //     gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits')),
+
+        // }
 
         fetch('/linear_gradient',
             {
@@ -128,41 +146,61 @@ class LinearGradientRoute extends Component {
 
 
     handlePushStop = () => e => {
+        
+        console.log(this.state.linearGradients[this.state.selectedGradientIndex]);
+        const linearGradients = [...this.state.linearGradients]
+        const linearGradient = linearGradients[this.state.selectedGradientIndex]
+        console.log(linearGradient);
 
-        console.log('push stop');
-        let stops = this.state.stops.slice();
-        stops.push({ offset: this.state.offset, stopColor: this.state.stopColor, stopOpacity: this.state.stopOpacity })
-        this.setState({ stops: stops })
-        let data = {
-            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
-            stops: stops
-        }
+        const gradStops = [...this.state.linearGradients[this.state.selectedGradientIndex]['stops']]
+        console.log(gradStops);
+        gradStops.push({ offset: this.state.offset, stopColor: this.state.stopColor, stopOpacity: this.state.stopOpacity })
+        // const obj = { ...gradStops[index] }
+        // console.log(obj);
+        // obj[`${e.target.name}`] = e.target.value;
+        // console.log(obj);
+        // gradStops.splice(index, 1, obj)
+        // console.log(gradStops);
+        linearGradient['stops'] = gradStops;
+        console.log(linearGradient);
 
-        fetch('/linear_gradient',
-            {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify(data)
-            }
-        )
-            .then(res => res.json())
-            .then(data => {
+        linearGradients.splice(this.state.selectedGradientIndex, 1, linearGradient)
+        this.setState({ linearGradients })
+        // console.log('push stop');
+        // let stops = this.state.stops.slice();
+        // stops.push({ offset: this.state.offset, stopColor: this.state.stopColor, stopOpacity: this.state.stopOpacity })
+        // this.setState({ stops: stops })
+        
+        // let data = {
+        //     name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+        //     stops: stops
+        // }
 
-                console.log('post stops' + JSON.stringify(data));
+        // fetch('/linear_gradient',
+        //     {
+        //         method: 'PUT',
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json',
+        //             'Access-Control-Allow-Origin': '*'
+        //         },
+        //         body: JSON.stringify(data)
+        //     }
+        // )
+        //     .then(res => res.json())
+        //     .then(data => {
 
-                const foo = this.state.linearGradients.slice();
-                const info = foo.findIndex(item => item.name === data.name);
-                foo.splice(info, 1, data)
+        //         console.log('post stops' + JSON.stringify(data));
+
+        //         const foo = this.state.linearGradients.slice();
+        //         const info = foo.findIndex(item => item.name === data.name);
+        //         foo.splice(info, 1, data)
 
 
 
-                this.setState({ linearGradients: foo })
-                console.log('post stops' + JSON.stringify(data));
-            })
+        //         this.setState({ linearGradients: foo })
+        //         console.log('post stops' + JSON.stringify(data));
+        //     })
 
     }
 
@@ -175,8 +213,27 @@ class LinearGradientRoute extends Component {
         console.log(index);
         console.log(e.target.name);
         console.log(e.target.value);
+        const linearGradients = [...this.state.linearGradients]
+        const linearGradient = linearGradients[this.state.selectedGradientIndex]
+        console.log(linearGradient);
+        
+        const gradStops = [...this.state.linearGradients[this.state.selectedGradientIndex]['stops']]
+        console.log(gradStops);
+        const obj = { ...gradStops[index] }
+        console.log(obj);
+        obj[`${e.target.name}`] = e.target.value;
+        console.log(obj);
+        gradStops.splice(index, 1, obj)
+        console.log(gradStops);
+        linearGradient['stops'] = gradStops;
+        console.log(linearGradient);
+        
+        linearGradients.splice(this.state.selectedGradientIndex, 1, linearGradient)
+        this.setState({ linearGradients })
+        
         
         // const stops = this.state.stops.slice();
+        // console.log(stops);
         // const obj = { ...stops[index] }
         // console.log(obj);
         // obj[`${e.target.name}`] = e.target.value;
@@ -240,10 +297,12 @@ class LinearGradientRoute extends Component {
                     </defs>
                     <rect width='500' height='200' fill={`url(#${this.state.fill})`} />
                 </svg>
-                <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.linearGradients[this.state.selectedGradientIndex]} changeGradient={this.handleGradientChange} />
+                <GradientEditor linearGradientName={this.state.newLinearGradientName} changeLinearGradientName={this.handleChangeLinearGradientName} createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.linearGradients[this.state.selectedGradientIndex]} changeGradient={this.handleGradientChange} />
                 <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} />
                 <LinearGradientRepresentation>
-                    {this.state.stops.map((el, index, array) => {
+                    {this.state.linearGradients.length && this.state.linearGradients[this.state.selectedGradientIndex]['stops'].map((el, index, array) => {
+                        console.log(el);
+                        
                         return (
                             <div className='linear-rep' key={index}>
                                 <label  >offset

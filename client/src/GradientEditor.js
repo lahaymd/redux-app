@@ -20,9 +20,11 @@ class GradientEditor extends Component {
             data = Object.keys(this.props.attrs).filter(item => { return item != 'stops' &&  item != '_id' && item != '__v'}).map( (item,index,array) => {
                 console.log(this.props.attrs);
                 console.log(array);
-                
+                // if (item == 'name') { return { id: Object.values(this.props.attrs)[Object.keys(this.props.attrs).findIndex(x => x == item)]}}
                 return {[`${item}`]: Object.values(this.props.attrs)[Object.keys(this.props.attrs).findIndex(x => x == item)]}
             })
+            console.log(data);
+            
     
         
             
@@ -69,10 +71,10 @@ class GradientEditor extends Component {
                     } 
                      else if(Object.keys(item) == 'name') {
                         return (
-                            <label key={index} className='html-label-wrapper'> {Object.keys(item)}
-                            <input 
+                            <label key={index} className='html-label-wrapper'> {Object.keys(item)}: {Object.values(item)}
+                            {/* <input 
                                 type='text'
-                                value={Object.values(item)} name={Object.keys(item)} onChange={this.props.changeGradient(item, index)}/>
+                                value={Object.values(item)} name={Object.keys(item)} onChange={this.props.changeGradient(item, index)}/> */}
                             </label>
                         )
                     } 
@@ -94,6 +96,10 @@ class GradientEditor extends Component {
                     }
                 } )
                 }
+                <label>
+                    new linear gradient name
+                    <input type='text' value={this.props.linearGradientName} onChange={this.props.changeLinearGradientName()} />
+                </label>
                 <button onClick={this.props.createNewLinearGradient()}>Create New Linear Gradient</button>
             </div>
         )

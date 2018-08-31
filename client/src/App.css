@@ -118,6 +118,7 @@ select:focus, input:focus {outline:0;}
 .html-label-wrapper {
     display: flex;
     flex-direction: column;
+    margin-left: 1em;
 }
 
 .item-a {
