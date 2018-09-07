@@ -25,6 +25,10 @@ body {
 }
 
 #canvas-video {
+    /* display: none; */
+}
+
+#svg-canvas {
     display: none;
 }
 

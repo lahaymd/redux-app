@@ -15,7 +15,9 @@ class Canvas extends Component {
         const ctx = this.refs.can.getContext('2d');
         console.log(ctx.width);
         
-        const video = document.querySelector("#canvas-video");
+        const video = document.querySelector("#canvas-video")
+        console.log(video);
+        
         
         
         function step() {
@@ -49,7 +51,9 @@ class Canvas extends Component {
         
         return(
             <div>
-            <WebCam id='canvas-video' style={{display: 'none'}}/>
+                {/* <WebCam id='canvas-video' />  */}
+                {this.props.sourceGraphic == 'webcam' ? <WebCam id='canvas-video' /> : <svg id='svg-canvas' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 0 500 500' width='100%' height='100%' preserveAspectRatio='none'><image id='canvas-video' xlinkHref='images/tiger.svg' width='500px' height='500px' preserveAspectRatio='none' /></svg>}
+            
             <canvas 
             onMouseDown={this.handlePixelData} 
                     ref='can'

@@ -1676,11 +1676,11 @@ console.log(newArray);
 
                                                     // return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
                                                     return (
-                                                        <div>
-                                                            <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
-                                                            <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="-2" max="2" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
-                                                        </div>
-                                                        // <TableValues key='TableValues' pixelData={this.handleRGBData(index, idx, kidIndex)} changeTableValues={this.handleTableValues(index, idx, kidIndex)} changeNumberOfTableValues={this.handleNumberOfTableValues(index, idx, kidIndex)} tableValues={Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0]}/>
+                                                        // <div>
+                                                        //     <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
+                                                        //     <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="-2" max="2" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
+                                                        // </div>
+                                                        <TableValues selectedGraphic={this.state.selectedSourceGraphic} key='TableValues' pixelData={this.handleRGBData(index, idx, kidIndex)} changeTableValues={this.handleTableValues(index, idx, kidIndex)} changeNumberOfTableValues={this.handleNumberOfTableValues(index, idx, kidIndex)} tableValues={Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0]}/>
                                                         // <ColorMatrix key='ColorMatrix' changeMatrix={this.handleColorMatrixData(index, idx, Object.values(this.state.feColorMatrixDefaults.attributes[3])[0])} matrixValues={Object.values(this.state.filterData[index].attributes[3])[0]} />)
                                                         // <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
                                                 )
@@ -1770,7 +1770,7 @@ console.log(newArray);
                                         else if (Object.keys(a) == 'x' || Object.keys(a) == 'y' || Object.keys(a) == 'z' || Object.keys(a) == 'pointsAtX' || Object.keys(a) == 'pointsAtY' || Object.keys(a) == 'pointsAtZ' ) {
                                             return (
                                                 <div>
-                                                    <label key={Object.keys(a) + 'a'}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)}  name={Object.keys(a)} type='range' min="1" max="500" step="1" value={Object.values(a)} />{Object.values(a)}</label>
+                                                    <label key={Object.keys(a) + 'a'}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)}  name={Object.keys(a)} type='range' min="-500" max="500" step="1" value={Object.values(a)} />{Object.values(a)}</label>
                                                     <label key={Object.keys(a)}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)}  name={Object.keys(a)} type='text' value={Object.values(a)} />{Object.values(a)}</label>
                                                 </div>
                                             )
