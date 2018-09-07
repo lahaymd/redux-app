@@ -21,7 +21,7 @@ class Canvas extends Component {
         
         
         function step() {
-            ctx.drawImage(video, 0, 0, 500, 500)
+            // ctx.drawImage(video, 0, 0, 500, 500)
             ctx.fillRect(300, 300, 100, 100);
             requestAnimationFrame(step)
         }
