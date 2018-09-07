@@ -35,7 +35,7 @@ class TableValues extends Component {
                     </div>
                 )
             })}
-                <Canvas sourceGraphic={this.props.selectedGraphic} ref='canvasParent' width='500' height='500' onClick={this.canvasRGBData} RGBData={this.handleRGBData} canvasProp={this.props.pixelData} canvasData={this.props.canvasData} />
+                <Canvas sourceGraphic={this.props.selectedGraphic} ref='canvasParent' width='500px' height='500px' onClick={this.canvasRGBData} RGBData={this.handleRGBData} canvasProp={this.props.pixelData} canvasData={this.props.canvasData} />
             </div>
         )
     }

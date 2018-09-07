@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import WebCam from './WebCam';
+// import WebCam from './WebCam';
 
 
 class Canvas extends Component {

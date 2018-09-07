@@ -24,13 +24,6 @@ body {
     filter: url(#filterData)
 }
 
-#canvas-video {
-    /* display: none; */
-}
-
-#svg-canvas {
-    /* display: none; */
-}
 
 *{
     box-sizing: border-box;
