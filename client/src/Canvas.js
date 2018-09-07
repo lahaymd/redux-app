@@ -58,7 +58,7 @@ class Canvas extends Component {
                 <svg id='svg-canvas' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 0 500 500' width='500px' height='500px' preserveAspectRatio='none'><image id='canvas-video' xlinkHref='images/tiger.svg' width='500px' height='500px' preserveAspectRatio='none' /></svg>
                 {/* } */}
             
-            <canvas 
+            <canvas style={{border: 'solid red 1px'}}
             onMouseDown={this.handlePixelData} 
                     ref='can'
                     
