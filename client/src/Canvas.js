@@ -20,16 +20,16 @@ class Canvas extends Component {
         
 
         var imageObj1 = new Image();
-        imageObj1.src = 'https://s-media-cache-ak0.pinimg.com/236x/d7/b3/cf/d7b3cfe04c2dc44400547ea6ef94ba35.jpg'
+        imageObj1.src = 'images/tiger.svg'
         imageObj1.onload = function () {
-            ctx.drawImage(imageObj1, 0, 0);}
+            ctx.drawImage(imageObj1, 0, 0, 500, 500);}
         
-        function step() {
-            ctx.drawImage(video, 0, 0, 500, 500)
-            ctx.fillRect(300, 300, 100, 100);
-            requestAnimationFrame(step)
-        }
-        requestAnimationFrame(step);
+        // function step() {
+        //     ctx.drawImage(video, 0, 0, 500, 500)
+        //     ctx.fillRect(300, 300, 100, 100);
+        //     requestAnimationFrame(step)
+        // }
+        // requestAnimationFrame(step);
         
     }
 
