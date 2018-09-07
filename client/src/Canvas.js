@@ -18,10 +18,14 @@ class Canvas extends Component {
         console.log(ctx.width);
         
         
-        
+
+        var imageObj1 = new Image();
+        imageObj1.src = 'https://s-media-cache-ak0.pinimg.com/236x/d7/b3/cf/d7b3cfe04c2dc44400547ea6ef94ba35.jpg'
+        imageObj1.onload = function () {
+            ctx.drawImage(imageObj1, 0, 0);}
         
         function step() {
-            // ctx.drawImage(video, 0, 0, 500, 500)
+            ctx.drawImage(video, 0, 0, 500, 500)
             ctx.fillRect(300, 300, 100, 100);
             requestAnimationFrame(step)
         }
