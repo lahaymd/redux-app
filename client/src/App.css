@@ -29,7 +29,7 @@ body {
 }
 
 #svg-canvas {
-    display: none;
+    /* display: none; */
 }
 
 *{
