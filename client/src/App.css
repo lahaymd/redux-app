@@ -24,6 +24,17 @@ body {
     filter: url(#filterData)
 }
 
+.notcamorimg {
+    display: none;
+}
+
+#canvas-video {
+    display: none;
+}
+
+#svg-canvas {
+    display: none;
+}
 
 *{
     box-sizing: border-box;

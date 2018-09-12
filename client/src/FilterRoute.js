@@ -751,7 +751,9 @@ console.log(newArray);
         console.log(feFuncR.length);
         console.log(feFuncR.length/256);
         console.log(256/feFuncR.length);
-        console.log(Math.floor(red/(256/feFuncR.length)))
+        console.log(Math.floor(red/(255/feFuncR.length)))
+        console.log(Math.floor(green/(255/feFuncR.length)))
+        console.log(Math.floor(blue/(255/feFuncR.length)))
         console.log(red);
         console.log(red/256);
         console.log(256/red);
@@ -909,12 +911,13 @@ console.log(newArray);
                 <div className='grid-svg-filterdata'>
                
                     <svg className='item-a' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 0 500 500' width='100%' height='100%' preserveAspectRatio='none'>
-            
+                     
 
                         {/* </svg> */}
                     {/* <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text> */}
                 {/* <svg width='0' height='0' style={{display: 'none'}}  > */}
                 <defs>
+                           
                             {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} /> */}
                             {/* <Gradient 
                                 id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
@@ -1207,9 +1210,17 @@ console.log(newArray);
                             <image className={this.state.filterData.length ? 'filter' : ''} xlinkHref='images/tiger.svg' width='500px' height='500px' preserveAspectRatio='none' />
                         ) : this.state.selectedSourceGraphic == 'webcam' ? (
                             <WebCam id='video' />
-                        ) : (
-                                        <Circle elements={this.state.filterData} />
-                                    )}
+                        ) : this.state.selectedSourceGraphic == 'video' ? ( 
+                                        <foreignObject id='fo' width="100%" height="100%"
+                                        >
+                                            <video width='100%' height='100%' className={this.state.filterData.length ? 'filter' : ''} xmlns="http://www.w3.org/1999/xhtml" id="image0-video" src='images/jake.mov' controls>
+
+                                            </video>
+                                        </foreignObject>
+                        ) :
+                        <Circle elements={this.state.filterData} />
+
+                                }
                 </svg>
                     <div className='filterData-wrapper item-b ' >
               
