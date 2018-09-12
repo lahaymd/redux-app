@@ -1211,11 +1211,12 @@ console.log(newArray);
                         ) : this.state.selectedSourceGraphic == 'webcam' ? (
                             <WebCam id='video' />
                         ) : this.state.selectedSourceGraphic == 'video' ? ( 
-                                        <foreignObject id='fo' width="100%" height="100%"
+                                        <foreignObject id='fo' width="400px" height="400px"
                                         >
-                                            <video width='100%' height='100%' className={this.state.filterData.length ? 'filter' : ''} xmlns="http://www.w3.org/1999/xhtml" id="image0-video" src='images/jake.mov' controls>
+                                            <iframe className={this.state.filterData.length ? 'filter' : ''} width="400px" height="400px" src="https://www.youtube.com/embed/stUolWxG3wo?loop=1&autoplay=1&playlist=stUolWxG3wo" frameBorder="0"  allowFullScreen="allowFullScreen"></iframe>
+                                            {/* <video width='100%' height='100%' className={this.state.filterData.length ? 'filter' : ''} xmlns="http://www.w3.org/1999/xhtml" id="image0-video" src='' controls>
 
-                                            </video>
+                                            </video> */}
                                         </foreignObject>
                         ) :
                         <Circle elements={this.state.filterData} />
