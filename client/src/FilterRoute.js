@@ -57,7 +57,7 @@ class FilterRoute extends Component {
             feDisplacementMapDefaults: { type: 'feDisplacementMap', attributes: [{ in: '' }, { in2: '' }, { result: 'displace' }, { xChannelSelector: 'R' }, { yChannelSelector: 'R' }, { scale: 5 }]},
             feFloodDefaults: { type: 'feFlood', attributes: [{ in: '' }, { result: 'flood' }, { floodColor: 'coral' }, { floodOpacity: '1' }] },
             feGaussianBlurDefaults: { type: 'feGaussianBlur', attributes: [{ in: '' }, { result: 'blur' }, { stdDeviation: [1 , 1] }] },
-            feImageDefaults: { type: 'feImage', attributes: [{ result: 'image' }, {x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {xlinkHref: '#rect'}]},
+            feImageDefaults: { type: 'feImage', attributes: [{ result: 'image' }, {x: 0},{y:0}, {width: 500}, {height: 500}, {preserveAspectRatio: 'none'}, {xlinkHref: 'images/tiger.svg'}]},
             feMergeDefaults: { type: 'feMerge', attributes: [{in:''}, {result: 'merge'}], children: [{type: 'feMergeNode', attributes: [{in: 'SourceGraphic'}, {in: 'SourceGraphic'}]}]},
             feMorphologyDefaults: { type: 'feMorphology', attributes: [{ in: '' }, { result: 'morph' }, { operator: 'dilate' }, { radius: [2, 2] }] },
             feOffsetDefaults: { type: 'feOffset', attributes: [{ in: '' }, { result: 'offset' }, { dx: 0 }, { dy: 5 }]},
@@ -936,7 +936,7 @@ console.log(newArray);
                                 })}
                             </Gradient> */}
                             <LinearGradients gradientData={this.state.linearGradients}/>
-                            {/* <rect id='bi' width='10' height='10' fill='url(#p)' />
+                            <rect id='bi' width='10' height='10' fill='url(#p)' />
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
                                 <stop stopColor="white" offset="82%" />
                                 <stop stopColor="gold" offset="92%" />
@@ -949,7 +949,7 @@ console.log(newArray);
                             <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
                             <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
                             <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' />
-                            <Pattern /> */}
+                            <Pattern />
 
                
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
@@ -1588,9 +1588,20 @@ console.log(newArray);
                                     else if (Object.keys(item)[0] === 'xlinkHref') {
                                     return (
                                     <div>
+                                        <div className='image-wrapper'>
+                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#rg)' width='50' height='50' /></svg>
+                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#coin)' width='50' height='50' /></svg>
+                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#blackflag)' width='50' height='50' /></svg>
+                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#rainbow)' width='50' height='50' /></svg>
+                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/tiger.svg' width='50' height='50'/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/a.svg' width='50' height='50'/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/s.svg' width='50' height='50'/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/wrigley.jpeg' width='50' height='50'/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='http://www.mikelahay.com/images/cooper.png' width='50' height='50'/></svg>
+                                        </div>
                                     <select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                         <option>{Object.keys(item)}</option>
-                                        <option>#rect</option>
+                                        {/* <option>#rect</option> */}
                                         <option>#circ</option>
                                         <option>#gold</option>
                                         <option>#bi</option>
