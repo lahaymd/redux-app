@@ -13,7 +13,7 @@ class WebCam extends Component {
         }
 
         function errorCallback(error) {
-            console.log("navigator.getUserMedia error: ", error);
+            alert("navigator.getUserMedia error: ", error);
         }
 
         navigator.mediaDevices.getUserMedia(constraints)
@@ -24,6 +24,7 @@ class WebCam extends Component {
             alert("enumerateDevices() not supported.");
 
         }
+       
 
         // List cameras and microphones.
 
@@ -60,7 +61,7 @@ class WebCam extends Component {
 
         return (
             <foreignObject  width='100%' preserveAspectRatio='xMinYMin slice'>
-                {!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices? null: <video id={this.props.id} width='100%' height='100%' autoPlay ></video>}
+                {!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices? <div>no webcam</div>: <video id={this.props.id} width='100%' height='100%' autoPlay ></video>}
             </foreignObject>
         )
     }

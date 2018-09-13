@@ -145,11 +145,11 @@ class Canvas extends Component {
 
     render(){
         console.log(this.props);
-        
+        alert(navigator.mediaDevices)
         return(
             <div>
                 {/* <WebCam id='canvas-video' />  */}
-              
+                {!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices ? <div>no webcam</div> : <WebCam id='canvas-video' /> }
                 <WebCam id='canvas-video'  /> 
                 
                 <svg id='svg-canvas' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 0 500 500' width='500px' height='500px' preserveAspectRatio='none'><image id='canvas-image' xlinkHref='images/tiger.svg' width='500px' height='500px' preserveAspectRatio='none' /></svg>
