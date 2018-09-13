@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
 
-class WebCam extends Component {
+class Cam extends Component {
 
     componentDidMount() {
         var constraints = { video: true };
-        var video = document.querySelector("video");
+        var video = document.querySelector("#canvas-video");
         console.log(video);
         
 
@@ -66,13 +66,15 @@ class WebCam extends Component {
     render() {
 
         return (
-            <foreignObject  width='100%' preserveAspectRatio='xMinYMin slice'>
+            <div>
+
                 {!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices? <div>no webcam</div>: <video id={this.props.id} width='100%' height='100%' autoPlay ></video>}
-            </foreignObject>
+            </div>
+            
         )
     }
 }
 
 
 
-export default WebCam;
+export default Cam;
