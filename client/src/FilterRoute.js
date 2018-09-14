@@ -42,6 +42,7 @@ class FilterRoute extends Component {
             SourceGraphicAttrs: [{x: '50%'}, {y:'50%'}, {fill:''}, {stroke:''}, {strokeWidth: 1}, {paintOrder: 'stroke'}, {fontSize: 240}, {textLength: 450}, {lengthAdjust: 'spacing'}, {textAnchor: 'middle'}, {alignmentBaseline: 'middle'}, {text: 'SVG'}],
             gradientAttrs: [{x1: 0}, {x2: 1}, {y1: 0}, {y2: 0}, {spreadMethod: 'reflect'}, {gradientTransform: 0}, {gradientUnits:'objectBoundingBox'}, {id: 'linear'}],
             images: [],
+            feImages: [],
             selectedSourceGraphic: 'text',
             filterData: [],
             filterName: '',
@@ -876,8 +877,29 @@ console.log(newArray);
         
     }
 
-    handleFilterData = (index,idx) => e => {
+    handleImage = (index, idx) => e => {
+        console.log(e.target);
         
+        console.log(e.target.id);
+        console.log(e.target.className);
+        console.log(index);
+        console.log(e.target.value);
+        console.log(e.target.name);
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].attributes.slice();
+        console.log(x);
+
+        x.splice(idx, 1, { [`${e.target.className.baseVal}`]: isNaN(e.target.id) || isNaN(parseInt(e.target.id)) ? e.target.id : parseFloat(e.target.id) })
+        newfilterData[index].attributes = x;
+        this.setState({ filterData: newfilterData })
+        
+    }
+
+    handleFilterData = (index,idx) => e => {
+        console.log(e.target);
+        
+        console.log(e.target.id);
         console.log(index);
         console.log(e.target.value);
         console.log(e.target.name);
@@ -936,7 +958,6 @@ console.log(newArray);
                                 })}
                             </Gradient> */}
                             <LinearGradients gradientData={this.state.linearGradients}/>
-                            <rect id='bi' width='10' height='10' fill='url(#p)' />
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
                                 <stop stopColor="white" offset="82%" />
                                 <stop stopColor="gold" offset="92%" />
@@ -945,11 +966,12 @@ console.log(newArray);
                                 <stop stopColor="darkgoldenrod" offset="100%" />
                             </linearGradient>
                             <RadialGradient />
-                            <rect id='gold' width='100' height='100' fill='url(#coin)' />
+                            <rect id='gold'  width='50' height='50' fill='url(#coin)' />
                             <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
                             <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
                             <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' />
                             <Pattern />
+                            <rect id='bi' x='100' y='100' width='50' height='50' fill='url(#p)' />
 
                
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
@@ -1589,15 +1611,15 @@ console.log(newArray);
                                     return (
                                     <div>
                                         <div className='image-wrapper'>
-                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#rg)' width='50' height='50' /></svg>
-                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#coin)' width='50' height='50' /></svg>
-                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#blackflag)' width='50' height='50' /></svg>
-                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#rainbow)' width='50' height='50' /></svg>
-                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/tiger.svg' width='50' height='50'/></svg>
-                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/a.svg' width='50' height='50'/></svg>
-                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/s.svg' width='50' height='50'/></svg>
-                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/wrigley.jpeg' width='50' height='50'/></svg>
-                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='http://www.mikelahay.com/images/cooper.png' width='50' height='50'/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%' ><rect fill='url(#rg)' width='50' height='50' className={Object.keys(item)}  id='#circ' onClick={this.handleImage(index, idx)} /></svg>
+                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#coin)' width='50' height='50'  className={Object.keys(item)}  id='#gold' onClick={this.handleImage(index, idx)}/></svg>
+                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#p)' width='50' height='50'  className={Object.keys(item)}  id='#bi' onClick={this.handleImage(index, idx)}/></svg>
+                                            <svg viewBox='0 0 50 50' width='100%' height='100%'><rect fill='url(#rg)' width='50' height='50'  className={Object.keys(item)}  id='#rad' onClick={this.handleImage(index, idx)}/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/tiger.svg' width='50' height='50' className={Object.keys(item)} id='images/tiger.svg' onClick={this.handleImage(index, idx)}/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/a.svg' width='50' height='50' className={Object.keys(item)} id='images/a.svg' onClick={this.handleImage(index, idx)}/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/s.svg' width='50' height='50' className={Object.keys(item)} id='images/s.svg' onClick={this.handleImage(index, idx)}/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/wrigley.jpeg' width='50' height='50' className={Object.keys(item)} id='images/wrigley.jpeg' onClick={this.handleImage(index, idx)}/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='http://www.mikelahay.com/images/cooper.png' width='50' height='50' className={Object.keys(item)} id='http://www.mikelahay.com/images/cooper.png' onClick={this.handleImage(index, idx)}/></svg>
                                         </div>
                                     <select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                         <option>{Object.keys(item)}</option>
