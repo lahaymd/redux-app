@@ -45,6 +45,17 @@ body {
     grid-gap: 1em;
 }
 
+.gradient-wrapper {
+
+    display: grid;
+    width: 100%;
+
+    grid-template-columns:  repeat( auto-fit, minmax(50px, 1fr) );
+    /* grid-auto-rows: 20vh;  */
+    grid-gap: 1em;
+
+}
+
 *{
     box-sizing: border-box;
 }

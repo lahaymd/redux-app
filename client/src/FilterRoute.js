@@ -966,12 +966,12 @@ console.log(newArray);
                                 <stop stopColor="darkgoldenrod" offset="100%" />
                             </linearGradient>
                             <RadialGradient />
-                            <rect id='gold'  width='50' height='50' fill='url(#coin)' />
+                            <rect id='gold' x='0' y='0' width='50' height='50' fill='url(#coin)' />
                             <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
                             <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
                             <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' />
                             <Pattern />
-                            <rect id='bi' x='100' y='100' width='50' height='50' fill='url(#p)' />
+                            <rect id='bi' width='50' height='50' fill='url(#p)' />
 
                
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>

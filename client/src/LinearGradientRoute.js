@@ -319,6 +319,15 @@ class LinearGradientRoute extends Component {
                         )
                     })}
                 </LinearGradientRepresentation> 
+                <div className='gradient-wrapper'>
+                    {this.state.linearGradients.map( item => {
+                        return (
+                            <svg width='50' height='50'>
+                                <rect width='50' height='50' fill={`url(#${item.name})`} />
+                            </svg>
+                        )
+                    })}
+                </div>
             </div>
         )
     }
