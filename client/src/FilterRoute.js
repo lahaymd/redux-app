@@ -45,6 +45,7 @@ class FilterRoute extends Component {
             feImages: [],
             selectedSourceGraphic: 'text',
             filterData: [],
+            allFilterData: [],
             filterName: '',
             filterNames: [],
             feBlendDefaults: { type: 'feBlend', attributes: [{ in: '' }, { in2: '' }, {result: 'blend'}, {mode:'normal'} ]},
@@ -81,10 +82,13 @@ class FilterRoute extends Component {
          fetch('/filter_data')
              .then(res => res.json())
              .then(data => {
-                //  console.log('post stops' + JSON.stringify(data));
+                 console.log('filter data' + JSON.stringify(data));
        
         this.setState({ filterNames: data.map(item => item.name)})
+        this.setState({allFilterData: data})
     })
+
+        
     }
 
     handleText = (e) => this.setState({ text: e.target.value });
@@ -1858,6 +1862,312 @@ console.log(newArray);
                                 <button onClick={this.handleNewFilterData}>new filter</button>
                             </div>
                        
+                        </div>
+                        <div className='filter-thumbnail'>
+                            {this.state.allFilterData.map(data => {
+                                console.log(data);
+                                
+                                return (
+                                    <svg viewBox='0 0 500 500' width='100%' height='100%'>
+                                        <defs>
+                                            <filter id={data.name} colorInterpolationFilters='sRGB' width='200%' height='200%'>
+
+
+
+
+
+
+                                                {data.filterData.map((item, index) => {
+                                                    console.log(item.attributes);
+                                                    const attrs = item.attributes.reduce((prev, curr) => {
+                                                        let key = Object.keys(curr)[0];
+                                                        console.log(Object.keys(curr));
+                                                        console.log(prev);
+                                                        console.log(curr);
+
+                                                        if (Object.values(curr) != '') {
+
+                                                            prev[key] = curr[key]; return prev;
+                                                        } else { return prev; }
+                                                    }, {})
+                                                    console.log(attrs);
+
+                                                    switch (item.type) {
+                                                        case 'feComponentTransfer': {
+
+                                                            const funcRAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncR')].attributes.reduce((prev, curr) => {
+                                                                let key = Object.keys(curr)[0];
+                                                                console.log(Object.keys(curr));
+                                                                console.log(prev);
+                                                                console.log(curr);
+
+                                                                if (Object.values(curr) != '') {
+
+                                                                    prev[key] = curr[key]; return prev;
+                                                                } else { return prev; }
+                                                            }, {})
+                                                            const funcGAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncG')].attributes.reduce((prev, curr) => {
+                                                                let key = Object.keys(curr)[0];
+                                                                console.log(Object.keys(curr));
+                                                                console.log(prev);
+                                                                console.log(curr);
+
+                                                                if (Object.values(curr) != '') {
+
+                                                                    prev[key] = curr[key]; return prev;
+                                                                } else { return prev; }
+                                                            }, {})
+                                                            const funcBAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncB')].attributes.reduce((prev, curr) => {
+                                                                let key = Object.keys(curr)[0];
+                                                                console.log(Object.keys(curr));
+                                                                console.log(prev);
+                                                                console.log(curr);
+
+                                                                if (Object.values(curr) != '') {
+
+                                                                    prev[key] = curr[key]; return prev;
+                                                                } else { return prev; }
+                                                            }, {})
+                                                            const funcAAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncA')].attributes.reduce((prev, curr) => {
+                                                                let key = Object.keys(curr)[0];
+                                                                console.log(Object.keys(curr));
+                                                                console.log(prev);
+                                                                console.log(curr);
+
+                                                                if (Object.values(curr) != '') {
+
+                                                                    prev[key] = curr[key]; return prev;
+                                                                } else { return prev; }
+                                                            }, {})
+
+                                                            return (
+                                                                <item.type key={index} {...attrs}>
+                                                                    <feFuncR   {...funcRAttrs} />
+                                                                    <feFuncG   {...funcGAttrs} />
+                                                                    <feFuncB   {...funcBAttrs} />
+                                                                    <feFuncA   {...funcAAttrs} />
+                                                                </item.type>
+
+                                                            )
+
+                                                        }
+
+
+                                                        case 'feDiffuseLighting': {
+                                                            console.log(item.children);
+
+                                                            if (item.children[item.children.findIndex(i => i.type === 'feDistantLight')]) {
+
+                                                                const feDistantLightAttrs = item.children[item.children.findIndex(i => i.type === 'feDistantLight')].attributes.reduce((prev, curr) => {
+                                                                    let key = Object.keys(curr)[0];
+                                                                    console.log(Object.keys(curr));
+                                                                    console.log(prev);
+                                                                    console.log(curr);
+
+                                                                    if (Object.values(curr) != '') {
+
+                                                                        prev[key] = curr[key]; return prev;
+                                                                    } else { return prev; }
+                                                                }, {})
+                                                                console.log(feDistantLightAttrs);
+
+                                                                return (
+                                                                    <item.type key={index} {...attrs}>
+                                                                        <feDistantLight {...feDistantLightAttrs} />
+                                                                    </item.type>
+                                                                )
+                                                            }
+
+                                                            if (item.children[item.children.findIndex(i => i.type === 'fePointLight')]) {
+                                                                const fePointLightAttrs = item.children[item.children.findIndex(i => i.type === 'fePointLight')].attributes.reduce((prev, curr) => {
+                                                                    let key = Object.keys(curr)[0];
+                                                                    console.log(Object.keys(curr));
+                                                                    console.log(prev);
+                                                                    console.log(curr);
+
+                                                                    if (Object.values(curr) != '') {
+
+                                                                        prev[key] = curr[key]; return prev;
+                                                                    } else { return prev; }
+                                                                }, {})
+
+                                                                return (
+                                                                    <item.type key={index} {...attrs}>
+                                                                        <fePointLight {...fePointLightAttrs} />
+                                                                    </item.type>
+                                                                )
+
+                                                            }
+                                                            if (item.children[item.children.findIndex(i => i.type === 'feSpotLight')]) {
+                                                                const feSpotLightAttrs = item.children[item.children.findIndex(i => i.type === 'feSpotLight')].attributes.reduce((prev, curr) => {
+                                                                    let key = Object.keys(curr)[0];
+                                                                    console.log(Object.keys(curr));
+                                                                    console.log(prev);
+                                                                    console.log(curr);
+
+                                                                    if (Object.values(curr) != '') {
+
+                                                                        prev[key] = curr[key]; return prev;
+                                                                    } else { return prev; }
+                                                                }, {})
+
+                                                                return (
+                                                                    <item.type key={index} {...attrs}>
+                                                                        <feSpotLight {...feSpotLightAttrs} />
+                                                                    </item.type>
+                                                                )
+
+                                                            }
+                                                        }
+                                                        case 'feSpecularLighting': {
+                                                            console.log(item.children);
+
+                                                            if (item.children[item.children.findIndex(i => i.type === 'feDistantLight')]) {
+
+                                                                const feDistantLightAttrs = item.children[item.children.findIndex(i => i.type === 'feDistantLight')].attributes.reduce((prev, curr) => {
+                                                                    let key = Object.keys(curr)[0];
+                                                                    console.log(Object.keys(curr));
+                                                                    console.log(prev);
+                                                                    console.log(curr);
+
+                                                                    if (Object.values(curr) != '') {
+
+                                                                        prev[key] = curr[key]; return prev;
+                                                                    } else { return prev; }
+                                                                }, {})
+                                                                console.log(feDistantLightAttrs);
+
+                                                                return (
+                                                                    <item.type key={index} {...attrs}>
+                                                                        <feDistantLight {...feDistantLightAttrs} />
+                                                                    </item.type>
+                                                                )
+                                                            }
+
+                                                            if (item.children[item.children.findIndex(i => i.type === 'fePointLight')]) {
+                                                                const fePointLightAttrs = item.children[item.children.findIndex(i => i.type === 'fePointLight')].attributes.reduce((prev, curr) => {
+                                                                    let key = Object.keys(curr)[0];
+                                                                    console.log(Object.keys(curr));
+                                                                    console.log(prev);
+                                                                    console.log(curr);
+
+                                                                    if (Object.values(curr) != '') {
+
+                                                                        prev[key] = curr[key]; return prev;
+                                                                    } else { return prev; }
+                                                                }, {})
+
+                                                                return (
+                                                                    <item.type key={index} {...attrs}>
+                                                                        <fePointLight {...fePointLightAttrs} />
+                                                                    </item.type>
+                                                                )
+
+                                                            }
+                                                            if (item.children[item.children.findIndex(i => i.type === 'feSpotLight')]) {
+                                                                const feSpotLightAttrs = item.children[item.children.findIndex(i => i.type === 'feSpotLight')].attributes.reduce((prev, curr) => {
+                                                                    let key = Object.keys(curr)[0];
+                                                                    console.log(Object.keys(curr));
+                                                                    console.log(prev);
+                                                                    console.log(curr);
+
+                                                                    if (Object.values(curr) != '') {
+
+                                                                        prev[key] = curr[key]; return prev;
+                                                                    } else { return prev; }
+                                                                }, {})
+
+                                                                return (
+                                                                    <item.type key={index} {...attrs}>
+                                                                        <feSpotLight {...feSpotLightAttrs} />
+                                                                    </item.type>
+                                                                )
+
+                                                            }
+                                                        }
+
+                                                        case 'feMerge':
+                                                            console.log(item.children);
+                                                            console.log(item.children[0].attributes);
+
+                                                            return (
+                                                                <item.type key={index} {...attrs}>
+                                                                    {item.children[0].attributes.map((i, idx) => {
+                                                                        console.log(i);
+                                                                        return (
+                                                                            <feMergeNode key={idx} in={Object.values(i)} />
+                                                                        )
+                                                                    })}
+                                                                </item.type>
+                                                            )
+
+                                                        default:
+
+                                                            return (
+
+                                                                <item.type key={index}  {...attrs} />
+
+                                                            )
+                                                    }
+
+                                                })}
+
+
+
+
+                                            
+
+                                            
+
+
+
+
+
+
+
+
+
+
+
+
+                                            </filter>
+                                        </defs>
+                                        {this.state.selectedSourceGraphic == 'text' ? (
+                                            <SourceGraphic
+                                                
+                                                text={Object.values(this.state.SourceGraphicAttrs[11])}
+                                                elements={this.state.filterData}
+                                                x={Object.values(this.state.SourceGraphicAttrs[0])}
+                                                y={Object.values(this.state.SourceGraphicAttrs[1])}
+                                                fill={Object.values(this.state.SourceGraphicAttrs[2])}
+                                                stroke={Object.values(this.state.SourceGraphicAttrs[3])}
+                                                strokeWidth={Object.values(this.state.SourceGraphicAttrs[4])}
+                                                paintOrder={Object.values(this.state.SourceGraphicAttrs[5])}
+                                                fontSize={Object.values(this.state.SourceGraphicAttrs[6])}
+                                                textLength={Object.values(this.state.SourceGraphicAttrs[7])}
+                                                lengthAdjust={Object.values(this.state.SourceGraphicAttrs[8])}
+                                                textAnchor={Object.values(this.state.SourceGraphicAttrs[9])}
+                                                alignmentBaseline={Object.values(this.state.SourceGraphicAttrs[10])}
+                                            />
+                                        ) : this.state.selectedSourceGraphic == 'image' ? (
+                                                <image filter={`url(#${data.name})`} xlinkHref='images/tiger.svg' width='100%' height='100%' preserveAspectRatio='none' />
+                                        ) : this.state.selectedSourceGraphic == 'webcam' ? (
+                                            <WebCam id='video' />
+                                        ) : this.state.selectedSourceGraphic == 'video' ? (
+                                                        <foreignObject filter={`url(#${data.name})`} id='fo' width="400px" height="400px"
+                                            >
+                                                <iframe  width="400px" height="400px" src="https://www.youtube.com/embed/stUolWxG3wo?loop=1&autoplay=1&playlist=stUolWxG3wo" frameBorder="0" allowFullScreen="allowFullScreen"></iframe>
+                                                {/* <video width='100%' height='100%' className={this.state.filterData.length ? 'filter' : ''} xmlns="http://www.w3.org/1999/xhtml" id="image0-video" src='' controls>
+
+                                            </video> */}
+                                            </foreignObject>
+                                        ) :
+                                                        <Circle elements={this.state.filterData} />
+
+                                        }
+                                    </svg>
+                                )
+                            })}
                         </div>
                 </div>
                     {/* <button onClick={this.handleToggleSourceGraphicEditor}>HIDE/SHOW</button> */}
