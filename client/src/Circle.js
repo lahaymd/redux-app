@@ -10,7 +10,7 @@ class Circle extends Component {
             }
 
         return (
-            <circle className={className} cx='50%' cy='50%' r='200'  fill='url(#p)' />
+            <circle filter={this.props.filter} className={className} cx='50%' cy='50%' r='200'  fill='url(#p)' />
         )
     }
 

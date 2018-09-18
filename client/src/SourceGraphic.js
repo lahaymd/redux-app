@@ -13,6 +13,7 @@ class SourceGraphic extends Component {
         return (
             
                 <text 
+                    filter={this.props.filter}
                     x={this.props.x} 
                     y={this.props.y} 
                     fill={this.props.fill} 

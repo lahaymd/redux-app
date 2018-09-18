@@ -2134,7 +2134,7 @@ console.log(newArray);
                                         </defs>
                                         {this.state.selectedSourceGraphic == 'text' ? (
                                             <SourceGraphic
-                                                
+                                                filter={`url(#${data.name})`}
                                                 text={Object.values(this.state.SourceGraphicAttrs[11])}
                                                 elements={this.state.filterData}
                                                 x={Object.values(this.state.SourceGraphicAttrs[0])}
@@ -2162,7 +2162,7 @@ console.log(newArray);
                                             </video> */}
                                             </foreignObject>
                                         ) :
-                                                        <Circle elements={this.state.filterData} />
+                                                        <Circle filter={`url(#${data.name})`} elements={this.state.filterData} />
 
                                         }
                                     </svg>
