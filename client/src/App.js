@@ -6,6 +6,7 @@ import Filter from './Filter';
 import FilterRoute from './FilterRoute';
 import GradientEditor from './GradientEditor';
 import LinearGradientRoute from './LinearGradientRoute';
+import RadialGradientRoute from './RadialGradientRoute';
 // import SourceGraphicEditor from './SourceGraphicEditor';
 
 
@@ -31,10 +32,15 @@ class App extends Component {
                 <svg viewBox='0 0 10 10' preserveAspectRatio='xMinYMid' height='1em' className='svg-icon'><circle cx='5' cy='5' r='5' /></svg>
                   <Link to='/linear'>Linear Gradient</Link>
                 </li>
+                <li>
+                <svg viewBox='0 0 10 10' preserveAspectRatio='xMinYMid' height='1em' className='svg-icon'><circle cx='5' cy='5' r='5' /></svg>
+                  <Link to='/radial'>Radial Gradient</Link>
+                </li>
             </ul>
           </nav>
           <Route exact path='/' component={FilterRoute}/>
           <Route exact path='/linear' component={LinearGradientRoute}/>
+          <Route exact path='/radial' component={RadialGradientRoute}/>
         </div>
     </Router>
     );

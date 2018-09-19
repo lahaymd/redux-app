@@ -30,7 +30,7 @@ class GradientEditor extends Component {
             
         }
         return (
-            <div className='htmlcard label-wrapper2 label'>
+            <div className='htmlcard label-wrapper2 label gradient-editor'>
                 { 
                 data.map( (item, index) => {
                     // console.log('gradienteditor'+JSON.stringify(item));

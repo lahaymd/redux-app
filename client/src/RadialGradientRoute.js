@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Pattern from './Pattern';
 import RadialGradient from './RadialGradient';
 import SourceGraphicSelect from './SourceGraphicSelect';
@@ -7,35 +7,76 @@ import LinearGradientRepresentation from './LinearGradientRepresentation';
 import GradientEditor from './GradientEditor';
 import StopAdder from "./StopAdder";
 import RectWithGradient from './RectWithGradient';
-import LinearGradients from './LinearGradients';
+import RadialGradients from './RadialGradients';
 import LinearGradientSelect from './LinearGradientSelect';
 import { SketchPicker } from 'react-color';
 
-class LinearGradientRoute extends Component {
+class RadialGradientRoute extends Component {
 
     state = {
         fill: 'linear9',
-        gradientAttrs: [{ x1: 0 }, { x2: 1 }, { y1: 0 }, { y2: 0 }, { spreadMethod: 'reflect' }, { gradientTransform: 0 }, { gradientUnits: 'objectBoundingBox' }, { id: 'linear1' }],
+        gradientAttrs: [{ cx: .5 }, { cy: .5 }, { r: 1 }, { fx: '' }, { fy: '' }, { fr: '' }, { spreadMethod: 'reflect' }, { gradientTransform: 0 }, { gradientUnits: 'objectBoundingBox' }, { id: 'radial1' }],
         stops: [],
         selectedGradientIndex: 0,
-        linearGradients: [],
+        linearGradients: [{
+            "_id": {
+                "$oid": "5b279c46cbc99b027f98138a"
+            },
+            "name": "linear9",
+            "stops": [
+                {
+                    "_id": {
+                        "$oid": "5b279c6acbc99b027f981390"
+                    },
+                    "offset": 0,
+                    "stopColor": "red",
+                    "stopOpacity": 1
+                },
+                {
+                    "_id": {
+                        "$oid": "5b279c6acbc99b027f98138f"
+                    },
+                    "offset": 0.5,
+                    "stopColor": "white",
+                    "stopOpacity": 1
+                },
+                {
+                    "_id": {
+                        "$oid": "5b279c6acbc99b027f98138e"
+                    },
+                    "offset": 1,
+                    "stopColor": "blue",
+                    "stopOpacity": 1
+                }
+            ],
+            "cx": 0.5,
+            "cy": 0.5,
+            "r": .5,
+            "fx": 0.5,
+            "fy": 0.5,
+            "fr": 0,
+            "spreadMethod": "pad",
+            "gradientTransform": 0,
+            "gradientUnits": "objectBoundingBox",
+            "__v": 0
+        }],
         newLinearGradientName: ''
     }
 
-    async componentDidMount() {
+    // async componentDidMount() {
 
-        const res = await fetch('/linear_gradient');
-        const json = await res.json();
-        this.setState({ linearGradients: json })
-        this.setState({ stops: json[json.length - 1][`stops`] })
+    //     const res = await fetch('/linear_gradient');
+    //     const json = await res.json();
+    //     this.setState({ linearGradients: json })
+    //     this.setState({ stops: json[json.length - 1][`stops`] })
 
-    }
+    // }
 
     handleGradientChange = (item, index) => e => {
         console.log(item);
         console.log(index);
         console.log(e.target.name);
-        
+
         // console.log('gradient');
         // console.log(`item ${JSON.stringify(item)}`);
         // console.log(`index ${index}`);
@@ -44,24 +85,24 @@ class LinearGradientRoute extends Component {
         // const attrs = this.state.linearGradients[]
         const newLinearGradients = [...this.state.linearGradients]
         console.log(newLinearGradients);
-        
-        const newAttrs = {...this.state.linearGradients[this.state.selectedGradientIndex]}
+
+        const newAttrs = { ...this.state.linearGradients[this.state.selectedGradientIndex] }
         console.log(newAttrs);
         newAttrs[`${e.target.name}`] = e.target.value;
         console.log(newAttrs);
         const gradIndex = [...this.state.linearGradients].findIndex(item => item['name'] == newAttrs['name'])
         console.log(gradIndex);
-        
+
         newLinearGradients.splice(gradIndex, 1, newAttrs)
-        this.setState({ linearGradients: newLinearGradients})
+        this.setState({ linearGradients: newLinearGradients })
         const obj = { [`${e.target.name}`]: e.target.value }
         console.log(obj);
-        
+
         console.log(Object.values(item)[0]);
         console.log(Object.keys(item)[0]);
-        
+
         // newAttrs.splice(index, 1, obj)
-        
+
         // const gradAttrs = this.state.gradientAttrsl.slice();
         // const obj = { [`${e.target.name}`]: e.target.value }
         // gradAttrs.splice(index, 1, obj)
@@ -86,7 +127,7 @@ class LinearGradientRoute extends Component {
     }
 
     handleChangeLinearGradientName = () => e => {
-        this.setState({newLinearGradientName: e.target.value})
+        this.setState({ newLinearGradientName: e.target.value })
     }
 
     handleNewLinearGradient = () => e => {
@@ -147,7 +188,7 @@ class LinearGradientRoute extends Component {
 
 
     handlePushStop = () => e => {
-        
+
         console.log(this.state.linearGradients[this.state.selectedGradientIndex]);
         const linearGradients = [...this.state.linearGradients]
         const linearGradient = linearGradients[this.state.selectedGradientIndex]
@@ -171,7 +212,7 @@ class LinearGradientRoute extends Component {
         // let stops = this.state.stops.slice();
         // stops.push({ offset: this.state.offset, stopColor: this.state.stopColor, stopOpacity: this.state.stopOpacity })
         // this.setState({ stops: stops })
-        
+
         // let data = {
         //     name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
         //     stops: stops
@@ -213,13 +254,13 @@ class LinearGradientRoute extends Component {
         console.log(param);
         console.log(index);
         console.log(e);
-        
+
         // console.log(e.target.name);
         console.log(e.target.value);
         const linearGradients = [...this.state.linearGradients]
         const linearGradient = linearGradients[this.state.selectedGradientIndex]
         console.log(linearGradient);
-        
+
         const gradStops = [...this.state.linearGradients[this.state.selectedGradientIndex]['stops']]
         console.log(gradStops);
         const obj = { ...gradStops[index] }
@@ -230,11 +271,11 @@ class LinearGradientRoute extends Component {
         console.log(gradStops);
         linearGradient['stops'] = gradStops;
         console.log(linearGradient);
-        
+
         linearGradients.splice(this.state.selectedGradientIndex, 1, linearGradient)
         this.setState({ linearGradients })
-        
-        
+
+
         // const stops = this.state.stops.slice();
         // console.log(stops);
         // const obj = { ...stops[index] }
@@ -251,14 +292,14 @@ class LinearGradientRoute extends Component {
         console.log(index);
         // console.log(e);
         console.log(this.state.linearGradients[this.state.selectedGradientIndex]['stops'][index]);
-        
-        
+
+
         // console.log(e.target.name);
         // console.log(e.target.value);
         const linearGradients = [...this.state.linearGradients]
         const linearGradient = linearGradients[this.state.selectedGradientIndex]
         console.log(linearGradient);
-        
+
         const gradStops = [...this.state.linearGradients[this.state.selectedGradientIndex]['stops']]
         console.log(gradStops);
         const obj = { ...gradStops[index] }
@@ -269,11 +310,11 @@ class LinearGradientRoute extends Component {
         console.log(gradStops);
         linearGradient['stops'] = gradStops;
         console.log(linearGradient);
-        
+
         linearGradients.splice(this.state.selectedGradientIndex, 1, linearGradient)
         this.setState({ linearGradients })
-        
-        
+
+
         // const stops = this.state.stops.slice();
         // console.log(stops);
         // const obj = { ...stops[index] }
@@ -291,8 +332,8 @@ class LinearGradientRoute extends Component {
         console.log(e.target.id);
         console.log(this.state.linearGradients.findIndex(item => item.name === e.target.id));
         console.log(this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.id)][`stops`]);
-        this.setState({ selectedGradientIndex: this.state.linearGradients.findIndex(item => item.name === e.target.id)})
-        this.setState({fill: e.target.id})
+        this.setState({ selectedGradientIndex: this.state.linearGradients.findIndex(item => item.name === e.target.id) })
+        this.setState({ fill: e.target.id })
         this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.id)][`stops`] })
     }
 
@@ -301,12 +342,12 @@ class LinearGradientRoute extends Component {
         this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`] })
         console.log(e.target);
         console.log(e.target.selectedIndex);
-        
-       this.setState({selectedGradientIndex : e.target.selectedIndex - 1})
-       this.setState({fill: e.target.value })
-        const newGradient = {...this.state.linearGradients[e.target.selectedIndex - 1]}
+
+        this.setState({ selectedGradientIndex: e.target.selectedIndex - 1 })
+        this.setState({ fill: e.target.value })
+        const newGradient = { ...this.state.linearGradients[e.target.selectedIndex - 1] }
         console.log(newGradient);
-        
+
         // const ga = this.state.gradientAttrs.slice();
         // ga[7] = { id: e.target.value }
         // this.setState({ gradientAttrs: ga })
@@ -315,7 +356,7 @@ class LinearGradientRoute extends Component {
 
     render() {
 
-        const {foo} = this.state;
+        const { foo } = this.state;
 
         return (
             <div className='linear-gradient-wrapper'>
@@ -329,7 +370,7 @@ class LinearGradientRoute extends Component {
                 <LinearGradientRepresentation>
                     {this.state.linearGradients.length && this.state.linearGradients[this.state.selectedGradientIndex]['stops'].map((el, index, array) => {
                         console.log(el);
-                        
+
                         return (
                             <div className='linear-rep' key={index}>
                                 <label  >offset
@@ -337,7 +378,7 @@ class LinearGradientRoute extends Component {
                                 </label>
                                 <label  >stop-color
                                             <SketchPicker color={this.state.linearGradients[this.state.selectedGradientIndex]['stops'][index].stopColor} onChange={this.handleColorChange(el, index)} />
-                                            {/* <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' name='stopColor' value={el.stopColor} /> */}
+                                    {/* <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' name='stopColor' value={el.stopColor} /> */}
                                 </label>
                                 <label  >stop-opactiy
                                             <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range' min="0" max="1" step="0.01" name='stopOpacity' value={el.stopOpacity} />
@@ -346,8 +387,8 @@ class LinearGradientRoute extends Component {
                             </div>
                         )
                     })}
-                </LinearGradientRepresentation> 
-                <svg viewBox='0 0 500 500' width='100%' height='100%'>
+                </LinearGradientRepresentation>
+                <svg viewBox='0 0 500 500' width='100%' height='100%' preserveAspectRatio='xMinYMin meet'>
                     <defs>
                         {/* <Gradient
                             id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))[0]}
@@ -365,12 +406,12 @@ class LinearGradientRoute extends Component {
                                 )
                             })}
                         </Gradient> */}
-                        <LinearGradients gradientData={this.state.linearGradients} />
+                        <RadialGradients gradientData={this.state.linearGradients} />
                     </defs>
-                    <rect width='500' height='500' fill={`url(#${this.state.fill})`} />
+                    <circle cx='250' cy='250' r='250' fill={`url(#${this.state.fill})`} />
                 </svg>
                 <div className='gradient-wrapper'>
-                    {this.state.linearGradients.map( item => {
+                    {this.state.linearGradients.map(item => {
                         return (
                             <svg width='50' height='50'>
                                 <rect onClick={this.handleFill} id={item.name} width='50' height='50' fill={`url(#${item.name})`} />
@@ -383,4 +424,4 @@ class LinearGradientRoute extends Component {
     }
 }
 
-export default LinearGradientRoute;
+export default RadialGradientRoute;

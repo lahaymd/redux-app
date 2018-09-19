@@ -56,6 +56,13 @@ body {
 
 }
 
+.linear-gradient-wrapper {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 50%;
+    grid-template-rows: 23%;
+}
+
 .filter-thumbnail {
     display: grid;
       /* width: 100%; */

@@ -6,7 +6,7 @@ class StopAdder extends Component {
 
         return (
 
-            <div>
+            <div className='stop-adder'>
                 <label>
                     Offset
                 <input type='text'  name='offset' onChange={this.props.addStop()}/>

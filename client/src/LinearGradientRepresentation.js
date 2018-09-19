@@ -6,7 +6,7 @@ class LinearGradientRepresentation extends Component {
 
 
         return (
-            <div>
+            <div className='linear-gradient-represtation'>
             {this.props.children}
             </div>
         )
