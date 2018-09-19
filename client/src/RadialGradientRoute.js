@@ -63,14 +63,14 @@ class RadialGradientRoute extends Component {
         newLinearGradientName: ''
     }
 
-    // async componentDidMount() {
+    async componentDidMount() {
 
-    //     const res = await fetch('/linear_gradient');
-    //     const json = await res.json();
-    //     this.setState({ linearGradients: json })
-    //     this.setState({ stops: json[json.length - 1][`stops`] })
+        const res = await fetch('/radial_gradient');
+        const json = await res.json();
+        this.setState({ linearGradients: json })
+        this.setState({ stops: json[json.length - 1][`stops`] })
 
-    // }
+    }
 
     handleGradientChange = (item, index) => e => {
         console.log(item);
@@ -137,10 +137,12 @@ class RadialGradientRoute extends Component {
         let data = {
             name: this.state.newLinearGradientName,
             stops: this.state.linearGradients[this.state.selectedGradientIndex]['stops'],
-            x1: +(this.state.linearGradients[this.state.selectedGradientIndex]['x1']),
-            x2: +(this.state.linearGradients[this.state.selectedGradientIndex]['x2']),
-            y1: +(this.state.linearGradients[this.state.selectedGradientIndex]['y1']),
-            y2: +(this.state.linearGradients[this.state.selectedGradientIndex]['y2']),
+            cx: +(this.state.linearGradients[this.state.selectedGradientIndex]['cx']),
+            cy: +(this.state.linearGradients[this.state.selectedGradientIndex]['cy']),
+            r: +(this.state.linearGradients[this.state.selectedGradientIndex]['r']),
+            fx: +(this.state.linearGradients[this.state.selectedGradientIndex]['fx']),
+            fy: +(this.state.linearGradients[this.state.selectedGradientIndex]['fy']),
+            fr: +(this.state.linearGradients[this.state.selectedGradientIndex]['fr']),
             spreadMethod: this.state.linearGradients[this.state.selectedGradientIndex]['spreadMethod'],
             gradientTransform: +(this.state.linearGradients[this.state.selectedGradientIndex]['gradientTransform']),
             gradientUnits: this.state.linearGradients[this.state.selectedGradientIndex]['gradientUnits'],
@@ -159,7 +161,7 @@ class RadialGradientRoute extends Component {
 
         // }
 
-        fetch('/linear_gradient',
+        fetch('/radial_gradient',
             {
                 method: 'POST',
                 headers: {
