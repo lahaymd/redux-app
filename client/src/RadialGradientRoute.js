@@ -14,9 +14,11 @@ import { SketchPicker } from 'react-color';
 class RadialGradientRoute extends Component {
 
     state = {
-        fill: 'linear9',
+        fill: 'AmericanBullseye',
         gradientAttrs: [{ cx: .5 }, { cy: .5 }, { r: 1 }, { fx: '' }, { fy: '' }, { fr: '' }, { spreadMethod: 'reflect' }, { gradientTransform: 0 }, { gradientUnits: 'objectBoundingBox' }, { id: 'radial1' }],
-        stops: [],
+        stops: [
+           
+        ],
         selectedGradientIndex: 0,
         linearGradients: [{
             "_id": {
@@ -25,25 +27,19 @@ class RadialGradientRoute extends Component {
             "name": "linear9",
             "stops": [
                 {
-                    "_id": {
-                        "$oid": "5b279c6acbc99b027f981390"
-                    },
+                   
                     "offset": 0,
                     "stopColor": "red",
                     "stopOpacity": 1
                 },
                 {
-                    "_id": {
-                        "$oid": "5b279c6acbc99b027f98138f"
-                    },
+                  
                     "offset": 0.5,
                     "stopColor": "white",
                     "stopOpacity": 1
                 },
                 {
-                    "_id": {
-                        "$oid": "5b279c6acbc99b027f98138e"
-                    },
+                 
                     "offset": 1,
                     "stopColor": "blue",
                     "stopOpacity": 1

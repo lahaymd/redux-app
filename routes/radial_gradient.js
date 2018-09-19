@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var LinearGradient = require('../models/radial_gradient.model.js');
+var RadialGradient = require('../models/radial_gradient.model.js');
 var mongoose = require('mongoose');
 
 router.post('/', function (req, res) {
