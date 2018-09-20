@@ -609,6 +609,11 @@ class FilterRoute extends Component {
         this.setState({filterName: e.target.value})
         
     }
+    handleFilterEvent = () =>  e => {
+        console.log(e.target.id);
+        this.setState({filterName: e.target.id})
+        
+    }
 
     handleChangeComplete =   (index,idx,item) =>(color)  => {
         console.log(index);
@@ -1228,6 +1233,7 @@ console.log(newArray);
 
                         {this.state.selectedSourceGraphic == 'text' ? (
                             <SourceGraphic
+                                filter={this.state.filterName}
                                 text={Object.values(this.state.SourceGraphicAttrs[11])}
                                 elements={this.state.filterData}
                                 x={Object.values(this.state.SourceGraphicAttrs[0])}
@@ -2146,7 +2152,7 @@ console.log(newArray);
                                             <SourceGraphic
                                                 filter={`url(#${data.name})`}
                                                 text={Object.values(this.state.SourceGraphicAttrs[11])}
-                                                elements={this.state.filterData}
+                                                // elements={this.state.filterData}
                                                 x={Object.values(this.state.SourceGraphicAttrs[0])}
                                                 y={Object.values(this.state.SourceGraphicAttrs[1])}
                                                 fill={Object.values(this.state.SourceGraphicAttrs[2])}
@@ -2160,7 +2166,7 @@ console.log(newArray);
                                                 alignmentBaseline={Object.values(this.state.SourceGraphicAttrs[10])}
                                             />
                                         ) : this.state.selectedSourceGraphic == 'image' ? (
-                                                <image filter={`url(#${data.name})`} xlinkHref='images/tiger.svg' width='100%' height='100%' preserveAspectRatio='none' />
+                                                <image onClick={this.handleFilterEvent()}filter={`url(#${data.name})`} id={data.name} xlinkHref='images/tiger.svg' width='100%' height='100%' preserveAspectRatio='none' />
                                         ) : this.state.selectedSourceGraphic == 'webcam' ? (
                                             <WebCam id='video' />
                                         ) : this.state.selectedSourceGraphic == 'video' ? (

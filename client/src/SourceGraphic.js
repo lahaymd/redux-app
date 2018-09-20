@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 class SourceGraphic extends Component {
 
     render() {
-
+        console.log(this.props.filter);
+        
         let className = '';
-        if (this.props.elements.length ) {
-    
+        if (this.props.elements && this.props.elements.length && !this.props.filter ) {
+
             className += 'filter';
         }
 
