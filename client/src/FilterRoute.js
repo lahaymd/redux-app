@@ -18,6 +18,7 @@ import Image from './Images';
 import  StopAdder from "./StopAdder";
 import RectWithGradient from './RectWithGradient';
 import LinearGradients from './LinearGradients';
+import RadialGradients from './RadialGradients';
 import LinearGradientSelect from './LinearGradientSelect';
 import FilterNameSelect from './FilterNameSelect';
 import FilterMenu from './FilterMenu';
@@ -36,6 +37,7 @@ class FilterRoute extends Component {
             elements: [],
             stops: [],
             linearGradients: [],
+            radialGradients: [],
             offset: '',
             stopColor: '',
             stopOpacity: '',
@@ -86,6 +88,13 @@ class FilterRoute extends Component {
        
         this.setState({ filterNames: data.map(item => item.name)})
         this.setState({allFilterData: data})
+    })
+         fetch('/radial_gradient')
+             .then(res => res.json())
+             .then(data => {
+                 console.log('radial data' + JSON.stringify(data));
+       
+                 this.setState({ radialGradients: data })
     })
 
         
@@ -250,7 +259,7 @@ class FilterRoute extends Component {
 
 
     handleSelectedLinearGradient = (e) => {
-        this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`] })
+        // this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`] })
         const sga = this.state.SourceGraphicAttrs.slice();
         sga[2] = { fill: `url(#${e.target.value})` }
         this.setState({ SourceGraphicAttrs: sga })
@@ -962,6 +971,7 @@ console.log(newArray);
                                 })}
                             </Gradient> */}
                             <LinearGradients gradientData={this.state.linearGradients}/>
+                            <RadialGradients gradientData={this.state.radialGradients}/>
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
                                 <stop stopColor="white" offset="82%" />
                                 <stop stopColor="gold" offset="92%" />
@@ -1852,7 +1862,7 @@ console.log(newArray);
                             <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
                             <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
                             <ConcatFilters emitSelectedFilterName={this.handleConcatFilterData} names={this.state.filterNames}/>
-                            <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.map(item => {
+                            <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.concat(this.state.radialGradients).map(item => {
                             
                                 
                                 return item.name;
