@@ -85,8 +85,8 @@ class GradientEditor extends Component {
                             <label key={index} className='html-label-wrapper'> {Object.keys(item)} : {Object.values(item)}
                             <input 
                                 type='range'
-                                min='0'
-                                max='1'
+                                min='-2'
+                                max='2'
                                 step='.01'
                                 // max={Object.values(this.props.attrs[6])[0] === 'objectBoundingBox' ? 1 : 500}
                                 // step={Object.values(this.props.attrs[6])[0] === 'objectBoundingBox' ? .01 : 1}
