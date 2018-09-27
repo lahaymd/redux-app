@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class SourceGraphic extends Component {
 
     render() {
-        console.log(this.props.filter);
+        // console.log(this.props.filter);
         
         let className = '';
         if (this.props.elements && this.props.elements.length && !this.props.filter ) {

@@ -84,7 +84,7 @@ class FilterRoute extends Component {
          fetch('/filter_data')
              .then(res => res.json())
              .then(data => {
-                 console.log('filter data' + JSON.stringify(data));
+                //  console.log('filter data' + JSON.stringify(data));
        
         this.setState({ filterNames: data.map(item => item.name)})
         this.setState({allFilterData: data})
@@ -92,7 +92,7 @@ class FilterRoute extends Component {
          fetch('/radial_gradient')
              .then(res => res.json())
              .then(data => {
-                 console.log('radial data' + JSON.stringify(data));
+                //  console.log('radial data' + JSON.stringify(data));
        
                  this.setState({ radialGradients: data })
     })
@@ -706,6 +706,61 @@ console.log(newArray);
         
     };
 
+    handleKernelMatrix = (index, idx) =>e => {
+        console.log(e.target.value);
+        console.log(e.target.id);
+        console.log(index);
+        console.log(idx);
+
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].attributes.slice();
+        console.log(x);
+        const foo = Object.values(x[2])[0].split(' ')
+        console.log(foo);
+        foo.splice(e.target.id, 1 , e.target.value)
+        console.log(foo);
+        const fooj =foo.join(' ')
+        console.log(fooj);
+        
+        // console.log(Object.values(x[2])[0].split(' '));
+        
+
+        x.splice(idx, 1, { kernelMatrix : fooj})
+        newfilterData[index].attributes = x;
+        this.setState({ filterData: newfilterData })
+        
+        
+
+        
+    }
+
+    handleAddKernelMatrix =  (index,idx) => e => {
+        console.log('clicked');
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].attributes.slice();
+        console.log(x);
+        const foo = Object.values(x[2])[0].split(' ')
+        const bar = Object.values(x[9])[0].toString().split(' ')
+        console.log(foo);
+        console.log(bar);
+        // foo.splice(e.target.id, 1, e.target.value)
+        foo.push(0)
+        console.log(foo);
+        const fooj = foo.join(' ')
+        console.log(fooj);
+
+        // console.log(Object.values(x[2])[0].split(' '));
+
+
+        x.splice(idx, 1, { kernelMatrix: fooj })
+        newfilterData[index].attributes = x;
+        this.setState({ filterData: newfilterData })
+        
+        
+    }
+
     handleNumberOfTableValues = (index, idx, kidIndex) => e => {
         console.log(index);
         console.log(idx);
@@ -914,6 +969,25 @@ console.log(newArray);
         
     }
 
+    handleFilterDataMode = (index,idx) => e => {
+        console.log(e.target);
+        console.log(e.target.className);
+        
+        console.log(e.target.id);
+        console.log(index);
+        console.log(e.target.value);
+        console.log(e.target.name);
+        const newfilterData = [...this.state.filterData]
+        console.log(newfilterData);
+        const x = newfilterData[index].attributes.slice();
+        console.log(x);
+        
+        x.splice(idx, 1, { [`${e.target.className}`]: e.target.id })
+        newfilterData[index].attributes = x;
+        this.setState({ filterData: newfilterData})
+
+        
+    }
     handleFilterData = (index,idx) => e => {
         console.log(e.target);
         
@@ -1497,10 +1571,40 @@ console.log(newArray);
                                             </div>
                                     )
                                 }
-                                    else if (Object.keys(item)[0] === 'divisor' || Object.keys(item)[0] === 'bias' || Object.keys(item)[0] === 'targetX' || Object.keys(item)[0] === 'targetY' ) {
+                                    else if (Object.keys(item)[0] === 'divisor' || Object.keys(item)[0] === 'bias'  ) {
                                         return (
                                             <div>
                                         <label key={Object.keys(item)+'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="10" step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                    else if (Object.keys(item)[0] === 'targetX'  ) {
+                                        console.log(this.state.filterData);
+                                        console.log(index);
+                                        console.log(idx);
+                                        console.log(Object.values(this.state.filterData[index].attributes[2]))
+                                        console.log(Object.values(this.state.filterData[index].attributes[2])[0].split(' ').length)
+                                        console.log(Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[0])
+                                        
+                                        return (
+                                            <div>
+                                                <label key={Object.keys(item) + 'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max={(Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[0]) - 1} step="1" value={Object.values(item)} />{Object.values(item)}</label>
+                                        <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
+                                            </div>
+                                    )
+                                }
+                                    else if ( Object.keys(item)[0] === 'targetY' ) {
+                                        console.log(this.state.filterData);
+                                        console.log(index);
+                                        console.log(idx);
+                                        console.log(Object.values(this.state.filterData[index].attributes[2]))
+                                        console.log(Object.values(this.state.filterData[index].attributes[2])[0].split(' ').length)
+                                        console.log(Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[1] || Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[0])
+                                        
+                                        return (
+                                            <div>
+                                                <label key={Object.keys(item) + 'a'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max={(Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[1] || Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[0]) - 1} step="1" value={Math.min(Object.values(item), (Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[1] || Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[0]) - 1)} />{Math.min(Object.values(item), (Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[1] || Object.values(this.state.filterData[index].attributes[9])[0].toString().split(' ')[0]) - 1)}</label>
                                         <label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>
                                             </div>
                                     )
@@ -1578,9 +1682,37 @@ console.log(newArray);
                                         <option>erode</option>
                                     </select>)
                                 } 
+                                else if (Object.keys(item)[0] === 'order') {
+                                        return (
+                                        <div>
+                                                <select onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                                    <option disabled selected>{Object.keys(item)}</option>
+                                                    {/* <option>9 1</option>
+                                                    <option>1 9</option>
+                                                    */}
+                                                    {Array(parseInt(Object.values(this.state.filterData[index].attributes[2])[0].split(' ').length)).fill(0).map((matrix, matIdx, matArray) => {
+                                                        console.log(matIdx);
+                                                        console.log(matArray);
+                                                        console.log(matArray.length % (matIdx + 1));
+                                                        
+                                                        if(matArray.length % (matIdx + 1) == 0) {
+
+                                                            return( 
+                                                                <option>{`${matIdx + 1} ${matArray.length /(matIdx + 1) }`}</option>
+                                                            )
+                                                        }
+                                                    })}
+                                                </select>
+                                            <label key={Object.keys(item)} ><span>ORDER{Object.keys(item)}</span><input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index, idx)} /></label>
+                                        </div>
+                                            )
+                                } 
                                 else if (Object.keys(item)[0] === 'kernelMatrix') {
+                                        console.log(Object.values(item)[0].split(' '));
+                                    
                                     return (
                                         <div>
+                                            <button onClick={this.handleAddKernelMatrix(index,idx)}>add</button>
                                             <select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                                 <option>{Object.keys(item)}</option>
                                                 <option>-1 -1 -1 -1 8 -1 -1 -1 -1</option>
@@ -1590,8 +1722,20 @@ console.log(newArray);
                                                 <option>0 0 0 -1 1 0 0 0 0</option>
                                                 <option>-2 -1 0 -1 1 1 0 1 2</option>
                                                 <option>0 0 0 0 0 0 0 0 1</option>
+                                                <option>-1 0 1 -2 0 2 -1 0 1</option>
+                                                <option>-1 -2 -1 0 0 0 1 2 1</option>
+                                                <option>5 5 -3 5  0 -3 -3 -3 -3</option>
+                                                <option>1 0 -1 1 0 -1 0 .5 0</option>
                                             </select>
                                             <label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index, idx)} /></label>
+                                            {Object.values(item)[0].split(' ').map((el, ind) => {
+                                                return (
+                                                    <label>{el}
+                                                        <input type='text' value={el} onChange={this.handleKernelMatrix(index, idx)} key={ind} id={ind} />
+                                                        <input type='range' min='-10' max='10' step='.1' value={el} onChange={this.handleKernelMatrix(index, idx)} key={ind} id={ind} />
+                                                    </label>
+                                                )
+                                            })}
                                         </div>
                                     )
                                 } 
@@ -1607,25 +1751,48 @@ console.log(newArray);
                                     )
                                 } 
                                 else if (Object.keys(item)[0] === 'mode') {
-                                    return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
-                                        <option>{Object.keys(item)}</option>
-                                        <option>normal</option>
-                                        <option>screen</option>
-                                        <option>lighten</option>
-                                        <option>darken</option>
-                                        <option>multiply</option>
-                                        <option>overlay</option>
-                                         <option>color-dodge</option>
-                                        <option>color-burn</option>
-                                        <option>hard-light</option>
-                                        <option>soft-light</option>
-                                        <option>difference</option>
-                                        <option>exclusion</option>
-                                        <option>hue</option>
-                                        <option>saturation</option>
-                                        <option>color</option>
-                                        <option>luminosity</option>
-                                    </select>)
+                                    return (
+                                    <div>
+                                        <h1>{Object.values(this.state.filterData[index].attributes[idx])}</h1>
+                                        <div className='mode-wrapper'>
+                                            <div className='mode' id='normal' onMouseOver={this.handleFilterDataMode(index,idx)}>normal</div>
+                                            <div className='mode' id='screen' onMouseOver={this.handleFilterDataMode(index,idx)}>screen</div>
+                                            <div className='mode' id='lighten' onMouseOver={this.handleFilterDataMode(index,idx)}>lighten</div>
+                                            <div className='mode' id='darken' onMouseOver={this.handleFilterDataMode(index,idx)}>darken</div>
+                                            <div className='mode' id='multiply' onMouseOver={this.handleFilterDataMode(index,idx)}>multiply</div>
+                                            <div className='mode' id='overlay' onMouseOver={this.handleFilterDataMode(index,idx)}>overlay</div>
+                                            <div className='mode' id='color-dodge' onMouseOver={this.handleFilterDataMode(index,idx)}>color-dodge</div>
+                                            <div className='mode' id='color-burn' onMouseOver={this.handleFilterDataMode(index,idx)}>color-burn</div>
+                                            <div className='mode' id='hard-light' onMouseOver={this.handleFilterDataMode(index,idx)}>hard-light</div>
+                                            <div className='mode' id='soft-light' onMouseOver={this.handleFilterDataMode(index,idx)}>soft-light</div>
+                                            <div className='mode' id='difference' onMouseOver={this.handleFilterDataMode(index,idx)}>difference</div>
+                                            <div className='mode' id='exclusion' onMouseOver={this.handleFilterDataMode(index,idx)}>exclusion</div>
+                                            <div className='mode' id='hue' onMouseOver={this.handleFilterDataMode(index,idx)}>hue</div>
+                                            <div className='mode' id='saturation' onMouseOver={this.handleFilterDataMode(index,idx)}>saturation</div>
+                                            <div className='mode' id='color' onMouseOver={this.handleFilterDataMode(index,idx)}>color</div>
+                                            <div className='mode' id='luminosity' onMouseOver={this.handleFilterDataMode(index,idx)}>luminosity</div>
+                                        </div>
+                                        <select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
+                                            <option>{Object.keys(item)}</option>
+                                            <option>normal</option>
+                                            <option>screen</option>
+                                            <option>lighten</option>
+                                            <option>darken</option>
+                                            <option>multiply</option>
+                                            <option>overlay</option>
+                                            <option>color-dodge</option>
+                                            <option>color-burn</option>
+                                            <option>hard-light</option>
+                                            <option>soft-light</option>
+                                            <option>difference</option>
+                                            <option>exclusion</option>
+                                            <option>hue</option>
+                                            <option>saturation</option>
+                                            <option>color</option>
+                                            <option>luminosity</option>
+                                        </select>
+                                    </div>
+                                    )
                                 } 
                                     else if (Object.keys(item)[0] === 'xlinkHref') {
                                     return (
@@ -1881,7 +2048,7 @@ console.log(newArray);
                         </div>
                         <div className='filter-thumbnail'>
                             {this.state.allFilterData.map(data => {
-                                console.log(data);
+                                // console.log(data);
                                 
                                 return (
                                     <svg viewBox='0 0 500 500' width='100%' height='100%'>
@@ -1894,28 +2061,28 @@ console.log(newArray);
 
 
                                                 {data.filterData.map((item, index) => {
-                                                    console.log(item.attributes);
+                                                    // console.log(item.attributes);
                                                     const attrs = item.attributes.reduce((prev, curr) => {
                                                         let key = Object.keys(curr)[0];
-                                                        console.log(Object.keys(curr));
-                                                        console.log(prev);
-                                                        console.log(curr);
+                                                        // console.log(Object.keys(curr));
+                                                        // console.log(prev);
+                                                        // console.log(curr);
 
                                                         if (Object.values(curr) != '') {
 
                                                             prev[key] = curr[key]; return prev;
                                                         } else { return prev; }
                                                     }, {})
-                                                    console.log(attrs);
+                                                    // console.log(attrs);
 
                                                     switch (item.type) {
                                                         case 'feComponentTransfer': {
 
                                                             const funcRAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncR')].attributes.reduce((prev, curr) => {
                                                                 let key = Object.keys(curr)[0];
-                                                                console.log(Object.keys(curr));
-                                                                console.log(prev);
-                                                                console.log(curr);
+                                                                // console.log(Object.keys(curr));
+                                                                // console.log(prev);
+                                                                // console.log(curr);
 
                                                                 if (Object.values(curr) != '') {
 
@@ -1924,9 +2091,9 @@ console.log(newArray);
                                                             }, {})
                                                             const funcGAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncG')].attributes.reduce((prev, curr) => {
                                                                 let key = Object.keys(curr)[0];
-                                                                console.log(Object.keys(curr));
-                                                                console.log(prev);
-                                                                console.log(curr);
+                                                                // console.log(Object.keys(curr));
+                                                                // console.log(prev);
+                                                                // console.log(curr);
 
                                                                 if (Object.values(curr) != '') {
 
@@ -1935,9 +2102,9 @@ console.log(newArray);
                                                             }, {})
                                                             const funcBAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncB')].attributes.reduce((prev, curr) => {
                                                                 let key = Object.keys(curr)[0];
-                                                                console.log(Object.keys(curr));
-                                                                console.log(prev);
-                                                                console.log(curr);
+                                                                // console.log(Object.keys(curr));
+                                                                // console.log(prev);
+                                                                // console.log(curr);
 
                                                                 if (Object.values(curr) != '') {
 
@@ -1946,9 +2113,9 @@ console.log(newArray);
                                                             }, {})
                                                             const funcAAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncA')].attributes.reduce((prev, curr) => {
                                                                 let key = Object.keys(curr)[0];
-                                                                console.log(Object.keys(curr));
-                                                                console.log(prev);
-                                                                console.log(curr);
+                                                                // console.log(Object.keys(curr));
+                                                                // console.log(prev);
+                                                                // console.log(curr);
 
                                                                 if (Object.values(curr) != '') {
 
@@ -1970,22 +2137,22 @@ console.log(newArray);
 
 
                                                         case 'feDiffuseLighting': {
-                                                            console.log(item.children);
+                                                            // console.log(item.children);
 
                                                             if (item.children[item.children.findIndex(i => i.type === 'feDistantLight')]) {
 
                                                                 const feDistantLightAttrs = item.children[item.children.findIndex(i => i.type === 'feDistantLight')].attributes.reduce((prev, curr) => {
                                                                     let key = Object.keys(curr)[0];
-                                                                    console.log(Object.keys(curr));
-                                                                    console.log(prev);
-                                                                    console.log(curr);
+                                                                    // console.log(Object.keys(curr));
+                                                                    // console.log(prev);
+                                                                    // console.log(curr);
 
                                                                     if (Object.values(curr) != '') {
 
                                                                         prev[key] = curr[key]; return prev;
                                                                     } else { return prev; }
                                                                 }, {})
-                                                                console.log(feDistantLightAttrs);
+                                                                // console.log(feDistantLightAttrs);
 
                                                                 return (
                                                                     <item.type key={index} {...attrs}>
@@ -1997,9 +2164,9 @@ console.log(newArray);
                                                             if (item.children[item.children.findIndex(i => i.type === 'fePointLight')]) {
                                                                 const fePointLightAttrs = item.children[item.children.findIndex(i => i.type === 'fePointLight')].attributes.reduce((prev, curr) => {
                                                                     let key = Object.keys(curr)[0];
-                                                                    console.log(Object.keys(curr));
-                                                                    console.log(prev);
-                                                                    console.log(curr);
+                                                                    // console.log(Object.keys(curr));
+                                                                    // console.log(prev);
+                                                                    // console.log(curr);
 
                                                                     if (Object.values(curr) != '') {
 
@@ -2017,9 +2184,9 @@ console.log(newArray);
                                                             if (item.children[item.children.findIndex(i => i.type === 'feSpotLight')]) {
                                                                 const feSpotLightAttrs = item.children[item.children.findIndex(i => i.type === 'feSpotLight')].attributes.reduce((prev, curr) => {
                                                                     let key = Object.keys(curr)[0];
-                                                                    console.log(Object.keys(curr));
-                                                                    console.log(prev);
-                                                                    console.log(curr);
+                                                                    // console.log(Object.keys(curr));
+                                                                    // console.log(prev);
+                                                                    // console.log(curr);
 
                                                                     if (Object.values(curr) != '') {
 
@@ -2036,22 +2203,22 @@ console.log(newArray);
                                                             }
                                                         }
                                                         case 'feSpecularLighting': {
-                                                            console.log(item.children);
+                                                            // console.log(item.children);
 
                                                             if (item.children[item.children.findIndex(i => i.type === 'feDistantLight')]) {
 
                                                                 const feDistantLightAttrs = item.children[item.children.findIndex(i => i.type === 'feDistantLight')].attributes.reduce((prev, curr) => {
                                                                     let key = Object.keys(curr)[0];
-                                                                    console.log(Object.keys(curr));
-                                                                    console.log(prev);
-                                                                    console.log(curr);
+                                                                    // console.log(Object.keys(curr));
+                                                                    // console.log(prev);
+                                                                    // console.log(curr);
 
                                                                     if (Object.values(curr) != '') {
 
                                                                         prev[key] = curr[key]; return prev;
                                                                     } else { return prev; }
                                                                 }, {})
-                                                                console.log(feDistantLightAttrs);
+                                                                // console.log(feDistantLightAttrs);
 
                                                                 return (
                                                                     <item.type key={index} {...attrs}>
@@ -2063,9 +2230,9 @@ console.log(newArray);
                                                             if (item.children[item.children.findIndex(i => i.type === 'fePointLight')]) {
                                                                 const fePointLightAttrs = item.children[item.children.findIndex(i => i.type === 'fePointLight')].attributes.reduce((prev, curr) => {
                                                                     let key = Object.keys(curr)[0];
-                                                                    console.log(Object.keys(curr));
-                                                                    console.log(prev);
-                                                                    console.log(curr);
+                                                                    // console.log(Object.keys(curr));
+                                                                    // console.log(prev);
+                                                                    // console.log(curr);
 
                                                                     if (Object.values(curr) != '') {
 
@@ -2083,9 +2250,9 @@ console.log(newArray);
                                                             if (item.children[item.children.findIndex(i => i.type === 'feSpotLight')]) {
                                                                 const feSpotLightAttrs = item.children[item.children.findIndex(i => i.type === 'feSpotLight')].attributes.reduce((prev, curr) => {
                                                                     let key = Object.keys(curr)[0];
-                                                                    console.log(Object.keys(curr));
-                                                                    console.log(prev);
-                                                                    console.log(curr);
+                                                                    // console.log(Object.keys(curr));
+                                                                    // console.log(prev);
+                                                                    // console.log(curr);
 
                                                                     if (Object.values(curr) != '') {
 
@@ -2103,13 +2270,13 @@ console.log(newArray);
                                                         }
 
                                                         case 'feMerge':
-                                                            console.log(item.children);
-                                                            console.log(item.children[0].attributes);
+                                                            // console.log(item.children);
+                                                            // console.log(item.children[0].attributes);
 
                                                             return (
                                                                 <item.type key={index} {...attrs}>
                                                                     {item.children[0].attributes.map((i, idx) => {
-                                                                        console.log(i);
+                                                                        // console.log(i);
                                                                         return (
                                                                             <feMergeNode key={idx} in={Object.values(i)} />
                                                                         )
