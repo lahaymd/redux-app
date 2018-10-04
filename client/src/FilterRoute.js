@@ -2458,7 +2458,7 @@ console.log(newArray);
                         {/* <Canvas width='250' height='250'/> */}
                     {/* </div> */}
                 <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
-                <img src={this.state.dataURL} />
+                <img src={this.state.dataURL} className='filter'/>
                 </div>
             
         );
