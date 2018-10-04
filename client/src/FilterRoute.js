@@ -34,6 +34,7 @@ class FilterRoute extends Component {
         super(props);
         this.state = {
             showSourceGraphicEditor: true,
+            dataURL: 'images/tiger.svg',
             elements: [],
             stops: [],
             linearGradients: [],
@@ -1370,7 +1371,10 @@ console.log(newArray);
 
                                             </video> */}
                                         </foreignObject>
+                        ) :this.state.selectedSourceGraphic == 'pic' ? (
+                                            <image className={this.state.filterData.length ? 'filter' : ''} xlinkHref={this.state.dataURL} width='500px' height='500px' preserveAspectRatio='none' />
                         ) :
+
                         <Circle elements={this.state.filterData} />
 
                                 }
@@ -2079,9 +2083,11 @@ console.log(newArray);
                             <div className='new-filter-data'>
                                 <input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} />
                                 <button onClick={this.handleNewFilterData}>new filter</button>
+                            <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
                             </div>
                        
                         </div>
+                    
                         <div className='filter-thumbnail'>
                             {this.state.allFilterData.map(data => {
                                 // console.log(data);
@@ -2380,7 +2386,11 @@ console.log(newArray);
 
                                             </video> */}
                                             </foreignObject>
-                                        ) :
+                                                    )  : this.state.selectedSourceGraphic == 'pic' ? (
+                                                            <image xlinkHref={this.state.dataURL} filter={`url(#${data.name})`}  width='500px' height='500px' preserveAspectRatio='none' />
+                        ) :
+                
+                
                                                         <Circle filter={`url(#${data.name})`} elements={this.state.filterData} />
 
                                         }
@@ -2457,8 +2467,8 @@ console.log(newArray);
                  
                         {/* <Canvas width='250' height='250'/> */}
                     {/* </div> */}
-                <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
-                <img src={this.state.dataURL} className='filter'/>
+                
+                
                 </div>
             
         );
