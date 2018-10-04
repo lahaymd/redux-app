@@ -268,6 +268,42 @@ class FilterRoute extends Component {
         this.setState({ gradientAttrs: ga })
     }
 
+    handleImageToCanvas = (e) => {
+        let reader = new FileReader();
+        let file = e.target.files[0]
+        console.log(e.target.files[0]);
+        console.log(reader.readyState);
+        // console.log(readFile.error)
+        // console.log(e.target.result);
+        reader.readAsDataURL(file);
+        
+        reader.onloadstart = function(){
+            console.log(reader.readyState);
+
+        }
+        reader.onload = function(e){
+        
+
+                console.log(e)
+                console.log(reader.result);
+                // console.log(readFile.readAsText(file))
+            
+            
+        }
+        reader.onloadend = (e) =>{
+            console.log(e)
+            console.log(reader.result);
+            // console.log(readFile.readAsText(file))
+            
+            this.setState({dataURL: reader.result})
+        }
+
+        reader.onerror = function () {
+            alert('There was an error reading the file!');
+        }
+        
+    }
+
 
     handleMergeNodes = (index, idx) => e => {
         // const feMergeDefaults = {...this.state.feMergeDefaults}
@@ -2421,7 +2457,8 @@ console.log(newArray);
                  
                         {/* <Canvas width='250' height='250'/> */}
                     {/* </div> */}
-                
+                <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
+                <img src={this.state.dataURL} />
                 </div>
             
         );
