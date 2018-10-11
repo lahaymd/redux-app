@@ -1388,9 +1388,40 @@ console.log(newArray);
                             <div className={`filterData  ${i.type}`} key={i+index}>
                                 <div className='i-type'>{i.type}</div>
                                 <div className='button-wrapper'>
+                                    <svg onClick={this.handleDelete(index)} id='x' viewBox='-20 -20 140 140' preserveAspectRatio='xMinYMin slice'>
+                                        <defs>
+                                            <radialGradient id='xg'>
+                                                <stop offset='0' stop-color='orange' />
+                                                <stop offset='1' stop-color='red' />
+                                            </radialGradient>
+                                            <filter width='300%' height='300%' x='-50%' y='-50%' id='filter-x'>
+                                                <feOffset in='SourceGraphic' dx='5' dy='5' />
+                                                <feColorMatrix type='hueRotate' values='90' />
+                                                <feGaussianBlur stdDeviation='3' />
+                                                <feMerge>
+                                                    <feMergeNode />
+                                                    <feMergeNode in='SourceGraphic' />
+                                                </feMerge>
+                                            </filter>
+                                        </defs>
+                                        <g filter='url(#filter-x)'>
+                                        <line stroke='url(#xg)' x1='0' y1='0' x2='100' y2='100' stroke-width='20' stroke-linecap="butt" />
+                                        <line x1='100' y1='0' x2='0' y2='100' stroke='url(#xg)' stroke-width='20' stroke-linecap="butt" />
+                                        </g>
+                                    </svg>
                                     <button onClick={this.handleDelete(index)}>DELETE</button>
                                     <button onClick={this.handleMoveUp(index)}>MOVE UP</button>
                                     <button onClick={this.handleMoveDown(index)}>MOVE DOWN</button>
+                                    <div id='up'>
+                                        <svg viewBox='-10 -10 120 120'>
+                                            <g stroke='green' stroke-width='10' strokeLinecap='square'>
+                                                <line x1='50' y1='0' x2='50' y2='100' strokeLinecap='butt' />
+                                         <line x1='0' y1='50' x2='50' y2='0'  />
+                                         <line x1='50' y1='0' x2='100' y2='50'  />
+                                        </g>
+
+                                        </svg>
+                                    </div>
                                 </div>
                       
                             {i.attributes.map( (item, idx) => {
@@ -2082,7 +2113,19 @@ console.log(newArray);
                             })}/>
                             <div className='new-filter-data'>
                                 <input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} />
-                                <button onClick={this.handleNewFilterData}>new filter</button>
+                                <div>
+
+                            <svg onClick={this.handleNewFilterData}  id="Layer_1" viewBox="0 0 100 100"  >
+                                    <polyline stroke-width='5' fill="#CCCCCC" stroke="#000000" strokeLinecap='square' points="9,9.5 72,9.5 89.5,27 89.5,90.5 8.5,90.5 9,9.5 " />
+                                    <rect x="17.5" y="9.5" fill="#666666" stroke="#000000" stroke-miterlimit="10" width="54" height="63" />
+                                    <path fill="none" stroke="#000000" stroke-miterlimit="10" d="M-45,0" />
+                                    <rect x="26.5" y="18.5" stroke="#000000" stroke-miterlimit="10" width="36" height="9" />
+                                    <rect x="26.5" y="36.5" stroke="#000000" stroke-miterlimit="10" width="36" height="9" />
+                                    <path fill="none" stroke="#000000" stroke-miterlimit="10" d="M27,62" />
+                                    <rect x="26.5" y="54.5" stroke="#000000" stroke-miterlimit="10" width="36" height="9" />
+                                </svg>
+                                </div>
+                                {/* <button onClick={this.handleNewFilterData}>new filter</button> */}
                             <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
                             </div>
                        
