@@ -27,6 +27,7 @@ import ColorMatrix from './ColorMatrix';
 import TableValues from './TableValues';
 import ConcatFilters from './ConcatFilters';
 import Canvas from './Canvas';
+import Arrow from './Arrow';
 
 class FilterRoute extends Component {
 
@@ -1409,10 +1410,12 @@ console.log(newArray);
                                         <line x1='100' y1='0' x2='0' y2='100' stroke='url(#xg)' stroke-width='20' stroke-linecap="butt" />
                                         </g>
                                     </svg>
-                                    <button onClick={this.handleDelete(index)}>DELETE</button>
+                                    {/* <button onClick={this.handleDelete(index)}>DELETE</button>
                                     <button onClick={this.handleMoveUp(index)}>MOVE UP</button>
-                                    <button onClick={this.handleMoveDown(index)}>MOVE DOWN</button>
-                                    <div id='up'>
+                                    <button onClick={this.handleMoveDown(index)}>MOVE DOWN</button> */}
+                                    <Arrow move={this.handleMoveUp(index)} transform='0'/>
+                                    <Arrow move={this.handleMoveDown(index)} transform='180'/>
+                                    {/* <div id='up'>
                                         <svg viewBox='-10 -10 120 120'>
                                             <g stroke='green' stroke-width='10' strokeLinecap='square'>
                                                 <line x1='50' y1='0' x2='50' y2='100' strokeLinecap='butt' />
@@ -1421,7 +1424,7 @@ console.log(newArray);
                                         </g>
 
                                         </svg>
-                                    </div>
+                                    </div> */}
                                 </div>
                       
                             {i.attributes.map( (item, idx) => {
