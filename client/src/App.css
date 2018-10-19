@@ -1,4 +1,6 @@
-body {
+html, body {
+  width: 100vw;
+  overflow-x:hidden;
   overscroll-behavior-y: none;
   overscroll-behavior-x: none;
 }
