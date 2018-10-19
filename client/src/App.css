@@ -154,7 +154,7 @@ option {
 select:focus, input:focus {outline:0;}
 
 .select-wrapper {
-    width: 100vw;
+    /* width: 100vw; */
     border: 1px solid black;
     display: flex;
     justify-content: space-around;
@@ -185,13 +185,13 @@ select:focus, input:focus {outline:0;}
 }
 
 .item-a {
-  width: 100vw;
+  /* width: 100vw; */
   grid-area: svg;
   justify-self: center;
   border: 1px solid seagreen;
 }
 .item-b {
-  width: 100vw;
+  /* width: 100vw; */
   grid-area: filterdata;
 }
 .item-c {
@@ -496,6 +496,18 @@ select {
 }
 
 @media screen and (max-width: 375px) {
+
+    .item-a, .item-c {
+  width: 100vw;
+  /* grid-area: svg;
+  justify-self: center;
+  border: 1px solid seagreen; */
+}
+
+.item-b {
+  width: 100vw;
+  /* grid-area: filterdata; */
+}
 
         .feOffset {
     background: rebeccapurple;
