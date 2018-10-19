@@ -2119,7 +2119,7 @@ console.log(newArray);
 
                     })}
                     </div>
-                        <div className='select-wrapper item-c'>
+                        {/* <div className='select-wrapper item-c'>
                             <FilterMenu selectFilter={this.handleNewFilter} />
                             <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
                             <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
@@ -2144,10 +2144,10 @@ console.log(newArray);
                                 </svg>
                                 </div>
                                 {/* <button onClick={this.handleNewFilterData}>new filter</button> */}
-                            </div>
+                            {/* </div>
                             <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
                        
-                        </div>
+                        </div>  */}
                     
                         <div className='filter-thumbnail'>
                             {this.state.allFilterData.map(data => {
