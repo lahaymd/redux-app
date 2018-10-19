@@ -183,11 +183,13 @@ select:focus, input:focus {outline:0;}
 }
 
 .item-a {
+  width: 100vw;
   grid-area: svg;
   justify-self: center;
   border: 1px solid seagreen;
 }
 .item-b {
+  width: 100vw;
   grid-area: filterdata;
 }
 .item-c {
