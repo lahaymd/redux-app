@@ -2528,7 +2528,7 @@ console.log(newArray);
                  
                         {/* <Canvas width='250' height='250'/> */}
                     {/* </div> */}
-                <button onClick={this.testUserLogic()}>test user</button>
+                {/* <button onClick={this.testUserLogic()}>test user</button> */}
                 
                 </div>
             
