@@ -130,10 +130,10 @@ input {
 }
 
  select {
-   border: 1px solid #ccc;
+   /* border: 1px solid #ccc; */
    font-size: 16px;
    height: 34px;
-   width: 45%;
+   width: 40%;
    background: tomato;
 }
 

@@ -196,6 +196,19 @@ class FilterRoute extends Component {
         
     }
 
+    testUserLogic = () => e => {
+        console.log('test user');
+        
+        fetch('/user', {
+            method: 'POST',
+
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('post stops' + JSON.stringify(data));
+    }
+)}
+
 
     handlePushStop = () => e => {
 
@@ -1800,6 +1813,8 @@ console.log(newArray);
                                                 <option>-1 -2 -1 0 0 0 1 2 1</option>
                                                 <option>5 5 -3 5  0 -3 -3 -3 -3</option>
                                                 <option>1 0 -1 1 0 -1 0 .5 0</option>
+                                                <option>-1 -1 3 -2 1 -1 -1 1 -1</option>
+                                                <option>-3 0 0 0 -3 0 0 0 4</option>
                                             </select>
                                             <label key={Object.keys(item)} >{Object.keys(item)}<input type='text' name={Object.keys(item)} value={Object.values(item)} onChange={this.handleFilterData(index, idx)} /></label>
                                             {Object.values(item)[0].split(' ').map((el, ind) => {
@@ -2129,8 +2144,8 @@ console.log(newArray);
                                 </svg>
                                 </div>
                                 {/* <button onClick={this.handleNewFilterData}>new filter</button> */}
-                            <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
                             </div>
+                            <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
                        
                         </div>
                     
@@ -2513,7 +2528,7 @@ console.log(newArray);
                  
                         {/* <Canvas width='250' height='250'/> */}
                     {/* </div> */}
-                
+                <button onClick={this.testUserLogic()}>test user</button>
                 
                 </div>
             
