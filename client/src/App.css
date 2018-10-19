@@ -506,13 +506,14 @@ select {
     grid-gap: 0;
     /* margin: 0 .5em; */
     grid-template-areas: 
-        "menu"
-        "svg"
-        "filterdata";
+    "menu"
+    "svg"
+    "filterdata";
 }
 
 
-    .filterData-wrapper {
+.filterData-wrapper {
+    grid-template-columns:   1fr ;
     border: 1px solid red;
     /* grid-template-columns: repeat(auto-fill, minmax(min-content, 100%)); */
     /* grid-auto-columns: auto; */
