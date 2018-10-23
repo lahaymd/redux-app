@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import RouterTest from './RouterTest';
 import Filter from './Filter';
@@ -22,6 +24,7 @@ class App extends Component {
 
 
     return (
+      <Provider store={store}>
     <Router>
         <div className="AppRouter">
           <nav>
@@ -51,6 +54,7 @@ class App extends Component {
           <Route exact path='/pattern' component={PatternRoute}/>
         </div>
     </Router>
+    </Provider>
     );
   }
 }

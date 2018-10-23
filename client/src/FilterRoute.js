@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { updateName } from './actions/actions';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import RouterTest from './RouterTest';
 import { SketchPicker } from 'react-color';
@@ -34,6 +36,8 @@ class FilterRoute extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            newUserName: '',
+            newUserPassword: '',
             showSourceGraphicEditor: true,
             dataURL: 'images/tiger.svg',
             elements: [],
@@ -100,6 +104,12 @@ class FilterRoute extends Component {
     })
 
         
+    }
+
+    handleNameChange = e => {
+        console.log(e.target.value);
+        this.props.updateName(e.target.value)
+
     }
 
     handleText = (e) => this.setState({ text: e.target.value });
@@ -198,9 +208,19 @@ class FilterRoute extends Component {
 
     testUserLogic = () => e => {
         console.log('test user');
+
+        let data = {
+                username: this.state.newUserName,
+                password: this.state.newUserPassword
+        }
         
         fetch('/user', {
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
             method: 'POST',
+            body: JSON.stringify(data)
 
         })
             .then(res => res.json())
@@ -208,6 +228,46 @@ class FilterRoute extends Component {
                 console.log('post stops' + JSON.stringify(data));
     }
 )}
+
+    testUserPut = () => e => {
+        console.log('test user');
+
+        let data = {
+            username: this.state.newUserName,
+            name: this.state.filterName,
+            filterData: this.state.filterData,
+        }
+        
+        fetch('/user/filters', {
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(data)
+
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('put request' + JSON.stringify(data));
+    }
+)}
+    
+
+   
+
+
+    handleNewUserName = () => e => {
+        console.log(e.target.value);
+        this.setState({newUserName: e.target.value})
+        
+    }
+
+    handleNewUserPassword = () => e => {
+        console.log(e.target.value);
+        this.setState({newUserPassword: e.target.value})
+        
+    }
 
 
     handlePushStop = () => e => {
@@ -1082,7 +1142,7 @@ console.log(newArray);
                     {/* <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text> */}
                 {/* <svg width='0' height='0' style={{display: 'none'}}  > */}
                 <defs>
-                           
+                            
                             {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} /> */}
                             {/* <Gradient 
                                 id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
@@ -1110,6 +1170,11 @@ console.log(newArray);
                                 <stop stopColor="darkgoldenrod" offset="100%" />
                             </linearGradient>
                             <RadialGradient />
+                            <g id='SourceGraphic'>
+                                <circle cx='50%' cy='50%' r='50%' fill='orange' />
+                                <text textAnchor='middle' x='50%' y='50%' font-size='200' >svg</text>
+                            </g>
+                            {/* <text id='SourceGraphic' x='250' y='250' font-size='200' >svg</text> */}
                             <rect id='gold' x='0' y='0' width='50' height='50' fill='url(#coin)' />
                             <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
                             <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
@@ -1354,7 +1419,11 @@ console.log(newArray);
                         
                     })}
                     </filter>
+
+                          
+
                 </defs>
+                        
 
                         {this.state.selectedSourceGraphic == 'text' ? (
                             <SourceGraphic
@@ -1896,6 +1965,7 @@ console.log(newArray);
                                                 <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/s.svg' width='50' height='50' className={Object.keys(item)} id='images/s.svg' onClick={this.handleImage(index, idx)}/></svg>
                                                 <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='images/wrigley.jpeg' width='50' height='50' className={Object.keys(item)} id='images/wrigley.jpeg' onClick={this.handleImage(index, idx)}/></svg>
                                                 <svg viewBox='0 0 50 50' width='100%' height='100%'><image xlinkHref='http://www.mikelahay.com/images/cooper.png' width='50' height='50' className={Object.keys(item)} id='http://www.mikelahay.com/images/cooper.png' onClick={this.handleImage(index, idx)}/></svg>
+                                                <svg viewBox='0 0 50 50' width='100%' height='100%'><use xlinkHref='#SourceGraphic' width='50' height='50' className={Object.keys(item)} id='#SourceGraphic' onClick={this.handleImage(index, idx)}/></svg>
                                         </div>
                                     <select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                         <option>{Object.keys(item)}</option>
@@ -2417,6 +2487,7 @@ console.log(newArray);
 
 
                                             </filter>
+
                                         </defs>
                                         {this.state.selectedSourceGraphic == 'text' ? (
                                             <SourceGraphic
@@ -2528,12 +2599,29 @@ console.log(newArray);
                  
                         {/* <Canvas width='250' height='250'/> */}
                     {/* </div> */}
-                {/* <button onClick={this.testUserLogic()}>test user</button> */}
-                
+                name<input onChange={this.handleNewUserName()} />
+                {this.state.newUserName}
+                password<input onChange={this.handleNewUserPassword()} />
+                <button onClick={this.testUserLogic()}>test user</button>
+                <button onClick={this.testUserPut()}>test user put request</button>
+                <label >NAME</label>
+                {this.props.reduxName}
+                <input type='text' value={this.props.name} onChange={this.handleNameChange} />
                 </div>
             
         );
     }
 }
 
-export default FilterRoute;
+const mapStateToProps = state => ({
+    reduxName: state.users.username
+    // redStrt: state.posts.redStart,
+    // greenStrt: state.posts.greenStart,
+    // blueStrt: state.posts.blueStart,
+    // compositeOperator: state.posts.compositeOperator,
+    // selectedCompositeOperator: state.posts.selectedCompositeOperator
+})
+
+export default connect(mapStateToProps,{updateName})(FilterRoute);
+
+// export default FilterRoute;

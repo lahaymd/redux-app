@@ -312,6 +312,44 @@ class LinearGradientRoute extends Component {
         // this.setState({ gradientAttrs: ga })
     }
 
+    addLinearGradient = () => e => {
+        console.log('test user');
+
+        let data = {
+            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+            stops: this.state.stops,
+            x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))),
+            x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))),
+            y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))),
+            y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))),
+            spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod')),
+            gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))),
+            gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits')),
+
+        }
+
+        fetch('/user/linear_gradient',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+            .then(res => res.json())
+            .then(data => {
+                console.log('post stops' + JSON.stringify(data));
+
+
+
+
+
+            })
+    }
+
 
     render() {
 
@@ -378,6 +416,7 @@ class LinearGradientRoute extends Component {
                         )
                     })}
                 </div>
+                <button onClick={this.addLinearGradient()}>add gradient to user</button>
             </div>
         )
     }
