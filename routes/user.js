@@ -10,7 +10,7 @@ router.post('/puppeteer', async (req, res) => {
     console.log(req.body);
     console.log(process.env.NODE_ENV+' env');
     
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000');
     // page.screenshot({ path: 'client/public/images/fullpagebeforeclick.png' });
