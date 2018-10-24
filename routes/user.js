@@ -3,25 +3,25 @@ var router = express.Router();
 var User = require('../models/user.model.js');
 var mongoose = require('mongoose');
 const puppeteer = require('puppeteer');
-
+const imagesURL = process.env.NODE_ENV === 'production' ?  'client/build/images/element1.png': 'client/public/images/element1.png';
 
 
 router.post('/puppeteer', async (req, res) => {
     console.log(req.body);
     console.log(process.env.NODE_ENV+' env');
+    console.log(imagesURL + ' images url');
     
     const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000');
     // page.screenshot({ path: 'client/public/images/fullpagebeforeclick.png' });
-    await page.screenshot({ path: 'client/public/images/fullpage1beforeclick.png' });
+    await page.screenshot({ path: imagesURL });
     // await page.click('#linear-nav');
     // page.click('#linear-nav');
     // page.select('#filternames', req.body.name)
     await page.waitFor(2000);
     await page.select('#filternames', req.body.name)
     console.log('select filter names');
-    
     await page.waitFor(2000);
     const inputElement1 =   await page.$('#puppeteer')
     // await page.waitFor(7000);
