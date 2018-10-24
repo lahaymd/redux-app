@@ -18,9 +18,9 @@ router.post('/puppeteer', async (req, res) => {
     // await page.click('#linear-nav');
     // page.click('#linear-nav');
     // page.select('#filternames', req.body.name)
-    await page.waitFor(3000);
+    await page.waitFor(2000);
     await page.select('#filternames', req.body.name)
-    await page.waitFor(3000);
+    await page.waitFor(2000);
     const inputElement1 =   await page.$('#puppeteer')
     // await page.waitFor(7000);
     // page.screenshot({ path: 'client/public/images/fullpage1.png' });
@@ -46,6 +46,7 @@ router.post('/puppeteer', async (req, res) => {
     // const imageBuffer = await page.screenshot({ path: 'fullpage.png' });
     
     await page.waitFor(11000);
+    console.log('close me')
     await browser.close();
 
     // res.set('Content-Type', 'image/png');
