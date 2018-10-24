@@ -20,6 +20,8 @@ router.post('/puppeteer', async (req, res) => {
     // page.select('#filternames', req.body.name)
     await page.waitFor(2000);
     await page.select('#filternames', req.body.name)
+    console.log('select filter names');
+    
     await page.waitFor(2000);
     const inputElement1 =   await page.$('#puppeteer')
     // await page.waitFor(7000);
@@ -29,6 +31,8 @@ router.post('/puppeteer', async (req, res) => {
     await page.waitFor(5000);
     // console.log(inputElement1 + 'inputelafterawait');
     inputElement1.screenshot({path: 'client/public/images/element1.png'});
+    console.log('screenshot');
+    
     // await page.screenshot({ path: 'client/public/images/fullpage.png' });
     // await page.screenshot({ path: 'client/public/images/fullpage1.png' });
     // page.screenshot({ path: 'client/public/images/ullpage2.png' });
