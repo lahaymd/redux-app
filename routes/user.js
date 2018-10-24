@@ -45,7 +45,7 @@ router.post('/puppeteer', async (req, res) => {
     // await page.$('#puppeteer').screenshot({path: 'element1.png'});
     // const imageBuffer = await page.screenshot({ path: 'fullpage.png' });
     
-    
+
     await page.waitFor(9000);
     await browser.close();
 
