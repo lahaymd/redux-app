@@ -7,7 +7,7 @@ class FilterNameSelect extends Component {
         // console.log('names' + JSON.stringify(this.props.names));
 
         return (
-            <select onChange={this.props.emitSelectedFilterName}>
+            <select id='filternames' onChange={this.props.emitSelectedFilterName}>
                 <option value="" disabled selected>Saved filters</option>
                 {this.props.names.map(item => {
 

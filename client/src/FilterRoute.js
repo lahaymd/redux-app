@@ -36,6 +36,7 @@ class FilterRoute extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            filterNamePuppeteer: '',
             newUserName: '',
             newUserPassword: '',
             showSourceGraphicEditor: true,
@@ -51,7 +52,7 @@ class FilterRoute extends Component {
             gradientAttrs: [{x1: 0}, {x2: 1}, {y1: 0}, {y2: 0}, {spreadMethod: 'reflect'}, {gradientTransform: 0}, {gradientUnits:'objectBoundingBox'}, {id: 'linear'}],
             images: [],
             feImages: [],
-            selectedSourceGraphic: 'text',
+            selectedSourceGraphic: 'image',
             filterData: [],
             allFilterData: [],
             filterName: '',
@@ -226,6 +227,28 @@ class FilterRoute extends Component {
             .then(res => res.json())
             .then(data => {
                 console.log('post stops' + JSON.stringify(data));
+    }
+)}
+    testPuppeteer = (filtername) => e => {
+        console.log('puppeteer');
+
+       let data = {
+           svg: 'puppeteer', 
+           name: this.state.filterNamePuppeteer
+       }
+        
+        fetch('user/puppeteer', {
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(data)
+
+        })
+            .then(res => { console.log(res);res.arrayBuffer()})
+            .then(data => {
+                console.log('image from puppeteer' + JSON.stringify(data));
     }
 )}
 
@@ -511,15 +534,16 @@ class FilterRoute extends Component {
 
 
      handleSelectedFilterName = (e) => {
-        console.log(e.target.value);
-        fetch(`/filter_data/name/?name=${e.target.value}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                console.log(data[0].filterData);
-
-                this.setState({ filterData: data[0].filterData })
+         console.log(e.target.value);
+         fetch(`/filter_data/name/?name=${e.target.value}`)
+         .then(res => res.json())
+         .then(data => {
+             console.log(data);
+            //  console.log(data[0].filterData);
+             
+             this.setState({ filterData: data[0].filterData })
             })
+            this.setState({ filterNamePuppeteer: e.target.value })
 
     }
 
@@ -1132,10 +1156,12 @@ console.log(newArray);
         return (
            
 
+               
                 <div className="App">
+
                 <div className='grid-svg-filterdata'>
                
-                    <svg className='item-a' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 0 500 500' width='100%' height='100%' preserveAspectRatio='none'>
+                    <svg className='item-a' id='puppeteer' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 0 500 500' width='100%' height='100%' preserveAspectRatio='none'>
                      
 
                         {/* </svg> */}
@@ -2216,9 +2242,8 @@ console.log(newArray);
                                 {/* <button onClick={this.handleNewFilterData}>new filter</button> */}
                             </div>
                             <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
-                       
+                            <button onClick={this.testPuppeteer()}>save svg as png</button>
                         </div>
-                    
                         <div className='filter-thumbnail'>
                             {this.state.allFilterData.map(data => {
                                 // console.log(data);
@@ -2604,6 +2629,7 @@ console.log(newArray);
                 password<input onChange={this.handleNewUserPassword()} />
                 <button onClick={this.testUserLogic()}>test user</button>
                 <button onClick={this.testUserPut()}>test user put request</button>
+               
                 <label >NAME</label>
                 {this.props.reduxName}
                 <input type='text' value={this.props.name} onChange={this.handleNameChange} />

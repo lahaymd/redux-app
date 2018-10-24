@@ -27,6 +27,7 @@ class App extends Component {
       <Provider store={store}>
     <Router>
         <div className="AppRouter">
+            <img width='200' height='200' src='images/element1.png' />
           <nav>
             <ul>
                 <li>
@@ -34,7 +35,7 @@ class App extends Component {
                 {/* <svg viewBox='0 0 10 10' preserveAspectRatio='xMinYMid' height='1em' className='svg-icon'><circle cx='5' cy='5' r='5' /></svg> */}
                   <Link to='/'>Filter</Link>
                 </li>
-                <li>
+                <li id='linear-nav'>
                 <svg viewBox='0 0 10 10' preserveAspectRatio='xMinYMid' height='1em' fill='url(#rainbow)' className='svg-icon'><circle cx='5' cy='5' r='5' /></svg>
                   <Link to='/linear'>Linear Gradient</Link>
                 </li>
