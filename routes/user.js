@@ -53,8 +53,9 @@ router.post('/puppeteer', async (req, res) => {
     console.log('close me')
     await browser.close();
 
-    // res.set('Content-Type', 'image/png');
-    // res.send(imageBuffer);
+    res.set('Content-Type',  'application/json');
+    res.send('done');
+    console.log('donzo');
     
 });
 
