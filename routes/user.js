@@ -8,10 +8,11 @@ const puppeteer = require('puppeteer');
 
 router.post('/puppeteer', async (req, res) => {
     console.log(req.body);
+    console.log(process.env.NODE_ENV+' env');
     
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto('http://localhost:3000');
+    await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000');
     // page.screenshot({ path: 'client/public/images/fullpagebeforeclick.png' });
     await page.screenshot({ path: 'client/public/images/fullpage1beforeclick.png' });
     // await page.click('#linear-nav');
