@@ -6,15 +6,15 @@ class Cam extends Component {
     componentDidMount() {
         var constraints = { video: true };
         var video = document.querySelector("#canvas-video");
-        console.log(video);
+        // console.log(video);
         
 
         function successCallback(stream) {
             video.srcObject = stream;
             // video.load();
             video.play();
-            console.log(video.srcObject);
-            console.log(video.play());
+            // console.log(video.srcObject);
+            // console.log(video.play());
             
         }
 
@@ -37,8 +37,8 @@ class Cam extends Component {
         navigator.mediaDevices.enumerateDevices()
             .then(function (devices) {
                 devices.forEach(function (device) {
-                    console.log(device.kind + ": " + device.label +
-                        " id = " + device.deviceId);
+                    // console.log(device.kind + ": " + device.label +
+                    //     " id = " + device.deviceId);
                 });
             })
             .catch(function (err) {
@@ -55,9 +55,9 @@ class Cam extends Component {
                 "video/mp4;codecs=avc1",
                 "video/invalid"];
             contentTypes.forEach(contentType => {
-                console.log(contentType + ' is '
-                    + (MediaRecorder.isTypeSupported(contentType) ?
-                        'supported' : 'NOT supported '));
+                // console.log(contentType + ' is '
+                //     + (MediaRecorder.isTypeSupported(contentType) ?
+                //         'supported' : 'NOT supported '));
             });
         }
 

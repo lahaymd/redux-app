@@ -24,28 +24,8 @@ router.post('/puppeteer', async (req, res) => {
     // await page.screenshot({ path: `client/public/images/fullscreen1${Math.random()}.png` });
     // await page.waitFor(500); 
     await inputElement1.screenshot({ path: process.env.NODE_ENV === 'production' ? 'client/build/images/element1.png' :`client/public/images/element1.png`});
-
-  
-    
-    
-    // await page.screenshot({ path: 'client/public/images/fullpage.png' });
-    // await page.screenshot({ path: 'client/public/images/fullpage1.png' });
-    // page.screenshot({ path: 'client/public/images/ullpage2.png' });
-    // page.select('#filternames', req.body.name)
-    // page.screenshot({ path: 'client/public/images/fullpage3.png' });
-    // await page.screenshot({ path: 'client/public/images/fullpage4.png' });
-    // page.screenshot({ path: 'client/public/images/fullpage5.png' });
-    // await page.waitFor(1000);
-    // const inputElement =    page.$('#puppeteer')
-    // console.log(inputElement + 'inputel');
-    
-    // await page.waitFor(3000);
-    //  await inputElement.screenshot({path: 'client/public/images/element.png'});
-    // await page.$('#puppeteer').screenshot({path: 'element1.png'});
-    // const imageBuffer = await page.screenshot({ path: 'fullpage.png' });
-    
-    await page.waitFor(11000);
     console.log('close me')
+    ; 
     await browser.close();
 
     res.set('Content-Type',  'application/json');
