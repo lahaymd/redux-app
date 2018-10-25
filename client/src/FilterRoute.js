@@ -534,11 +534,11 @@ class FilterRoute extends Component {
 
 
      handleSelectedFilterName = (e) => {
-        //  console.log(e.target.value);
+         console.log(e.target.value);
          fetch(`/filter_data/name/?name=${e.target.value}`)
          .then(res => res.json())
          .then(data => {
-            //  console.log(data);
+             console.log(data);
             //  console.log(data[0].filterData);
              
              this.setState({ filterData: data[0].filterData })
@@ -1211,28 +1211,28 @@ console.log(newArray);
                
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
                     {this.state.filterData.map( (item,index) => {
-                        // console.log(item.attributes);
+                        console.log(item.attributes);
                         const attrs = item.attributes.reduce((prev, curr) => {
                             let key = Object.keys(curr)[0];
-                            // console.log(Object.keys(curr));
-                            // console.log(prev);
-                            // console.log(curr);
+                            console.log(Object.keys(curr));
+                            console.log(prev);
+                            console.log(curr);
                             
                             if(Object.values(curr) != ''){
                                 
                                 prev[key] = curr[key]; return prev;
                             } else {return prev;}
                                                 } ,{} )
-                        // console.log(attrs);
+                        console.log(attrs);
 
                         switch (item.type){
                             case 'feComponentTransfer': {
 
                                 const funcRAttrs = item.children[item.children.findIndex(i => i.type === 'feFuncR')].attributes.reduce((prev, curr) => {
                                     let key = Object.keys(curr)[0];
-                                    // console.log(Object.keys(curr));
-                                    // console.log(prev);
-                                    // console.log(curr);
+                                    console.log(Object.keys(curr));
+                                    console.log(prev);
+                                    console.log(curr);
 
                                     if (Object.values(curr) != '') {
 
@@ -2241,7 +2241,8 @@ console.log(newArray);
                                 </div>
                                 {/* <button onClick={this.handleNewFilterData}>new filter</button> */}
                             </div>
-                            
+                            <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
+                            <button onClick={this.testPuppeteer()}>save svg as png</button>
                         </div>
                         <div className='filter-thumbnail'>
                             {this.state.allFilterData.map(data => {
