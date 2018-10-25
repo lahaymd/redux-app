@@ -22,7 +22,7 @@ router.post('/puppeteer', async (req, res) => {
     await page.waitFor(5000); 
     // await page.screenshot({ path: `client/public/images/fullscreen1${Math.random()}.png` });
     // await page.waitFor(500); 
-    await inputElement1.screenshot({ path: `client/public/images/element1.png`});
+    await inputElement1.screenshot({ path: process.env.NODE_ENV === 'production' ? 'client/build/images/element1.png' :`client/public/images/element1.png`});
 
   
     
