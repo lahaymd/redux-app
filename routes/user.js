@@ -16,6 +16,7 @@ router.post('/puppeteer', async (req, res) => {
     
     const page = await browser.newPage();
     await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000', { waitUntil: 'domcontentloaded' });
+    await page.setViewport({ width: 650, height: 650 });
     await page.waitFor(2000); 
     const inputElement1 =   await page.waitFor('#puppeteer')
     await page.select('#filternames', req.body.name)
