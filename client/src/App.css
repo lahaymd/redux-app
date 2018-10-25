@@ -201,7 +201,7 @@ select:focus, input:focus {outline:0;}
 .grid-svg-filterdata {
     display: grid;
     grid-template-columns:  50% 1fr;
-    grid-template-rows: 150px 1fr;
+    grid-template-rows: 200px 1fr;
     grid-gap: 1em;
     /* margin: 0 2em; */
     grid-template-areas: 
