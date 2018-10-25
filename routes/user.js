@@ -12,26 +12,20 @@ router.post('/puppeteer', async (req, res) => {
     console.log(imagesURL + ' images url');
     
     const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+   
+    
     const page = await browser.newPage();
-    await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000');
-    // page.screenshot({ path: 'client/public/images/fullpagebeforeclick.png' });
-    await page.screenshot({ path: imagesURL });
-    // await page.click('#linear-nav');
-    // page.click('#linear-nav');
-    // page.select('#filternames', req.body.name)
-    await page.waitFor(2000);
+    await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000', { waitUntil: 'domcontentloaded' });
+    await page.waitFor(2000); 
+    const inputElement1 =   await page.waitFor('#puppeteer')
     await page.select('#filternames', req.body.name)
-    console.log('select filter names');
-    await page.waitFor(2000);
-    const inputElement1 =   await page.$('#puppeteer')
-    // await page.waitFor(7000);
-    // page.screenshot({ path: 'client/public/images/fullpage1.png' });
-    // await page.waitFor(5000); 
-    console.log(inputElement1 + 'inputel');
-    await page.waitFor(5000);
-    // console.log(inputElement1 + 'inputelafterawait');
-    inputElement1.screenshot({path: 'client/public/images/element1.png'});
-    console.log('screenshot');
+    await page.waitFor(5000); 
+    // await page.screenshot({ path: `client/public/images/fullscreen1${Math.random()}.png` });
+    // await page.waitFor(500); 
+    await inputElement1.screenshot({ path: `client/public/images/element1${Math.random()}.png`});
+
+  
+    
     
     // await page.screenshot({ path: 'client/public/images/fullpage.png' });
     // await page.screenshot({ path: 'client/public/images/fullpage1.png' });
