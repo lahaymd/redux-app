@@ -13,7 +13,7 @@ router.post('/puppeteer', async (req, res) => {
     
     const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: false });
    
-    
+
     const page = await browser.newPage();
     await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000', { waitUntil: 'domcontentloaded' });
     
