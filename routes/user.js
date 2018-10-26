@@ -11,12 +11,11 @@ router.post('/puppeteer', async (req, res) => {
     console.log(process.env.NODE_ENV+' env');
     console.log(imagesURL + ' images url');
     
-    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: false });
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
    
 
     const page = await browser.newPage();
     await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000', { waitUntil: 'domcontentloaded' });
-    
     await page.waitFor(1000); 
     const inputElement1 =   await page.waitFor('#puppeteer')
     await page.select('#filternames', req.body.name)
