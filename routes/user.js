@@ -11,7 +11,7 @@ router.post('/puppeteer', async (req, res) => {
     console.log(process.env.NODE_ENV+' env');
     console.log(imagesURL + ' images url');
     
-    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: false });
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox']});
    
 
     const page = await browser.newPage();
