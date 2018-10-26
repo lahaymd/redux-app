@@ -9,7 +9,7 @@ class SourceGraphicSelect extends Component {
 
 
         return (
-            <select value="" onChange={this.props.selectSourceGraphic}>
+            <select id='SourceGraphicSelect' value="" onChange={this.props.selectSourceGraphic}>
                 <option value="" disabled >Choose SourceGraphic here</option>
                 <option value='circle' >circle</option>
                 <option value='text'>text</option>

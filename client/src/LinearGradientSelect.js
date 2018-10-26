@@ -7,7 +7,7 @@ class LinearGradientSelect extends Component {
         // console.log('names' + JSON.stringify(this.props.names));
         
         return (
-            <select onChange={this.props.emitSelectedLinearGradient}>
+            <select id='gradientSelect' onChange={this.props.emitSelectedLinearGradient}>
                 <option value="" disabled selected>Linear Gradients</option>
                 {this.props.names.map((item, index) => {
                         // console.log(index);

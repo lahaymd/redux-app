@@ -235,7 +235,9 @@ class FilterRoute extends Component {
 
        let data = {
            svg: 'puppeteer', 
-           name: this.state.filterNamePuppeteer
+           name: this.state.filterNamePuppeteer,
+           SourceGraphic: this.state.selectedSourceGraphic,
+           gradient: Object.values(this.state.gradientAttrs[7])[0]
        }
         
         fetch('user/puppeteer', {
@@ -247,7 +249,7 @@ class FilterRoute extends Component {
             body: JSON.stringify(data)
 
         })
-            .then(res => { console.log(res);res.JSON()})
+            .then(res => { console.log(res);res.json()})
             .then(data => {
                 console.log('image from puppeteer' + JSON.stringify(data));
                 this.setState({puppeteerImage: data})

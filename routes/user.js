@@ -11,24 +11,26 @@ router.post('/puppeteer', async (req, res) => {
     console.log(process.env.NODE_ENV+' env');
     console.log(imagesURL + ' images url');
     
-    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: false });
    
 
     const page = await browser.newPage();
     await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000', { waitUntil: 'domcontentloaded' });
-    await page.waitFor(1000); 
+    await page.waitFor(2000); 
     const inputElement1 =   await page.waitFor('#puppeteer')
     await page.select('#filternames', req.body.name)
+    await page.select('#SourceGraphicSelect', req.body.SourceGraphic)
+    await page.select('#gradientSelect', req.body.gradient)
     // await page.waitFor(2000); 
     // await page.screenshot({ path: `client/public/images/fullscreen1${Math.random()}.png` });
     // await page.waitFor(500); 
-    await inputElement1.screenshot({ path: process.env.NODE_ENV === 'production' ? 'client/build/images/element1.png' :`client/public/images/element1.png`});
+    await inputElement1.screenshot({ path: process.env.NODE_ENV === 'production' ? 'client/build/images/element1.png' : `client/public/images/element1.png`, omitBackground: true});
     console.log('close me')
     ; 
     await browser.close();
 
-    res.set('Content-Type',  'application/json');
-    res.send('');
+    // res.set('Content-Type',  'application/json');
+    // res.send({"text": "done"});
     console.log('donzo');
     
 });
