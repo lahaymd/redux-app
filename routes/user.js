@@ -11,7 +11,7 @@ router.post('/puppeteer', async (req, res) => {
     console.log(process.env.NODE_ENV+' env');
     console.log(imagesURL + ' images url');
     
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: false });
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: false });
    
     
     const page = await browser.newPage();
@@ -29,7 +29,7 @@ router.post('/puppeteer', async (req, res) => {
     await browser.close();
 
     res.set('Content-Type',  'application/json');
-    res.send('done');
+    res.send('');
     console.log('donzo');
     
 });

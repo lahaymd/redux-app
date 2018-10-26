@@ -36,6 +36,7 @@ class FilterRoute extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            puppeteerImage: '',
             filterNamePuppeteer: '',
             newUserName: '',
             newUserPassword: '',
@@ -246,9 +247,10 @@ class FilterRoute extends Component {
             body: JSON.stringify(data)
 
         })
-            .then(res => { console.log(res);res.arrayBuffer()})
+            .then(res => { console.log(res);res.JSON()})
             .then(data => {
                 console.log('image from puppeteer' + JSON.stringify(data));
+                this.setState({puppeteerImage: data})
     }
 )}
 
@@ -2633,6 +2635,7 @@ console.log(newArray);
                 <label >NAME</label>
                 {this.props.reduxName}
                 <input type='text' value={this.props.name} onChange={this.handleNameChange} />
+                <img width='200' height='200' src='images/element1.png' />
                 </div>
             
         );

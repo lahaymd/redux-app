@@ -27,7 +27,7 @@ class App extends Component {
       <Provider store={store}>
     <Router>
         <div className="AppRouter">
-            <img width='200' height='200' src='images/element1.png' />
+           
           <nav>
             <ul>
                 <li>
