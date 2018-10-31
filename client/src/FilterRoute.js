@@ -36,6 +36,7 @@ class FilterRoute extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            base64: [],
             puppeteerImage: '',
             filterNamePuppeteer: '',
             newUserName: '',
@@ -237,7 +238,8 @@ class FilterRoute extends Component {
            svg: 'puppeteer', 
            name: this.state.filterNamePuppeteer,
            SourceGraphic: this.state.selectedSourceGraphic,
-           gradient: Object.values(this.state.gradientAttrs[7])[0]
+           gradient: Object.values(this.state.gradientAttrs[7])[0],
+           image: this.state.dataURL
        }
         
         fetch('user/puppeteer', {
@@ -255,6 +257,12 @@ class FilterRoute extends Component {
                 this.setState({puppeteerImage: data})
     }
 )}
+
+hiddenField = () => e => {
+        console.log(e.target.id);
+        
+    this.setState({dataURL: e.target.id})
+}
 
     testUserPut = () => e => {
         console.log('test user');
@@ -398,6 +406,8 @@ class FilterRoute extends Component {
             // console.log(readFile.readAsText(file))
             
             this.setState({dataURL: reader.result})
+            var joined = this.state.base64.concat(reader.result);
+            this.setState({ base64: joined })
         }
 
         reader.onerror = function () {
@@ -1485,7 +1495,7 @@ console.log(newArray);
                                             </video> */}
                                         </foreignObject>
                         ) :this.state.selectedSourceGraphic == 'pic' ? (
-                                            <image className={this.state.filterData.length ? 'filter' : ''} xlinkHref={this.state.dataURL} width='500px' height='500px' preserveAspectRatio='none' />
+                                            <image id='imageElement' className={this.state.filterData.length ? 'filter' : ''} xlinkHref={this.state.dataURL} width='500px' height='500px' preserveAspectRatio='none' />
                         ) :
 
                         <Circle elements={this.state.filterData} />
@@ -2224,11 +2234,14 @@ console.log(newArray);
                             <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
                             <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
                             <ConcatFilters emitSelectedFilterName={this.handleConcatFilterData} names={this.state.filterNames}/>
+                        <button  class='hiddenbutton' onClick={this.hiddenField()}>pupp base64</button>
+
                             <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.concat(this.state.radialGradients).map(item => {
                             
                                 
                                 return item.name;
                             })}/>
+                          
                             <div className='new-filter-data'>
                                 <input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} />
                                 <div>
@@ -2548,7 +2561,7 @@ console.log(newArray);
                                             </video> */}
                                             </foreignObject>
                                                     )  : this.state.selectedSourceGraphic == 'pic' ? (
-                                                            <image xlinkHref={this.state.dataURL} filter={`url(#${data.name})`}  width='500px' height='500px' preserveAspectRatio='none' />
+                                                            <image  xlinkHref={this.state.dataURL} filter={`url(#${data.name})`}  width='500px' height='500px' preserveAspectRatio='none' />
                         ) :
                 
                 
@@ -2633,6 +2646,8 @@ console.log(newArray);
                 password<input onChange={this.handleNewUserPassword()} />
                 <button onClick={this.testUserLogic()}>test user</button>
                 <button onClick={this.testUserPut()}>test user put request</button>
+                <input id='hiddenfield' onChange={this.hiddenField()} />
+             
                
                 <label >NAME</label>
                 {this.props.reduxName}
