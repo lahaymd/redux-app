@@ -7,7 +7,7 @@ const imagesURL = process.env.NODE_ENV === 'production' ?  'client/build/images/
 
 
 router.post('/puppeteer', async (req, res) => {
-    // console.log(req.body);
+    console.log(req.body.image + 'image!!!!');
     // console.log(process.env.NODE_ENV+' env');
     // console.log(imagesURL + ' images url');
     
@@ -28,11 +28,14 @@ router.post('/puppeteer', async (req, res) => {
     // await page.$('#imageElement', e => e.setAttribute("xlink:href", image))
     await page.select('#gradientSelect', req.body.gradient)
     await page.select('#filternames', req.body.name)
-    await page.evaluate((imageURL) => {
-        document.querySelector('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', imageURL)
-        
-    
-    },imageURL);
+    if (req.body.image !== 'images/tiger.svg') {
+
+        await page.evaluate((imageURL) => {
+            document.querySelector('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', imageURL)
+            
+            
+        },imageURL);
+    }
     // await page.$('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', image);
     // await page.waitFor(5000); 
 
