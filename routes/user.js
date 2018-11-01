@@ -7,27 +7,51 @@ const imagesURL = process.env.NODE_ENV === 'production' ?  'client/build/images/
 
 
 router.post('/puppeteer', async (req, res) => {
-    console.log(req.body);
-    console.log(process.env.NODE_ENV+' env');
-    console.log(imagesURL + ' images url');
+    // console.log(req.body);
+    // console.log(process.env.NODE_ENV+' env');
+    // console.log(imagesURL + ' images url');
     
+    const imageURL = req.body.image || 'fuckoff'
     const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox']});
    
-
+    
     const page = await browser.newPage();
     await page.goto(process.env.NODE_ENV === 'production' ? 'https://svg-filters.herokuapp.com/' : 'http://localhost:3000', { waitUntil: 'domcontentloaded' });
-    await page.waitFor(2000); 
+    await page.waitFor(8000); 
+    console.log(imageURL.length);
+    // console.log(typeof imageURL);
+    
+    
+    
     const inputElement1 =   await page.waitFor('#puppeteer')
-    await page.select('#filternames', req.body.name)
     await page.select('#SourceGraphicSelect', req.body.SourceGraphic)
+    // await page.$('#imageElement', e => e.setAttribute("xlink:href", image))
     await page.select('#gradientSelect', req.body.gradient)
-    // await page.waitFor(2000); 
-    // await page.screenshot({ path: `client/public/images/fullscreen1${Math.random()}.png` });
-    // await page.waitFor(500); 
+    // await page.select('#gradientSelect', req.body.gradient)
+    // if(req.body.SourceGraphic === 'pic') {
+        // console.log('im pic');
+        // await page.waitFor(2000); 
+        // await page.waitForSelector('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', req.body.image)
+        // await page.$('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', req.body.image)
+        // console.log(imageElement);
+        // await page.waitFor('.hiddenbutton');
+        // await page.waitFor(5000); 
+        // // await page.$eval('.hiddenbutton', el => el.id = imageURL.innerHTML);
+        // await page.waitFor(5000); 
+        // await page.click('.hiddenbutton')
+        await page.select('#filternames', req.body.name)
+        await page.evaluate((imageURL) => {
+        document.querySelector('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', imageURL)
+        
+    
+    },imageURL);
+    // await page.$('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', image);
+    // await page.waitFor(5000); 
+
     await inputElement1.screenshot({ path: process.env.NODE_ENV === 'production' ? 'client/build/images/element1.png' : `client/public/images/element1.png`, omitBackground: true});
     console.log('close me')
     ; 
-    await browser.close();
+    // await browser.close();  
 
     // res.set('Content-Type',  'application/json');
     // res.send({"text": "done"});
