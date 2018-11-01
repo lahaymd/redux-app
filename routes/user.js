@@ -27,20 +27,8 @@ router.post('/puppeteer', async (req, res) => {
     await page.select('#SourceGraphicSelect', req.body.SourceGraphic)
     // await page.$('#imageElement', e => e.setAttribute("xlink:href", image))
     await page.select('#gradientSelect', req.body.gradient)
-    // await page.select('#gradientSelect', req.body.gradient)
-    // if(req.body.SourceGraphic === 'pic') {
-        // console.log('im pic');
-        // await page.waitFor(2000); 
-        // await page.waitForSelector('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', req.body.image)
-        // await page.$('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', req.body.image)
-        // console.log(imageElement);
-        // await page.waitFor('.hiddenbutton');
-        // await page.waitFor(5000); 
-        // // await page.$eval('.hiddenbutton', el => el.id = imageURL.innerHTML);
-        // await page.waitFor(5000); 
-        // await page.click('.hiddenbutton')
-        await page.select('#filternames', req.body.name)
-        await page.evaluate((imageURL) => {
+    await page.select('#filternames', req.body.name)
+    await page.evaluate((imageURL) => {
         document.querySelector('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', imageURL)
         
     
@@ -53,8 +41,7 @@ router.post('/puppeteer', async (req, res) => {
     ; 
     // await browser.close();  
 
-    // res.set('Content-Type',  'application/json');
-    // res.send({"text": "done"});
+    res.json({element:'element1'})
     console.log('donzo');
     
 });

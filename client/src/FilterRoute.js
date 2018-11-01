@@ -37,7 +37,7 @@ class FilterRoute extends Component {
         super(props);
         this.state = {
             base64: [],
-            puppeteerImage: '',
+            puppeteerImage: 'element1',
             filterNamePuppeteer: '',
             newUserName: '',
             newUserPassword: '',
@@ -251,18 +251,12 @@ class FilterRoute extends Component {
             body: JSON.stringify(data)
 
         })
-            .then(res => { console.log(res);res.json()})
+            .then(res =>  res.json())
             .then(data => {
                 console.log('image from puppeteer' + JSON.stringify(data));
-                this.setState({puppeteerImage: data})
+                this.setState({puppeteerImage: data.element})
     }
 )}
-
-hiddenField = () => e => {
-        console.log(e.target.id);
-        
-    this.setState({dataURL: e.target.id})
-}
 
     testUserPut = () => e => {
         console.log('test user');
@@ -2234,7 +2228,7 @@ console.log(newArray);
                             <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
                             <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
                             <ConcatFilters emitSelectedFilterName={this.handleConcatFilterData} names={this.state.filterNames}/>
-                        <button  class='hiddenbutton' onClick={this.hiddenField()}>pupp base64</button>
+                       
 
                             <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.concat(this.state.radialGradients).map(item => {
                             
@@ -2646,13 +2640,13 @@ console.log(newArray);
                 password<input onChange={this.handleNewUserPassword()} />
                 <button onClick={this.testUserLogic()}>test user</button>
                 <button onClick={this.testUserPut()}>test user put request</button>
-                <input id='hiddenfield' onChange={this.hiddenField()} />
+               
              
                
                 <label >NAME</label>
                 {this.props.reduxName}
                 <input type='text' value={this.props.name} onChange={this.handleNameChange} />
-                <img width='200' height='200' src='images/element1.png' />
+                <img width='200' height='200' src={`images/${this.state.puppeteerImage}.png`}/>
                 </div>
             
         );
