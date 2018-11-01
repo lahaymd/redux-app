@@ -2260,7 +2260,7 @@ console.log(newArray);
                                 // console.log(data);
                                 
                                 return (
-                                    <svg viewBox='0 0 500 500' width='100%' height='100%'>
+                                    <svg viewBox='0 0 500 500' width='100%' >
                                         <defs>
                                             <filter id={data.name} colorInterpolationFilters='sRGB' width='200%' height='200%'>
 
