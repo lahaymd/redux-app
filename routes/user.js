@@ -11,7 +11,7 @@ router.post('/puppeteer', async (req, res) => {
     // console.log(process.env.NODE_ENV+' env');
     // console.log(imagesURL + ' images url');
     
-    const imageURL = req.body.image || 'fuckoff'
+    const imageURL = req.body.image 
     const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox']});
    
     
@@ -36,12 +36,12 @@ router.post('/puppeteer', async (req, res) => {
     // await page.$('#imageElement').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', image);
     // await page.waitFor(5000); 
 
-    await inputElement1.screenshot({ path: process.env.NODE_ENV === 'production' ? 'client/build/images/element1.png' : `client/public/images/element1.png`, omitBackground: true});
+    await inputElement1.screenshot({ path: process.env.NODE_ENV === 'production' ? `client/build/images/${req.body.name}.png` : `client/public/images/${req.body.name}.png`, omitBackground: true});
     console.log('close me')
     ; 
     // await browser.close();  
 
-    res.json({element:'element1'})
+    res.json({element: req.body.name})
     console.log('donzo');
     
 });
