@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user.model.js');
 var mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const puppeteer = require('puppeteer');
 const imagesURL = process.env.NODE_ENV === 'production' ?  'client/build/images/element1.png': 'client/public/images/element1.png';
 
@@ -50,18 +51,22 @@ router.post('/puppeteer', async (req, res) => {
 });
 
 router.post('/', function (req, res) {
-    console.log(req.body);
+    console.log(req.body.headers);
     User.create({
         userName: req.body.username,
         password: req.body.password,
-        filters: [],
-        linearGradients: [],
-        radialGradients: []
+        // filters: [],
+        // linearGradients: [],
+        // radialGradients: []
     },
         function (err, user) {
             if (err) return console.error(err);
             console.log(user, '******');
-            res.json(user);
+            // create a token
+            var token = jwt.sign({ id: user._id }, 'superSecretKey', {
+                expiresIn: 86400 // expires in 24 hours
+            });
+            res.json({ auth: true, token: token, user: user });
 })
     // User.create(
     //     {
@@ -77,12 +82,40 @@ router.post('/', function (req, res) {
     //     });
 });
 
+router.post('/login', (req,res) => {
+console.log(req.body.username);
+
+    User.findOne({userName: req.body.username}, (err,docs) => {
+        console.log('docs' + docs);
+        if(docs.password === req.body.password) {
+            // res.json(docs)
+
+            jwt.sign({ docs }, 'superSecretKey', {
+                expiresIn: '30s' // expires in 24 hours
+            }, (err, token) => {
+                res.json({token, auth: true})
+            })
+        }else{
+            res.json('wrong password dumby')
+        }
+        
+    })
+
+})
+
 
 
 router.get('/', function (req, res) {
-    // User.find({}, function (err, docs) {
-    //     res.json(docs)
-    // })
+    // console.log(req.headers);
+    
+    var token = req.headers['x-access-token'];
+    if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+
+    jwt.verify(token, 'superSecretKey', function (err, decoded) {
+        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+
+        res.send({decoded, auth: true});
+    });
 });
 
 router.get('/name', function (req, res) {

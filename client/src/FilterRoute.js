@@ -36,6 +36,7 @@ class FilterRoute extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            auth: false,
             base64: [],
             puppeteerImage: 'element1',
             filterNamePuppeteer: '',
@@ -83,30 +84,109 @@ class FilterRoute extends Component {
         }
     }
 
-    async componentDidMount() {
+    
+    
 
+
+    testVerify = () => e  => {
+        console.log('verify');
+
+
+
+        fetch('/user', {
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'x-access-token': sessionStorage.jwt
+            },
+            method: 'GET',
+
+
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('jwt verify' + JSON.stringify(data));
+                this.setState({auth: data.auth})
+                // localStorage.setItem('jwt', data.token )
+                // sessionStorage.setItem('jwt', data.token)
+            }
+            )
+    }
+
+    async componentDidMount() {
+        
+        fetch('/user', {
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'x-access-token': sessionStorage.jwt,
+                'authorization': 'Bearer ' + sessionStorage.jwt
+            },
+            method: 'GET',
+
+
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('jwt verify from componentdidmount' + JSON.stringify(data));
+                this.setState({ auth: data.auth })
+                if(data.auth == false) {
+
+                    sessionStorage.removeItem('jwt')
+                }
+            }
+            )
+            
         const res = await fetch('/linear_gradient');
         const json = await res.json();
         this.setState({linearGradients: json})
         this.setState({stops: json[json.length - 1][`stops`]})  
         
-         fetch('/filter_data')
-             .then(res => res.json())
-             .then(data => {
-                //  console.log('filter data' + JSON.stringify(data));
-       
-        this.setState({ filterNames: data.map(item => item.name)})
-        this.setState({allFilterData: data})
-    })
-         fetch('/radial_gradient')
-             .then(res => res.json())
-             .then(data => {
-                //  console.log('radial data' + JSON.stringify(data));
-       
-                 this.setState({ radialGradients: data })
-    })
+        fetch('/filter_data')
+        .then(res => res.json())
+        .then(data => {
+            //  console.log('filter data' + JSON.stringify(data));
+            
+            this.setState({ filterNames: data.map(item => item.name)})
+            this.setState({allFilterData: data})
+        })
+        fetch('/radial_gradient')
+        .then(res => res.json())
+        .then(data => {
+            //  console.log('radial data' + JSON.stringify(data));
+            
+            this.setState({ radialGradients: data })
+        })
+        
 
         
+      
+        
+    }
+
+    handleLogin = () => e => {
+
+        const data = {
+            username: this.state.newUserName,
+            password: this.state.newUserPassword
+
+        }
+
+        fetch('user/login', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {console.log(`login data: ${JSON.stringify(data)}`)
+                sessionStorage.setItem('jwt', data.token)    
+                this.setState({ auth: data.auth })
+  
+        })
     }
 
     handleNameChange = e => {
@@ -228,9 +308,16 @@ class FilterRoute extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log('post stops' + JSON.stringify(data));
+                console.log('jwt' + JSON.stringify(data));
+                sessionStorage.setItem('jwt', data.token )
     }
 )}
+
+  
+
+
+
+
     testPuppeteer = (filtername) => e => {
         console.log('puppeteer');
 
@@ -1161,7 +1248,9 @@ console.log(newArray);
         })
 
 
+     
         return (
+
            
 
                
@@ -1206,9 +1295,9 @@ console.log(newArray);
                             <RadialGradient />
                             <g id='SourceGraphic'>
                                 <circle cx='50%' cy='50%' r='50%' fill='orange' />
-                                <text textAnchor='middle' x='50%' y='50%' font-size='200' >svg</text>
+                                <text textAnchor='middle' x='50%' y='50%' fontSize='200' >svg</text>
                             </g>
-                            {/* <text id='SourceGraphic' x='250' y='250' font-size='200' >svg</text> */}
+                            {/* <text id='SourceGraphic' x='250' y='250' fontSize='200' >svg</text> */}
                             <rect id='gold' x='0' y='0' width='50' height='50' fill='url(#coin)' />
                             <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
                             <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
@@ -1522,8 +1611,8 @@ console.log(newArray);
                                             </filter>
                                         </defs>
                                         <g filter='url(#filter-x)'>
-                                        <line stroke='url(#xg)' x1='0' y1='0' x2='100' y2='100' stroke-width='20' stroke-linecap="butt" />
-                                        <line x1='100' y1='0' x2='0' y2='100' stroke='url(#xg)' stroke-width='20' stroke-linecap="butt" />
+                                        <line stroke='url(#xg)' x1='0' y1='0' x2='100' y2='100' strokeWidth='20' strokeLinecap="butt" />
+                                        <line x1='100' y1='0' x2='0' y2='100' stroke='url(#xg)' strokeWidth='20' strokeLinecap="butt" />
                                         </g>
                                     </svg>
                                     {/* <button onClick={this.handleDelete(index)}>DELETE</button>
@@ -2224,13 +2313,14 @@ console.log(newArray);
                     })}
                     </div>
                         <div className='select-wrapper item-c'>
+                            {this.state.auth ? <div>authorized</div> : <div>not authorized</div>}
                             <FilterMenu selectFilter={this.handleNewFilter} />
                             <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
                             <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
                             <ConcatFilters emitSelectedFilterName={this.handleConcatFilterData} names={this.state.filterNames}/>
                        
 
-                            <LinearGradientSelect emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.concat(this.state.radialGradients).map(item => {
+                            <LinearGradientSelect grad={this.state.SourceGraphicAttrs[2]} emitSelectedLinearGradient={this.handleSelectedLinearGradient} names={this.state.linearGradients.concat(this.state.radialGradients).map(item => {
                             
                                 
                                 return item.name;
@@ -2241,13 +2331,13 @@ console.log(newArray);
                                 <div>
 
                             <svg onClick={this.handleNewFilterData}  id="Layer_1" viewBox="0 0 100 100"  >
-                                    <polyline stroke-width='5' fill="#CCCCCC" stroke="#000000" strokeLinecap='square' points="9,9.5 72,9.5 89.5,27 89.5,90.5 8.5,90.5 9,9.5 " />
-                                    <rect x="17.5" y="9.5" fill="#666666" stroke="#000000" stroke-miterlimit="10" width="54" height="63" />
-                                    <path fill="none" stroke="#000000" stroke-miterlimit="10" d="M-45,0" />
-                                    <rect x="26.5" y="18.5" stroke="#000000" stroke-miterlimit="10" width="36" height="9" />
-                                    <rect x="26.5" y="36.5" stroke="#000000" stroke-miterlimit="10" width="36" height="9" />
-                                    <path fill="none" stroke="#000000" stroke-miterlimit="10" d="M27,62" />
-                                    <rect x="26.5" y="54.5" stroke="#000000" stroke-miterlimit="10" width="36" height="9" />
+                                    <polyline strokeWidth='5' fill="#CCCCCC" stroke="#000000" strokeLinecap='square' points="9,9.5 72,9.5 89.5,27 89.5,90.5 8.5,90.5 9,9.5 " />
+                                    <rect x="17.5" y="9.5" fill="#666666" stroke="#000000" strokeMiterlimit="10" width="54" height="63" />
+                                    <path fill="none" stroke="#000000" strokeMiterlimit="10" d="M-45,0" />
+                                    <rect x="26.5" y="18.5" stroke="#000000" strokeMiterlimit="10" width="36" height="9" />
+                                    <rect x="26.5" y="36.5" stroke="#000000" strokeMiterlimit="10" width="36" height="9" />
+                                    <path fill="none" stroke="#000000" strokeMiterlimit="10" d="M27,62" />
+                                    <rect x="26.5" y="54.5" stroke="#000000" strokeMiterlimit="10" width="36" height="9" />
                                 </svg>
                                 </div>
                                 {/* <button onClick={this.handleNewFilterData}>new filter</button> */}
@@ -2639,7 +2729,9 @@ console.log(newArray);
                 {this.state.newUserName}
                 password<input onChange={this.handleNewUserPassword()} />
                 <button onClick={this.testUserLogic()}>test user</button>
+                <button onClick={this.testVerify()}>test verify</button>
                 <button onClick={this.testUserPut()}>test user put request</button>
+                <button onClick={this.handleLogin()}>login</button>
                
              
                

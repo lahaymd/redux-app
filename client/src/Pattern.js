@@ -16,10 +16,10 @@ class Pattern extends Component {
             </pattern>
             <pattern  width='100' height='100' id='circle-pattern' patternUnits='userSpaceOnUse'>
                 <rect fill="#F7931E" width="100" height="100" />
-                <circle fill="#FF0000" stroke="#000000" stroke-miterlimit="10" cx="0" cy="0" r="50" />
-                <circle fill="#29ABE2" stroke="#000000" stroke-miterlimit="10" cx="100" cy="0" r="50" />
-                <circle fill="#ED1E79" stroke="#000000" stroke-miterlimit="10" cx="0" cy="100" r="50" />
-                <circle fill="#D9E021" stroke="#000000" stroke-miterlimit="10" cx="100" cy="100" r="50" />
+                <circle fill="#FF0000" stroke="#000000" strokeMiterlimit="10" cx="0" cy="0" r="50" />
+                <circle fill="#29ABE2" stroke="#000000" strokeMiterlimit="10" cx="100" cy="0" r="50" />
+                <circle fill="#ED1E79" stroke="#000000" strokeMiterlimit="10" cx="0" cy="100" r="50" />
+                <circle fill="#D9E021" stroke="#000000" strokeMiterlimit="10" cx="100" cy="100" r="50" />
             </pattern>
             </defs>
         )

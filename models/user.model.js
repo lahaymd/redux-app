@@ -6,7 +6,7 @@ var User = new Schema({
     password: { type: String, unique: true, required: true },
     filters: [{
 
-        name: { type: String, unique: true, required: true },
+        name: { type: String },
         filterData: [
             // {
                 //     type: String,
@@ -16,7 +16,7 @@ var User = new Schema({
                     ]
             }],
     linearGradients: [{
-        name: { type: String, unique: true, required: true },
+        name: { type: String},
         stops: [
             {
                 offset: Number,
@@ -33,7 +33,7 @@ var User = new Schema({
         gradientUnits: String
     }],
     radialGradients: [{
-        name: { type: String, unique: true, required: true },
+        name: { type: String},
         stops: [
             {
                 offset: Number,
