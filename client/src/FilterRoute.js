@@ -2323,7 +2323,7 @@ console.log(newArray);
                     })}
                     </div>
                         <div className='select-wrapper item-c'>
-                            <button onClick={this.props.changeAuth}>auth</button>
+                            {/* <button onClick={this.props.changeAuth}>auth</button> */}
                             {/* {this.props.auth ? <div>authorized</div> : <div>not authorized</div>}
                             {this.props.reduxName} */}
                             <FilterMenu selectFilter={this.handleNewFilter} />
