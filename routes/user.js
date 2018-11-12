@@ -83,7 +83,7 @@ router.post('/', function (req, res) {
 });
 
 router.post('/login', (req,res) => {
-console.log(req.body.username);
+console.log('req.body.username' +req.body.username);
 
     User.findOne({userName: req.body.username}, (err,docs) => {
         console.log('docs' + docs);
@@ -104,7 +104,6 @@ console.log(req.body.username);
 })
 
 
-
 router.get('/', function (req, res) {
     // console.log(req.headers);
     
@@ -119,9 +118,9 @@ router.get('/', function (req, res) {
 });
 
 router.get('/name', function (req, res) {
-    // User.find({ name: req.query.name }, function (err, docs) {
-    //     res.json(docs)
-    // })
+    User.find({ }, function (err, docs) {
+        res.json(docs)
+    })
 });
 
 router.put('/', function (req, res) {
