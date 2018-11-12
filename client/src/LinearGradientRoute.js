@@ -408,7 +408,7 @@ class LinearGradientRoute extends Component {
                     </defs>
                     <rect width='500' height='500' fill={`url(#${this.state.fill})`} />
                 </svg>
-                <h1>{this.props.reduxName}</h1>
+                {/* <h1>{this.props.reduxName}</h1> */}
                 <div className='gradient-wrapper'>
                     {this.state.linearGradients.map( item => {
                         return (
