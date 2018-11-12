@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { updateName } from './actions/actions';
+import { getUsers } from './actions/actions';
+import { changeAuth } from './actions/actions';
+import { getJWT } from './actions/actions';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import RouterTest from './RouterTest';
 import { SketchPicker } from 'react-color';
@@ -30,13 +33,14 @@ import TableValues from './TableValues';
 import ConcatFilters from './ConcatFilters';
 import Canvas from './Canvas';
 import Arrow from './Arrow';
+import { GET_NAMES } from './actions/types';
 
 class FilterRoute extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            auth: false,
+            // auth: false,
             base64: [],
             puppeteerImage: 'element1',
             filterNamePuppeteer: '',
@@ -114,28 +118,30 @@ class FilterRoute extends Component {
     }
 
     async componentDidMount() {
+
+        this.props.getUsers();
         
-        fetch('/user', {
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'x-access-token': sessionStorage.jwt,
-                'authorization': 'Bearer ' + sessionStorage.jwt
-            },
-            method: 'GET',
+        // fetch('/user', {
+        //     headers: {
+        //         'Accept': 'application/json, text/plain, */*',
+        //         'Content-Type': 'application/json',
+        //         'x-access-token': sessionStorage.jwt,
+        //         'authorization': 'Bearer ' + sessionStorage.jwt
+        //     },
+        //     method: 'GET',
 
 
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log('jwt verify from componentdidmount' + JSON.stringify(data));
-                this.setState({ auth: data.auth })
-                if(data.auth == false) {
+        // })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log('jwt verify from componentdidmount' + JSON.stringify(data));
+        //         this.setState({ auth: data.auth })
+        //         if(data.auth === false) {
 
-                    sessionStorage.removeItem('jwt')
-                }
-            }
-            )
+        //             sessionStorage.removeItem('jwt')
+        //         }
+        //     }
+        //     )
             
         const res = await fetch('/linear_gradient');
         const json = await res.json();
@@ -172,21 +178,22 @@ class FilterRoute extends Component {
 
         }
 
-        fetch('user/login', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(data => {console.log(`login data: ${JSON.stringify(data)}`)
-                sessionStorage.setItem('jwt', data.token)    
-                this.setState({ auth: data.auth })
+        // fetch('user/login', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //         'Access-Control-Allow-Origin': '*'
+        //     },
+        //     body: JSON.stringify(data)
+        // })
+        //     .then(res => res.json())
+            // .then(data => {console.log(`login data: ${JSON.stringify(data)}`)
+                // sessionStorage.setItem('jwt', data.token)    
+                // this.setState({ auth: data.auth })
+                this.props.getJWT(data)
   
-        })
+        // })
     }
 
     handleNameChange = e => {
@@ -251,15 +258,15 @@ class FilterRoute extends Component {
         // console.log('handle new linear gradient');
 
         let data = {
-            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id')),
             stops: this.state.stops,
-            x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))),
-            x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))),
-            y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))),
-            y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))),
-            spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod')),
-            gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))),
-            gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits')),
+            x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))),
+            x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))),
+            y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y1'))),
+            y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y2'))),
+            spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod')),
+            gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))),
+            gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits')),
 
         }
 
@@ -393,7 +400,7 @@ class FilterRoute extends Component {
         stops.push({ offset: this.state.offset, stopColor: this.state.stopColor, stopOpacity: this.state.stopOpacity })
         this.setState({ stops: stops })
         let data = {
-            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id')),
             stops: stops
         }
 
@@ -810,7 +817,7 @@ class FilterRoute extends Component {
             console.log(i);
             console.log(idx);
             console.log(item1);
-            if (idx == i) {console.log('fuck');
+            if (idx === i) {console.log('fuck');
              item1 = Object.assign({}, {[`${Object.keys(item1)}`]: e.target.value}) };
             console.log(item1);
             return item1; })
@@ -873,7 +880,7 @@ class FilterRoute extends Component {
 
 
 
-            if (Object.keys(item1)[0] == Object.keys(item)[0]) { 
+            if (Object.keys(item1)[0] === Object.keys(item)[0]) { 
                 console.log('meow');
              item1 = Object.assign({}, bar) };
             console.log(Object.keys(item1));
@@ -909,7 +916,7 @@ class FilterRoute extends Component {
             
             
             
-        //     if (Object.keys(item) == 'lightingColor') { item = Object.assign({}, bar)};
+        //     if (Object.keys(item) === 'lightingColor') { item = Object.assign({}, bar)};
         //     return item;
         // })
         // baz.splice(idx, 1, bar)
@@ -1071,7 +1078,7 @@ console.log(newArray);
         const feFuncB1 = feFuncB.join(' ')
         const feFuncA1 = feFuncA.join(' ')
         console.log(feFuncR1);
-        if(kidIndex == 0) {
+        if(kidIndex === 0) {
             console.log('red')
         }
         
@@ -1158,20 +1165,20 @@ console.log(newArray);
         console.log(bindex);
         console.log(e.target.value);
         console.log(e.target.name);
-        console.log(newfilterData[index].attributes[newfilterData[index].attributes.findIndex( (a,x) => x == 3)]);
-        console.log(newfilterData[index].attributes.findIndex( (a,x) => x == 3));
-        console.log(newfilterData[index].attributes.findIndex( (a,x) => Object.keys(a)[0] == e.target.name));
-        console.log(newfilterData[index].attributes.findIndex(attrIndex => { console.log(Object.keys(attrIndex)[0]); console.log(e.target.name); Object.keys(attrIndex)[0] == e.target.name }))
-        console.log(newfilterData[index].attributes[newfilterData[index].attributes.findIndex(attrIndex => Object.keys(attrIndex)[0] == e.target.name)])
+        console.log(newfilterData[index].attributes[newfilterData[index].attributes.findIndex( (a,x) => x === 3)]);
+        console.log(newfilterData[index].attributes.findIndex( (a,x) => x === 3));
+        console.log(newfilterData[index].attributes.findIndex( (a,x) => Object.keys(a)[0] === e.target.name));
+        console.log(newfilterData[index].attributes.findIndex(attrIndex => { console.log(Object.keys(attrIndex)[0]); console.log(e.target.name); Object.keys(attrIndex)[0] === e.target.name }))
+        console.log(newfilterData[index].attributes[newfilterData[index].attributes.findIndex(attrIndex => Object.keys(attrIndex)[0] === e.target.name)])
         console.log(newfilterData);
         const x = newfilterData[index].attributes.slice();
         console.log(x);
-        const baseFrequencyValue = Object.values(newfilterData[index].attributes[newfilterData[index].attributes.findIndex(attrIndex => Object.keys(attrIndex)[0] == e.target.name)])[0].slice()
+        const baseFrequencyValue = Object.values(newfilterData[index].attributes[newfilterData[index].attributes.findIndex(attrIndex => Object.keys(attrIndex)[0] === e.target.name)])[0].slice()
         // const baseFrequencyValue = Object.values(newfilterData[index].attributes[2])[0].slice()
         console.log(baseFrequencyValue)
         baseFrequencyValue[bindex] = parseFloat(e.target.value);
         console.log(baseFrequencyValue)
-        x[newfilterData[index].attributes.findIndex(attrIndex => Object.keys(attrIndex)[0] == e.target.name)] = {[`${e.target.name}`]:baseFrequencyValue};
+        x[newfilterData[index].attributes.findIndex(attrIndex => Object.keys(attrIndex)[0] === e.target.name)] = {[`${e.target.name}`]:baseFrequencyValue};
         // x[2] = {[`${e.target.name}`]:baseFrequencyValue};
         // x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseFloat(e.target.value) })
         newfilterData[index].attributes = x;
@@ -1266,16 +1273,16 @@ console.log(newArray);
                 {/* <svg width='0' height='0' style={{display: 'none'}}  > */}
                 <defs>
                             
-                            {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} /> */}
+                            {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))} /> */}
                             {/* <Gradient 
-                                id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
-                                x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
-                                x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))}
-                                y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))}
-                                y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))}
-                                spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod'))}
-                                gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))}
-                                gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits'))}
+                                id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))}
+                                x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))}
+                                x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))}
+                                y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y1'))}
+                                y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y2'))}
+                                spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod'))}
+                                gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))}
+                                gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits'))}
                             >
                                 {this.state.stops.map( (stop, index) => {
                                     return (
@@ -1449,6 +1456,9 @@ console.log(newArray);
 
                                 }
                             }
+
+                            break;
+
                             case 'feSpecularLighting': {
                                 console.log(item.children);
                                 
@@ -1548,7 +1558,7 @@ console.log(newArray);
                 </defs>
                         
 
-                        {this.state.selectedSourceGraphic == 'text' ? (
+                        {this.state.selectedSourceGraphic === 'text' ? (
                             <SourceGraphic
                                 filter={this.state.filterName}
                                 text={Object.values(this.state.SourceGraphicAttrs[11])}
@@ -1565,11 +1575,11 @@ console.log(newArray);
                                 textAnchor={Object.values(this.state.SourceGraphicAttrs[9])}
                                 alignmentBaseline={Object.values(this.state.SourceGraphicAttrs[10])}
                             />
-                        ) : this.state.selectedSourceGraphic == 'image' ? (
+                        ) : this.state.selectedSourceGraphic === 'image' ? (
                             <image className={this.state.filterData.length ? 'filter' : ''} xlinkHref='images/tiger.svg' width='500px' height='500px' preserveAspectRatio='none' />
-                        ) : this.state.selectedSourceGraphic == 'webcam' ? (
+                        ) : this.state.selectedSourceGraphic === 'webcam' ? (
                             <WebCam id='video' />
-                        ) : this.state.selectedSourceGraphic == 'video' ? ( 
+                        ) : this.state.selectedSourceGraphic === 'video' ? ( 
                                         <foreignObject id='fo' width="400px" height="400px"
                                         >
                                             <iframe className={this.state.filterData.length ? 'filter' : ''} width="400px" height="400px" src="https://www.youtube.com/embed/stUolWxG3wo?loop=1&autoplay=1&playlist=stUolWxG3wo" frameBorder="0"  allowFullScreen="allowFullScreen"></iframe>
@@ -1577,7 +1587,7 @@ console.log(newArray);
 
                                             </video> */}
                                         </foreignObject>
-                        ) :this.state.selectedSourceGraphic == 'pic' ? (
+                        ) :this.state.selectedSourceGraphic === 'pic' ? (
                                             <image id='imageElement' className={this.state.filterData.length ? 'filter' : ''} xlinkHref={this.state.dataURL} width='500px' height='500px' preserveAspectRatio='none' />
                         ) :
 
@@ -1661,13 +1671,13 @@ console.log(newArray);
                                         </select>)
                                     }
                                     
-                                    if (i.type == 'feComposite' && Object.values(i.attributes[3])[0] == 'arithmetic') {
+                                    if (i.type === 'feComposite' && Object.values(i.attributes[3])[0] === 'arithmetic') {
                                         console.log('comp arithmetic');
                                         console.log(Object.keys(item)[0]);
                                         
-                                        // if(Object.keys(item)[0] == 'k1') {
+                                        // if(Object.keys(item)[0] === 'k1') {
                                             console.log('k1 son');
-                                     return   Object.keys(item)[0].charAt(0) == 'k' ? 
+                                     return   Object.keys(item)[0].charAt(0) === 'k' ? 
                                              (
                                                 <div key={Object.keys(item)[0] + idx}>
                                                     <label key={Object.keys(item) + 'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="2" step="0.1" value={Object.values(item)} />{Object.values(item)}</label>
@@ -1677,13 +1687,13 @@ console.log(newArray);
                                         // } else {return null;}
                                         
                                     } 
-                                    if (i.type == 'feComposite' && Object.values(i.attributes[0])[0] != 'arithmetic') {
+                                    if (i.type === 'feComposite' && Object.values(i.attributes[0])[0] != 'arithmetic') {
                                         console.log('comp arithmetic');
                                         console.log(Object.keys(item)[0]);
                                         
-                                        // if(Object.keys(item)[0] == 'k1') {
+                                        // if(Object.keys(item)[0] === 'k1') {
                                             console.log('k1 son');
-                                     return   Object.keys(item)[0].charAt(0) == 'k' ? 
+                                     return   Object.keys(item)[0].charAt(0) === 'k' ? 
                                              (
                                                null
                                          ) : (<label key={Object.keys(item)}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} />{Object.values(item)}</label>)
@@ -1691,10 +1701,10 @@ console.log(newArray);
                                         
                                     } 
                                     // else {
-                                    //     if(Object.keys(item)[0].charAt(0) == 'k' ) {return null;}
+                                    //     if(Object.keys(item)[0].charAt(0) === 'k' ) {return null;}
                                     // }
                                     
-                                    if ((i.type =='feComponentTransfer') && Object.keys(item)[0] === 'result') {
+                                    if ((i.type ==='feComponentTransfer') && Object.keys(item)[0] === 'result') {
                                         console.log(Object.keys(item)[0])
                                         return (
                                             <div>
@@ -1897,7 +1907,7 @@ console.log(newArray);
                                     )
                                 }
 
-                                    else if (Object.keys(item)[0] == 'lightingColor') {
+                                    else if (Object.keys(item)[0] === 'lightingColor') {
                                         return (
                                             <SketchPicker color={Object.values(this.state.filterData[index].attributes[idx])[0]} onChange={this.handleChangeComplete(index, idx, item)} />
                                         )
@@ -1974,7 +1984,7 @@ console.log(newArray);
                                                         console.log(matArray);
                                                         console.log(matArray.length % (matIdx + 1));
                                                         
-                                                        if(matArray.length % (matIdx + 1) == 0) {
+                                                        if(matArray.length % (matIdx + 1) === 0) {
 
                                                             return( 
                                                                 <option>{`${matIdx + 1} ${matArray.length /(matIdx + 1) }`}</option>
@@ -2165,7 +2175,7 @@ console.log(newArray);
                                                     const regex = /Func/
                                                     console.log(regex.test(kid.type));
 
-                                                    if (Object.keys(a) == 'type'){
+                                                    if (Object.keys(a) === 'type'){
                                             return (<select onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} key={Object.keys(a)}>
                                             <option disabled selected >{Object.keys(a)}</option>
                                             <option>discrete</option>
@@ -2184,7 +2194,7 @@ console.log(newArray);
                                                 if (Object.values(kid.attributes[0])[0] === 'discrete' || Object.values(kid.attributes[0])[0] === 'table') {
                                                 console.log('im discrete');
                                                 
-                                                if(Object.keys(a) == 'tableValues') {
+                                                if(Object.keys(a) === 'tableValues') {
                                                     console.log('im tablevalues');
                                                     
 
@@ -2205,7 +2215,7 @@ console.log(newArray);
                                             // if (Object.values(kid.attributes[0])[0] === 'table') {
                                             //     console.log('im table');
                                                 
-                                            //     if(Object.keys(a) == 'tableValues') {
+                                            //     if(Object.keys(a) === 'tableValues') {
                                             //         console.log('im tablevalues');
                                                     
 
@@ -2218,7 +2228,7 @@ console.log(newArray);
                                             if (Object.values(kid.attributes[0])[0] === 'linear') {
                                                 console.log('im linear');
                                                 
-                                                if (Object.keys(a) == 'slope' || Object.keys(a) == 'intercept' ) {
+                                                if (Object.keys(a) === 'slope' || Object.keys(a) === 'intercept' ) {
                                                     console.log('im tablevalues');
                                                     
 
@@ -2237,7 +2247,7 @@ console.log(newArray);
                                             if (Object.values(kid.attributes[0])[0] === 'gamma') {
                                                 console.log('im gamma');
                                                 
-                                                if (Object.keys(a) == 'amplitude' || Object.keys(a) == 'exponent' || Object.keys(a) == 'offset' ) {
+                                                if (Object.keys(a) === 'amplitude' || Object.keys(a) === 'exponent' || Object.keys(a) === 'offset' ) {
                                                     console.log('im tablevalues');
                                                     
 
@@ -2256,7 +2266,7 @@ console.log(newArray);
 
                                         }
                                                     
-                                        if(Object.keys(a)== 'azimuth') {
+                                        if(Object.keys(a)=== 'azimuth') {
                                             
                                             return (
                                                 // <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="40" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /><span>{Object.values(a)}</span></label>
@@ -2266,7 +2276,7 @@ console.log(newArray);
                                                 </div>
                                             )
                                         }
-                                        else if (Object.keys(a) == 'elevation'){
+                                        else if (Object.keys(a) === 'elevation'){
                                             return (
                                             // <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="40" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /><span>{Object.values(a)}</span></label>
                                                 <div>
@@ -2276,12 +2286,12 @@ console.log(newArray);
                                         )
 
                                         } 
-                                        else if (Object.keys(a) == 'limitingConeAngle'){
+                                        else if (Object.keys(a) === 'limitingConeAngle'){
                                             return (<label key={Object.keys(a)}>{Object.keys(a)} value={Object.values(a)}<input type='range' min="0" max="360" step="1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
 
                                         }
                                         
-                                        else if (Object.keys(a) == 'x' || Object.keys(a) == 'y' || Object.keys(a) == 'z' || Object.keys(a) == 'pointsAtX' || Object.keys(a) == 'pointsAtY' || Object.keys(a) == 'pointsAtZ' ) {
+                                        else if (Object.keys(a) === 'x' || Object.keys(a) === 'y' || Object.keys(a) === 'z' || Object.keys(a) === 'pointsAtX' || Object.keys(a) === 'pointsAtY' || Object.keys(a) === 'pointsAtZ' ) {
                                             return (
                                                 <div>
                                                     <label key={Object.keys(a) + 'a'}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)}  name={Object.keys(a)} type='range' min="-500" max="500" step="1" value={Object.values(a)} />{Object.values(a)}</label>
@@ -2313,7 +2323,9 @@ console.log(newArray);
                     })}
                     </div>
                         <div className='select-wrapper item-c'>
-                            {this.state.auth ? <div>authorized</div> : <div>not authorized</div>}
+                            <button onClick={this.props.changeAuth}>auth</button>
+                            {this.props.auth ? <div>authorized</div> : <div>not authorized</div>}
+                            {this.props.reduxName}
                             <FilterMenu selectFilter={this.handleNewFilter} />
                             <SourceGraphicSelect  selectSourceGraphic={this.handleSelectSourceGraphic}/>
                             <FilterNameSelect emitSelectedFilterName={this.handleSelectedFilterName} names={this.state.filterNames}/>
@@ -2346,11 +2358,11 @@ console.log(newArray);
                             <button onClick={this.testPuppeteer()}>save svg as png</button>
                         </div>
                         <div className='filter-thumbnail'>
-                            {this.state.allFilterData.map(data => {
+                            {this.state.allFilterData.map((data,index) => {
                                 // console.log(data);
                                 
                                 return (
-                                    <svg viewBox='0 0 500 500' width='100%' >
+                                    <svg key={index} viewBox='0 0 500 500' width='100%' >
                                         <defs>
                                             <filter id={data.name} colorInterpolationFilters='sRGB' width='200%' height='200%'>
 
@@ -2615,7 +2627,7 @@ console.log(newArray);
                                             </filter>
 
                                         </defs>
-                                        {this.state.selectedSourceGraphic == 'text' ? (
+                                        {this.state.selectedSourceGraphic === 'text' ? (
                                             <SourceGraphic
                                                 filter={`url(#${data.name})`}
                                                 text={Object.values(this.state.SourceGraphicAttrs[11])}
@@ -2632,11 +2644,11 @@ console.log(newArray);
                                                 textAnchor={Object.values(this.state.SourceGraphicAttrs[9])}
                                                 alignmentBaseline={Object.values(this.state.SourceGraphicAttrs[10])}
                                             />
-                                        ) : this.state.selectedSourceGraphic == 'image' ? (
+                                        ) : this.state.selectedSourceGraphic === 'image' ? (
                                                 <image onClick={this.handleFilterEvent()}filter={`url(#${data.name})`} id={data.name} xlinkHref='images/tiger.svg' width='100%' height='100%' preserveAspectRatio='none' />
-                                        ) : this.state.selectedSourceGraphic == 'webcam' ? (
+                                        ) : this.state.selectedSourceGraphic === 'webcam' ? (
                                             <WebCam id='video' />
-                                        ) : this.state.selectedSourceGraphic == 'video' ? (
+                                        ) : this.state.selectedSourceGraphic === 'video' ? (
                                                         <foreignObject filter={`url(#${data.name})`} id='fo' width="400px" height="400px"
                                             >
                                                 <iframe  width="400px" height="400px" src="https://www.youtube.com/embed/stUolWxG3wo?loop=1&autoplay=1&playlist=stUolWxG3wo" frameBorder="0" allowFullScreen="allowFullScreen"></iframe>
@@ -2644,7 +2656,7 @@ console.log(newArray);
 
                                             </video> */}
                                             </foreignObject>
-                                                    )  : this.state.selectedSourceGraphic == 'pic' ? (
+                                                    )  : this.state.selectedSourceGraphic === 'pic' ? (
                                                             <image  xlinkHref={this.state.dataURL} filter={`url(#${data.name})`}  width='500px' height='500px' preserveAspectRatio='none' />
                         ) :
                 
@@ -2666,16 +2678,16 @@ console.log(newArray);
                     {/* <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} /> */}
                     {/* <svg width='0' height='0'> */}
                         {/* <defs> */}
-                        {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))} /> */}
+                        {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))} /> */}
                             {/* <Gradient 
-                                id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}
-                                x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))}
-                                x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))}
-                                y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))}
-                                y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))}
-                                spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod'))}
-                                gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))}
-                                gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits'))}
+                                id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))}
+                                x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))}
+                                x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))}
+                                y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y1'))}
+                                y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y2'))}
+                                spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod'))}
+                                gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))}
+                                gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits'))}
                             >
                                 {this.state.stops.map( (stop, index) => {
                                     return (
@@ -2694,7 +2706,7 @@ console.log(newArray);
                             </linearGradient> */}
                             {/* <RadialGradient /> */}
                             {/* <rect id='gold' width='100' height='100' fill='url(#coin)' /> */}
-                            {/* <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} /> */}
+                            {/* <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))}`} /> */}
                             {/* <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' /> */}
                             {/* <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' /> */}
                             {/* <Pattern /> */}
@@ -2746,7 +2758,8 @@ console.log(newArray);
 }
 
 const mapStateToProps = state => ({
-    reduxName: state.users.username
+    reduxName: state.users.username,
+    auth: state.jwt.authorized
     // redStrt: state.posts.redStart,
     // greenStrt: state.posts.greenStart,
     // blueStrt: state.posts.blueStart,
@@ -2754,6 +2767,6 @@ const mapStateToProps = state => ({
     // selectedCompositeOperator: state.posts.selectedCompositeOperator
 })
 
-export default connect(mapStateToProps,{updateName})(FilterRoute);
+export default connect(mapStateToProps,{updateName, getUsers, changeAuth, getJWT})(FilterRoute);
 
 // export default FilterRoute;

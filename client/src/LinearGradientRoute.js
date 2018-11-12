@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import Pattern from './Pattern';
 import RadialGradient from './RadialGradient';
 import SourceGraphicSelect from './SourceGraphicSelect';
@@ -49,7 +50,7 @@ class LinearGradientRoute extends Component {
         console.log(newAttrs);
         newAttrs[`${e.target.name}`] = e.target.value;
         console.log(newAttrs);
-        const gradIndex = [...this.state.linearGradients].findIndex(item => item['name'] == newAttrs['name'])
+        const gradIndex = [...this.state.linearGradients].findIndex(item => item['name'] === newAttrs['name'])
         console.log(gradIndex);
         
         newLinearGradients.splice(gradIndex, 1, newAttrs)
@@ -106,15 +107,15 @@ class LinearGradientRoute extends Component {
 
         }
         // let data = {
-        //     name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+        //     name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id')),
         //     stops: this.state.stops,
-        //     x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))),
-        //     x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))),
-        //     y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))),
-        //     y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))),
-        //     spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod')),
-        //     gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))),
-        //     gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits')),
+        //     x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))),
+        //     x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))),
+        //     y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y1'))),
+        //     y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y2'))),
+        //     spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod')),
+        //     gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))),
+        //     gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits')),
 
         // }
 
@@ -173,7 +174,7 @@ class LinearGradientRoute extends Component {
         // this.setState({ stops: stops })
         
         // let data = {
-        //     name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+        //     name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id')),
         //     stops: stops
         // }
 
@@ -316,15 +317,15 @@ class LinearGradientRoute extends Component {
         console.log('test user');
 
         let data = {
-            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
+            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id')),
             stops: this.state.stops,
-            x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))),
-            x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))),
-            y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))),
-            y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))),
-            spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod')),
-            gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))),
-            gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits')),
+            x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))),
+            x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))),
+            y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y1'))),
+            y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y2'))),
+            spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod')),
+            gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))),
+            gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits')),
 
         }
 
@@ -388,14 +389,14 @@ class LinearGradientRoute extends Component {
                 <svg viewBox='0 0 500 500' width='100%' height='100%'>
                     <defs>
                         {/* <Gradient
-                            id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))[0]}
-                            x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))[0]}
-                            x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))[0]}
-                            y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))[0]}
-                            y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))[0]}
-                            spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod'))[0]}
-                            gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))[0]}
-                            gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits'))[0]}
+                            id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))[0]}
+                            x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))[0]}
+                            x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))[0]}
+                            y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y1'))[0]}
+                            y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y2'))[0]}
+                            spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod'))[0]}
+                            gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))[0]}
+                            gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits'))[0]}
                         >
                             {this.state.stops.map((stop, index) => {
                                 return (
@@ -407,6 +408,7 @@ class LinearGradientRoute extends Component {
                     </defs>
                     <rect width='500' height='500' fill={`url(#${this.state.fill})`} />
                 </svg>
+                <h1>{this.props.reduxName}</h1>
                 <div className='gradient-wrapper'>
                     {this.state.linearGradients.map( item => {
                         return (
@@ -422,4 +424,15 @@ class LinearGradientRoute extends Component {
     }
 }
 
-export default LinearGradientRoute;
+const mapStateToProps = state => ({
+    reduxName: state.users.username,
+    auth: state.jwt.authorized
+    // redStrt: state.posts.redStart,
+    // greenStrt: state.posts.greenStart,
+    // blueStrt: state.posts.blueStart,
+    // compositeOperator: state.posts.compositeOperator,
+    // selectedCompositeOperator: state.posts.selectedCompositeOperator
+})
+
+export default connect(mapStateToProps)(LinearGradientRoute);
+// export default LinearGradientRoute;

@@ -17,11 +17,11 @@ class GradientEditor extends Component {
             })
             console.log(objectToArray);
             
-            data = Object.keys(this.props.attrs).filter(item => { return item != 'stops' &&  item != '_id' && item != '__v'}).map( (item,index,array) => {
+            data = Object.keys(this.props.attrs).filter(item => { return item !== 'stops' &&  item !== '_id' && item !== '__v'}).map( (item,index,array) => {
                 console.log(this.props.attrs);
                 console.log(array);
-                // if (item == 'name') { return { id: Object.values(this.props.attrs)[Object.keys(this.props.attrs).findIndex(x => x == item)]}}
-                return {[`${item}`]: Object.values(this.props.attrs)[Object.keys(this.props.attrs).findIndex(x => x == item)]}
+                // if (item === 'name') { return { id: Object.values(this.props.attrs)[Object.keys(this.props.attrs).findIndex(x => x === item)]}}
+                return {[`${item}`]: Object.values(this.props.attrs)[Object.keys(this.props.attrs).findIndex(x => x === item)]}
             })
             console.log(data);
             
@@ -39,7 +39,7 @@ class GradientEditor extends Component {
                     // console.log(Object.values(this.props.attrs[6])[0]);
                     
                     
-                    if(Object.keys(item) == 'spreadMethod') {
+                    if(Object.keys(item) === 'spreadMethod') {
                         return (
                             <select key={Object.keys(item)} name={Object.keys(item)}  onChange={this.props.changeGradient(item, index)}>
                                 <option disabled selected >{Object.keys(item)}</option>
@@ -48,7 +48,7 @@ class GradientEditor extends Component {
                                 <option>repeat</option>
                             </select>
                         )
-                    } else if(Object.keys(item) == 'gradientUnits') {
+                    } else if(Object.keys(item) === 'gradientUnits') {
                         return (
                             <select key={Object.keys(item)} name={Object.keys(item)}  onChange={this.props.changeGradient(item, index)}>
                                 <option disabled selected >{Object.keys(item)}</option>
@@ -57,7 +57,7 @@ class GradientEditor extends Component {
                             </select>
                         )
                     } 
-                     else if(Object.keys(item) == 'gradientTransform') {
+                     else if(Object.keys(item) === 'gradientTransform') {
                         return (
                             <label key={Object.keys(item)} key={index} className='html-label-wrapper'> {Object.keys(item)} : {Object.values(item)}
                             <input 
@@ -69,7 +69,7 @@ class GradientEditor extends Component {
                             </label>
                         )
                     } 
-                     else if(Object.keys(item) == 'name') {
+                     else if(Object.keys(item) === 'name') {
                         return (
                             <label key={index} className='html-label-wrapper'> {Object.keys(item)}: {Object.values(item)}
                             {/* <input 

@@ -11,11 +11,11 @@ class Canvas extends Component {
         // this.updateCanvas();
         // console.log(this.props.sourceGraphic);
 
-        let video = this.props.sourceGraphic == 'webcam' ? document.querySelector("#canvas-video") : this.props.sourceGraphic == 'image' ? document.querySelector("#canvas-image") : null
+        let video = this.props.sourceGraphic === 'webcam' ? document.querySelector("#canvas-video") : this.props.sourceGraphic === 'image' ? document.querySelector("#canvas-image") : null
         // console.log(video);
 
         let ctx = this.refs.can.getContext('2d');
-        if (video && this.props.sourceGraphic == 'image') {
+        if (video && this.props.sourceGraphic === 'image') {
 
 
 
@@ -31,7 +31,7 @@ class Canvas extends Component {
             }
             requestAnimationFrame(step);
         }
-        if (video && this.props.sourceGraphic == 'webcam') {
+        if (video && this.props.sourceGraphic === 'webcam') {
             // console.log(ctx.width);
             // console.log(video);
 
@@ -54,11 +54,11 @@ class Canvas extends Component {
         // console.log('received props');
         // console.log(nextProps);
         // console.log(this.props);
-        let video = nextProps.sourceGraphic == 'webcam' ? document.querySelector("#canvas-video") : nextProps.sourceGraphic == 'image' ? document.querySelector("#canvas-image") : null
+        let video = nextProps.sourceGraphic === 'webcam' ? document.querySelector("#canvas-video") : nextProps.sourceGraphic === 'image' ? document.querySelector("#canvas-image") : null
         // console.log(video);
         let ctx = this.refs.can.getContext('2d');
 
-        if ( video && nextProps.sourceGraphic == 'image'){
+        if ( video && nextProps.sourceGraphic === 'image'){
 
             
             
@@ -76,7 +76,7 @@ class Canvas extends Component {
                 
                 }
             // }
-        if (video && nextProps.sourceGraphic == 'webcam') {
+        if (video && nextProps.sourceGraphic === 'webcam') {
         // console.log(ctx.width);
         // console.log(video);
 
@@ -94,7 +94,7 @@ class Canvas extends Component {
     updateCanvas() {
         // console.log(this.props.sourceGraphic);
         
-        let video = this.props.sourceGraphic == 'webcam' ? document.querySelector("#canvas-video") : this.props.sourceGraphic == 'image' ? document.querySelector("#canvas-video") : null
+        let video = this.props.sourceGraphic === 'webcam' ? document.querySelector("#canvas-video") : this.props.sourceGraphic === 'image' ? document.querySelector("#canvas-video") : null
         // console.log(video);
 
         if(video) {
@@ -149,13 +149,13 @@ class Canvas extends Component {
         return(
             <div>
                 {/* <WebCam id='canvas-video' />  */}
-                {!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices || this.props.sourceGraphic != 'webcam'   ? <div>no webcam</div> : <Cam id='canvas-video' /> }
+                {!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices || this.props.sourceGraphic !== 'webcam'   ? <div>no webcam</div> : <Cam id='canvas-video' /> }
                 {/* <WebCam id='canvas-video'  />  */}
                 
                 <svg id='svg-canvas' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 0 500 500' width='500px' height='500px' preserveAspectRatio='none'><image id='canvas-image' xlinkHref='images/tiger.svg' width='500px' height='500px' preserveAspectRatio='none' /></svg>
                 {/* } */}
             
-                <canvas className={this.props.sourceGraphic == 'webcam' || this.props.sourceGraphic == 'image' ? '' : 'notcamorimg' }
+                <canvas className={this.props.sourceGraphic === 'webcam' || this.props.sourceGraphic === 'image' ? '' : 'notcamorimg' }
             onMouseDown={this.handlePixelData} 
                     ref='can'
                     

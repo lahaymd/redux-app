@@ -26,7 +26,6 @@ class SourceGraphic extends Component {
                     textLength={this.props.textLength}
                     lengthAdjust={this.props.lengthAdjust}
                     textAnchor={this.props.textAnchor}
-                    textAnchor={this.props.textAnchor}
                     alignmentBaseline={this.props.alignmentBaseline}
                     >{this.props.text}</text>
            
@@ -35,5 +34,3 @@ class SourceGraphic extends Component {
 }
 
 export default SourceGraphic;
-
-SourceGraphicAttrs: [{ x: 100 }, { y: 100 }, { fill: '' }, { stroke: '' }]

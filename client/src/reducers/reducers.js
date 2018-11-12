@@ -1,29 +1,39 @@
-import {  RED_CHANNEL_INPUT, GREEN_CHANNEL_INPUT, UPDATE_NAME} from '../actions/types';
+import {  GET_NAMES, UPDATE_NAME, JWT, J} from '../actions/types';
 
 const initialState = {
-    username: 'Mike'
+    username: 'Mike',
+    password: '',
+    users: []
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
+
+        case GET_NAMES:
+            console.log('users array' + action.payload);
+                return {
+                    ...state,
+                    users: action.payload
+                }
+            
       
-        case RED_CHANNEL_INPUT:
-            console.log('red channel input');
-            return {
-                ...state,
-                redStart: action.payload
-            }
-        case GREEN_CHANNEL_INPUT:
-            console.log('green channel input');
-            return {
-                ...state,
-                greenStart: action.payload
-            }
         case UPDATE_NAME:
             console.log('updating name');
             return {
                 ...state,
                 username: action.payload
+            } 
+        case JWT:
+            console.log('json web token');
+            return {
+                ...state,
+                jwt: action.payload
+            } 
+        case J:
+            console.log('json web token');
+            return {
+                ...state,
+                authorized: true
             } 
         
 
