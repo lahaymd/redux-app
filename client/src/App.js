@@ -14,7 +14,6 @@ import PatternRoute from './PatternRoute';
 import FilterIcon from './FilterIcon';
 // import { RED_CHANNEL_INPUT, GREEN_CHANNEL_INPUT, UPDATE_NAME, JWT, J } from '../actions/types';
 
-
 const PrivateRoute = ({component: Component, ...rest}) =>  {
 // console.log(rest);
 // console.log(Component);
