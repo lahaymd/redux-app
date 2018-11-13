@@ -8,7 +8,6 @@ import { getJWT } from './actions/actions';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import RouterTest from './RouterTest';
 import { SketchPicker } from 'react-color';
-import Filter from './Filter';
 import Circle from './Circle';
 import SourceGraphic from './SourceGraphic';
 import SourceGraphicEditor from './SourceGraphicEditor';
@@ -19,9 +18,7 @@ import SourceGraphicSelect from './SourceGraphicSelect';
 import Gradient from './Gradient';
 import LinearGradientRepresentation from './LinearGradientRepresentation';
 import GradientEditor from './GradientEditor';
-import Image from './Images';
 import  StopAdder from "./StopAdder";
-import RectWithGradient from './RectWithGradient';
 import LinearGradients from './LinearGradients';
 import RadialGradients from './RadialGradients';
 import LinearGradientSelect from './LinearGradientSelect';
@@ -120,29 +117,7 @@ class FilterRoute extends Component {
     async componentDidMount() {
 
         this.props.getUsers();
-        
-        // fetch('/user', {
-        //     headers: {
-        //         'Accept': 'application/json, text/plain, */*',
-        //         'Content-Type': 'application/json',
-        //         'x-access-token': sessionStorage.jwt,
-        //         'authorization': 'Bearer ' + sessionStorage.jwt
-        //     },
-        //     method: 'GET',
-
-
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         console.log('jwt verify from componentdidmount' + JSON.stringify(data));
-        //         this.setState({ auth: data.auth })
-        //         if(data.auth === false) {
-
-        //             sessionStorage.removeItem('jwt')
-        //         }
-        //     }
-        //     )
-            
+  
         const res = await fetch('/linear_gradient');
         const json = await res.json();
         this.setState({linearGradients: json})
@@ -164,10 +139,6 @@ class FilterRoute extends Component {
             this.setState({ radialGradients: data })
         })
         
-
-        
-      
-        
     }
 
     handleLogin = () => e => {
@@ -178,22 +149,8 @@ class FilterRoute extends Component {
 
         }
 
-        // fetch('user/login', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json',
-        //         'Access-Control-Allow-Origin': '*'
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        //     .then(res => res.json())
-            // .then(data => {console.log(`login data: ${JSON.stringify(data)}`)
-                // sessionStorage.setItem('jwt', data.token)    
-                // this.setState({ auth: data.auth })
                 this.props.getJWT(data)
   
-        // })
     }
 
     handleNameChange = e => {
@@ -220,9 +177,6 @@ class FilterRoute extends Component {
         
     }
     
-
-
-
     handleGradientChange = (item, index) => e => {
         // console.log('gradient');
         // console.log(`item ${JSON.stringify(item)}`);
@@ -240,9 +194,7 @@ class FilterRoute extends Component {
 
     handleStop =   () => e => {
         // console.log(e.target.name);
-
         this.setState({[`${e.target.name}`]: e.target.value})
-        
     }
 
     handleDeleteStop = (index) => e => {
@@ -287,11 +239,7 @@ class FilterRoute extends Component {
 
                 const foo = this.state.linearGradients.slice();
                 foo.push(data)
-
-
                 this.setState({ linearGradients: foo })
-
-
             })
         
     }
@@ -319,11 +267,6 @@ class FilterRoute extends Component {
                 sessionStorage.setItem('jwt', data.token )
     }
 )}
-
-  
-
-
-
 
     testPuppeteer = (filtername) => e => {
         console.log('puppeteer');
@@ -376,10 +319,6 @@ class FilterRoute extends Component {
     }
 )}
     
-
-   
-
-
     handleNewUserName = () => e => {
         console.log(e.target.value);
         this.setState({newUserName: e.target.value})
@@ -391,7 +330,6 @@ class FilterRoute extends Component {
         this.setState({newUserPassword: e.target.value})
         
     }
-
 
     handlePushStop = () => e => {
 
@@ -423,18 +361,11 @@ class FilterRoute extends Component {
                 const foo = this.state.linearGradients.slice();
                 const info = foo.findIndex(item => item.name === data.name);
                 foo.splice(info, 1, data)
-
-
-
                 this.setState({ linearGradients: foo })
                 console.log('post stops' + JSON.stringify(data));
             })
 
     }
-
-
-
-
 
     handleStopChange = (param, index) => e => {
         console.log(param);
@@ -451,10 +382,6 @@ class FilterRoute extends Component {
         this.setState({ stops: stops })
 
     }
-
-
-
-
 
     handleSelectedLinearGradient = (e) => {
         // this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`] })
@@ -573,33 +500,8 @@ class FilterRoute extends Component {
                 
                 this.setState({ filterData: flat })
             })
-        // console.log('handle concat filter data');
-        // let data = {
-        //     name: this.state.filterName,
-        //     filterData: this.state.filterData,
-        // }
-        // console.log(data);
-        
-        // fetch('/filter_data',
-        //     {
-        //         method: 'POST',
-        //         headers: {
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json',
-        //             'Access-Control-Allow-Origin': '*'
-        //         },
-        //         body: JSON.stringify(data)
-        //     }
-        // )
-        //     .then( res => res.json())
-        //     .then(data => { console.log('post filter data' + JSON.stringify(data));
-        //         console.log(data.filterData);
-        //         this.setState({ filterData: data.filterData })
-        //     })
+
     }
-
-
-
 
     handleDelete = ( key) => (e) => {
         console.log('key', key);
@@ -1262,6 +1164,19 @@ console.log(newArray);
 
                
                 <div className="App">
+
+                <div>
+                    <label>name<input onChange={this.handleNewUserName()} /></label>
+                    {this.state.newUserName}
+                    <label>password<input onChange={this.handleNewUserPassword()} /></label>
+                    <button onClick={this.testUserLogic()}>test user</button>
+                    <button onClick={this.testVerify()}>test verify</button>
+                    <button onClick={this.testUserPut()}>test user put request</button>
+                    <button onClick={this.handleLogin()}>login</button>
+                    <label >NAME</label>
+                    {this.props.reduxName}
+                    <input type='text' value={this.props.name} onChange={this.handleNameChange} />
+                </div>
 
                 <div className='grid-svg-filterdata'>
                
@@ -2212,19 +2127,7 @@ console.log(newArray);
                                                     return null;
                                                 }
                                             }
-                                            // if (Object.values(kid.attributes[0])[0] === 'table') {
-                                            //     console.log('im table');
-                                                
-                                            //     if(Object.keys(a) === 'tableValues') {
-                                            //         console.log('im tablevalues');
-                                                    
-
-                                            //         return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
-                                            //     } else {
-                                            //         return null;
-                                            //     }
-                                            // }
-                                            
+     
                                             if (Object.values(kid.attributes[0])[0] === 'linear') {
                                                 console.log('im linear');
                                                 
@@ -2262,8 +2165,6 @@ console.log(newArray);
                                                 }
                                             }
                                             
-
-
                                         }
                                                     
                                         if(Object.keys(a)=== 'azimuth') {
@@ -2299,13 +2200,7 @@ console.log(newArray);
                                                 </div>
                                             )
                                         }
-                                    
-                                        
-                                        // else if (Object.values(kid.attributes[0])[0] === 'discrete') {
-                                            
-                                        // }
-   
-             
+
                                         else {
 
                                                     return (
@@ -2322,6 +2217,7 @@ console.log(newArray);
 
                     })}
                     </div>
+
                         <div className='select-wrapper item-c'>
                             {/* <button onClick={this.props.changeAuth}>auth</button> */}
                             {/* {this.props.auth ? <div>authorized</div> : <div>not authorized</div>}
@@ -2669,87 +2565,8 @@ console.log(newArray);
                             })}
                         </div>
                 </div>
-                    {/* <button onClick={this.handleToggleSourceGraphicEditor}>HIDE/SHOW</button> */}
-                    {/* <button onClick={this.handleNewFilterData}>new filter data</button> */}
-                    {/* <button onClick={this.handleMergeNodes}>more mergeNodes</button> */}
-                    {/* <label>name:<input name='filterName' value={this.state.filterName} onChange={this.handleFilterName()} /></label> */}
-                    {/* <SourceGraphicEditor   showSourceGraphicEditor={this.state.showSourceGraphicEditor} changeText={this.handleText} attrs={this.state.SourceGraphicAttrs} changeSource={this.handleSourceChange}/> */}
-                    {/* <GradientEditor createNewLinearGradient={this.handleNewLinearGradient} attrs={this.state.gradientAttrs} changeGradient={this.handleGradientChange} /> */}
-                    {/* <StopAdder addStop={this.handleStop} pushStop={this.handlePushStop} /> */}
-                    {/* <svg width='0' height='0'> */}
-                        {/* <defs> */}
-                        {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))} /> */}
-                            {/* <Gradient 
-                                id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))}
-                                x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))}
-                                x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))}
-                                y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y1'))}
-                                y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y2'))}
-                                spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod'))}
-                                gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))}
-                                gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits'))}
-                            >
-                                {this.state.stops.map( (stop, index) => {
-                                    return (
-                                        <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
-                                    )
-                                })}
-                            </Gradient> */}
-                            {/* <LinearGradients gradientData={this.state.linearGradients}/> */}
-                            {/* <rect id='bi' width='10' height='10' fill='url(#p)' /> */}
-                            {/* <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
-                                <stop stopColor="white" offset="82%" />
-                                <stop stopColor="gold" offset="92%" />
-                                <stop stopColor="gold" offset="30%" />
-                                <stop stopColor="goldenrod" offset="70%" />
-                                <stop stopColor="darkgoldenrod" offset="100%" />
-                            </linearGradient> */}
-                            {/* <RadialGradient /> */}
-                            {/* <rect id='gold' width='100' height='100' fill='url(#coin)' /> */}
-                            {/* <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))}`} /> */}
-                            {/* <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' /> */}
-                            {/* <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' /> */}
-                            {/* <Pattern /> */}
-                            {/* <filter id='f' width='200%' height='200%' x='-20%' y='-20%' colorInterpolationFilters='sRGB'> */}
-                                {/* {els} */}
-                            {/* </filter> */}
-                        {/* </defs> */}
-                    {/* </svg> */}
-                    {/* <div className='rep-svg-wrapper'> */}
-                        {/* <LinearGradientRepresentation>
-                            {this.state.stops.map((el,index,array) => {
-                                return (
-                                    <div className='linear-rep' key={index}>
-                                        <label  >offset
-                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name='offset' value={el.offset} />
-                                        </label>
-                                        <label  >stop-color
-                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' name='stopColor' value={el.stopColor} />
-                                        </label>
-                                        <label  >stop-opactiy
-                                            <input key={el[index]} onChange={this.handleStopChange(el, index)} type='range'min="0" max="1" step="0.01" name='stopOpacity' value={el.stopOpacity} />
-                                        </label>
-                                            <button onClick={this.handleDeleteStop(index)}>DELETE</button>
-                                    </div>
-                                )
-                            })} 
-                        </LinearGradientRepresentation>  */}
-                 
-                        {/* <Canvas width='250' height='250'/> */}
-                    {/* </div> */}
-                name<input onChange={this.handleNewUserName()} />
-                {this.state.newUserName}
-                password<input onChange={this.handleNewUserPassword()} />
-                <button onClick={this.testUserLogic()}>test user</button>
-                <button onClick={this.testVerify()}>test verify</button>
-                <button onClick={this.testUserPut()}>test user put request</button>
-                <button onClick={this.handleLogin()}>login</button>
-               
-             
-               
-                <label >NAME</label>
-                {this.props.reduxName}
-                <input type='text' value={this.props.name} onChange={this.handleNameChange} />
+
+
                 <img width='200' height='200' src={`images/${this.state.puppeteerImage}.png`}/>
                 </div>
             

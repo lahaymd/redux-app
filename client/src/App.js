@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import store from './store';
 import {BrowserRouter as Router, Link, Route, Redirect} from 'react-router-dom'
 import RouterTest from './RouterTest';
-import Filter from './Filter';
 import FilterRoute from './FilterRoute';
 import GradientEditor from './GradientEditor';
 import LinearGradientRoute from './LinearGradientRoute';
@@ -42,11 +41,6 @@ return  (
     }
     
     const user = localStorage.getItem('user');
-    
-    setTimeout(function(){
-      
-      // store.dispatch({ type: J });
-    },5000)
     
     
 const Protected = ({word: foo}) => { console.log(foo); return (<h3>protected route {`Hi ${foo}`}</h3>) }

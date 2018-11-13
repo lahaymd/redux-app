@@ -6,7 +6,6 @@ import Gradient from './Gradient';
 import LinearGradientRepresentation from './LinearGradientRepresentation';
 import GradientEditor from './GradientEditor';
 import StopAdder from "./StopAdder";
-import RectWithGradient from './RectWithGradient';
 import RadialGradients from './RadialGradients';
 import LinearGradientSelect from './LinearGradientSelect';
 import { SketchPicker } from 'react-color';
