@@ -76,7 +76,7 @@ const Protected = ({word: foo}) => { console.log(foo); return (<h3>protected rou
         <div className="AppRouter">
            
           <nav>
-            {this.navbarLinks()}
+            {/* {this.navbarLinks()} */}
             <ul>
                 <li>
                   <FilterIcon />

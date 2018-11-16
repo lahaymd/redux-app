@@ -68,35 +68,28 @@ router.post('/', function (req, res) {
             });
             res.json({ auth: true, token: token, user: user });
 })
-    // User.create(
-    //     {
-    //         name: req.body.name,
-    //         filterData: req.body.filterData
 
-    //     },
-
-    //     function (err, user) {
-    //         if (err) return console.error(err);
-    //         console.log(user, '******');
-    //         res.json(user);
-    //     });
 });
 
 router.post('/login', (req,res) => {
 console.log('req.body.username' +req.body.username);
 
     User.findOne({userName: req.body.username}, (err,docs) => {
+
+        if(err) {
+            res.json(`ERROR!!! ${err}`)
+        }
         console.log('docs' + docs);
-        if(docs.password === req.body.password) {
+        if(docs && docs.password === req.body.password) {
             // res.json(docs)
 
             jwt.sign({ docs }, 'superSecretKey', {
                 expiresIn: '30s' // expires in 24 hours
             }, (err, token) => {
-                res.json({token, auth: true})
+                res.json({token, docs: docs.filters, auth: true})
             })
         }else{
-            res.json('wrong password dumby')
+            res.json({token: '', auth: false})
         }
         
     })
@@ -113,7 +106,7 @@ router.get('/', function (req, res) {
     jwt.verify(token, 'superSecretKey', function (err, decoded) {
         if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
 
-        res.send({decoded, auth: true});
+        res.send({decoded, token, auth: true});
     });
 });
 
@@ -123,74 +116,18 @@ router.get('/name', function (req, res) {
     })
 });
 
-router.put('/', function (req, res) {
-    console.log(req.body);
+router.post('/filter/:name', function (req, res) {
+    console.log('request body filterdata ' + JSON.stringify(req.body.filterData));
+    var name = req.params.name;
+    console.log(`name ${name}`);
     
-    User.findOneAndUpdate({ userName: 'Mike' }, {
-        $push: {
-            'filters': 
-                {
-                    name: 'mongoFilter',
-                    filterData: [{
-                        "type": "feOffset",
-                        "attributes": [
-                            {
-                                "dx": 10
-                            },
-                            {
-                                "dy": 5
-                            },
-                            {
-                                "in": "mongobf"
-                            },
-                            {
-                                "result": ""
-                            }
-                        ]
-                    },
-                    {
-                        "type": "feComposite",
-                        "attributes": [
-                            {
-                                "operator": "over"
-                            },
-                            {
-                                "in": ""
-                            },
-                            {
-                                "in2": "SourceAlpha"
-                            },
-                            {
-                                "result": ""
-                            }
-                        ]
-                    }]
-                }
-             }},  function (err, docs) {
-        console.log(docs);
-                console.log(docs.filters[0].filterData);
+    
+    User.findOneAndUpdate({ userName: name }, { $push :{filters: {name: `${name} ${Math.round(Math.random()*100)}`, filterData: req.body.filterData}}}, { new: true }, function (err, docs) {
+        console.log('docs: ' + docs);
+                // console.log(JSON.stringify(docs));
 
         console.log('updated filter data')
-        res.json(docs)
-    })
-});
-
-router.post('/filters', function (req, res) {
-    console.log('request body' + JSON.stringify(req.body));
-    
-    User.findOneAndUpdate({ userName: req.body.username }, {
-        $push: {
-            'filters': 
-                {
-                    name: req.body.name,
-                    filterData: req.body.filterData
-                }
-             }}, {new: true},  function (err, docs) {
-        console.log(docs);
-                console.log(docs.filters[0].filterData);
-
-        console.log('updated filter data')
-        res.json(docs)
+        res.json({docs: docs.filters})
     })
 });
 

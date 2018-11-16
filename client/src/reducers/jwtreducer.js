@@ -1,4 +1,4 @@
-import { JWT, J } from '../actions/types';
+import { JWT, J, CHECK_AUTH } from '../actions/types';
 
 const initialState = {
     jwt: '',
@@ -12,14 +12,21 @@ export default function(state=initialState, action) {
         
             return {
                 ...state,
-                jwt: action.payload,
-                authorized: true
+                jwt: action.payload.token,
+                authorized: action.payload.auth
             }
 
         case J:
             return {
                 ...state,
                 authorized: state.authorized === true ? false: true
+            }
+
+        case CHECK_AUTH:
+            return {
+                ...state,
+                jwt: action.payload.token || '',
+                authorized: action.payload.auth
             }
         default:
             return state;

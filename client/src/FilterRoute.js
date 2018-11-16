@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { updateName } from './actions/actions';
+import { updateName, updatePassword, checkAuth, addFilterToUser } from './actions/actions';
 import { getUsers } from './actions/actions';
 import { changeAuth } from './actions/actions';
 import { getJWT } from './actions/actions';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
-import RouterTest from './RouterTest';
 import { SketchPicker } from 'react-color';
 import Circle from './Circle';
 import SourceGraphic from './SourceGraphic';
@@ -85,38 +82,9 @@ class FilterRoute extends Component {
         }
     }
 
-    
-    
-
-
-    testVerify = () => e  => {
-        console.log('verify');
-
-
-
-        fetch('/user', {
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'x-access-token': sessionStorage.jwt
-            },
-            method: 'GET',
-
-
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log('jwt verify' + JSON.stringify(data));
-                this.setState({auth: data.auth})
-                // localStorage.setItem('jwt', data.token )
-                // sessionStorage.setItem('jwt', data.token)
-            }
-            )
-    }
-
     async componentDidMount() {
 
-        this.props.getUsers();
+        if(this.props.auth) {this.props.checkAuth(this.props.username)};
   
         const res = await fetch('/linear_gradient');
         const json = await res.json();
@@ -126,151 +94,33 @@ class FilterRoute extends Component {
         fetch('/filter_data')
         .then(res => res.json())
         .then(data => {
-            //  console.log('filter data' + JSON.stringify(data));
-            
             this.setState({ filterNames: data.map(item => item.name)})
             this.setState({allFilterData: data})
         })
         fetch('/radial_gradient')
         .then(res => res.json())
         .then(data => {
-            //  console.log('radial data' + JSON.stringify(data));
-            
             this.setState({ radialGradients: data })
-        })
-        
-    }
-
-    handleLogin = () => e => {
-
-        const data = {
-            username: this.state.newUserName,
-            password: this.state.newUserPassword
-
-        }
-
-                this.props.getJWT(data)
-  
+        }) 
     }
 
     handleNameChange = e => {
-        console.log(e.target.value);
         this.props.updateName(e.target.value)
-
     }
 
-    handleText = (e) => this.setState({ text: e.target.value });
-
-
-    handleSourceChange = (item, index) => e => {
-        const attrs = this.state.SourceGraphicAttrs.slice()
-        // console.log('attrs', attrs);
-        const obj = {[`${e.target.name}`]:e.target.value}
-        
-        attrs.splice(index,1, obj)
-        
-        // console.log(e.target.value, 'hsg');
-        // console.log(e.target.name, 'hsg');
-        // console.log('item', item);
-        this.setState({SourceGraphicAttrs: attrs})        
-        // console.log('attrs', attrs);
-        
-    }
-    
-    handleGradientChange = (item, index) => e => {
-        // console.log('gradient');
-        // console.log(`item ${JSON.stringify(item)}`);
-        // console.log(`index ${index}`);
-        // console.log(`e name ${e.target.name}`);
-        // console.log(`e value ${e.target.value}`);
-        
-        const gradAttrs = this.state.gradientAttrs.slice();
-        const obj = {[`${e.target.name}`]:e.target.value}
-        gradAttrs.splice(index, 1,  obj)
-        this.setState({gradientAttrs: gradAttrs});
-        
-        
+    handlePasswordChange = e => {
+        this.props.updatePassword(e.target.value)
     }
 
-    handleStop =   () => e => {
-        // console.log(e.target.name);
-        this.setState({[`${e.target.name}`]: e.target.value})
-    }
-
-    handleDeleteStop = (index) => e => {
-        // console.log(`delete index  ${index}`);
-        const stops = this.state.stops.slice();
-        stops.splice(index,1)
-        this.setState({stops})
-        
-    }
-
-    handleNewLinearGradient = () => e => {
-
-        // console.log('handle new linear gradient');
-
-        let data = {
-            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id')),
-            stops: this.state.stops,
-            x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))),
-            x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))),
-            y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y1'))),
-            y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y2'))),
-            spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod')),
-            gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))),
-            gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits')),
-
+    handleLogin = () => e => {
+        const data = {
+            username: this.props.reduxName,
+            password: this.props.reduxPassword
         }
-
-        fetch('/linear_gradient',
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify(data)
-            }
-        )
-            .then( res => res.json())
-            .then(data => { console.log('post stops' + JSON.stringify(data));
-
-
-                const foo = this.state.linearGradients.slice();
-                foo.push(data)
-                this.setState({ linearGradients: foo })
-            })
-        
+        this.props.getJWT(data)
     }
-
-    testUserLogic = () => e => {
-        console.log('test user');
-
-        let data = {
-                username: this.state.newUserName,
-                password: this.state.newUserPassword
-        }
-        
-        fetch('/user', {
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(data)
-
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log('jwt' + JSON.stringify(data));
-                sessionStorage.setItem('jwt', data.token )
-    }
-)}
 
     testPuppeteer = (filtername) => e => {
-        console.log('puppeteer');
-
        let data = {
            svg: 'puppeteer', 
            name: this.state.filterNamePuppeteer,
@@ -278,7 +128,6 @@ class FilterRoute extends Component {
            gradient: Object.values(this.state.gradientAttrs[7])[0],
            image: this.state.dataURL
        }
-        
         fetch('user/puppeteer', {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -286,7 +135,6 @@ class FilterRoute extends Component {
             },
             method: 'POST',
             body: JSON.stringify(data)
-
         })
             .then(res =>  res.json())
             .then(data => {
@@ -295,96 +143,11 @@ class FilterRoute extends Component {
     }
 )}
 
-    testUserPut = () => e => {
-        console.log('test user');
-
-        let data = {
-            username: this.state.newUserName,
-            name: this.state.filterName,
-            filterData: this.state.filterData,
-        }
-        
-        fetch('/user/filters', {
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(data)
-
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log('put request' + JSON.stringify(data));
-    }
-)}
-    
-    handleNewUserName = () => e => {
-        console.log(e.target.value);
-        this.setState({newUserName: e.target.value})
-        
-    }
-
-    handleNewUserPassword = () => e => {
-        console.log(e.target.value);
-        this.setState({newUserPassword: e.target.value})
-        
-    }
-
-    handlePushStop = () => e => {
-
-        console.log('push stop');
-        let stops = this.state.stops.slice();
-        stops.push({ offset: this.state.offset, stopColor: this.state.stopColor, stopOpacity: this.state.stopOpacity })
-        this.setState({ stops: stops })
-        let data = {
-            name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id')),
-            stops: stops
-        }
-
-        fetch('/linear_gradient',
-            {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify(data)
-            }
-        )
-            .then(res => res.json())
-            .then(data => {
-
-                console.log('post stops' + JSON.stringify(data));
-
-                const foo = this.state.linearGradients.slice();
-                const info = foo.findIndex(item => item.name === data.name);
-                foo.splice(info, 1, data)
-                this.setState({ linearGradients: foo })
-                console.log('post stops' + JSON.stringify(data));
-            })
-
-    }
-
-    handleStopChange = (param, index) => e => {
-        console.log(param);
-        console.log(index);
-        console.log(e.target.name);
-        console.log(e.target.value);
-        const stops = this.state.stops.slice();
-        const obj = { ...stops[index] }
-        console.log(obj);
-        obj[`${e.target.name}`] = e.target.value;
-        console.log(obj);
-
-        stops.splice(index, 1, obj)
-        this.setState({ stops: stops })
-
+    handleAddFilterToUser = () => e => {
+        this.props.addFilterToUser(this.props.reduxName, this.state.filterData)
     }
 
     handleSelectedLinearGradient = (e) => {
-        // this.setState({ stops: this.state.linearGradients[this.state.linearGradients.findIndex(item => item.name === e.target.value)][`stops`] })
         const sga = this.state.SourceGraphicAttrs.slice();
         sga[2] = { fill: `url(#${e.target.value})` }
         this.setState({ SourceGraphicAttrs: sga })
@@ -396,76 +159,39 @@ class FilterRoute extends Component {
     handleImageToCanvas = (e) => {
         let reader = new FileReader();
         let file = e.target.files[0]
-        console.log(e.target.files[0]);
-        console.log(reader.readyState);
-        // console.log(readFile.error)
-        // console.log(e.target.result);
         reader.readAsDataURL(file);
-        
         reader.onloadstart = function(){
             console.log(reader.readyState);
-
         }
         reader.onload = function(e){
-        
-
                 console.log(e)
-                console.log(reader.result);
-                // console.log(readFile.readAsText(file))
-            
-            
+                console.log(reader.result);   
         }
         reader.onloadend = (e) =>{
             console.log(e)
             console.log(reader.result);
-            // console.log(readFile.readAsText(file))
-            
             this.setState({dataURL: reader.result})
             var joined = this.state.base64.concat(reader.result);
             this.setState({ base64: joined })
         }
-
         reader.onerror = function () {
-            alert('There was an error reading the file!');
-        }
-        
+            console.log('There was an error reading the file!');
+        }   
     }
 
-
     handleMergeNodes = (index, idx) => e => {
-        // const feMergeDefaults = {...this.state.feMergeDefaults}
-        // console.log(feMergeDefaults);
-        // feMergeDefaults.children[0].attributes.push({in: 'SourceGraphic'})
-        // console.log(feMergeDefaults);
-        // this.setState({feMergeDefaults})
-
-        // console.log(index);
-        // console.log(idx);
-        // console.log(e.target.value);
-        // console.log(e.target.name);
         const newfilterData = [...this.state.filterData]
-        // console.log(newfilterData);
         const x = newfilterData[index].children[0].attributes.slice();
-        // console.log(x);
         x.push({ in: 'SourceGraphic' });
-        // console.log(x);
-        // x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseFloat(e.target.value) })
         newfilterData[index].children[0].attributes = x;
         this.setState({ filterData: newfilterData })
-
-
-
-        
     }
 
     handleNewFilterData = () => {
-        // console.log('handle new filter data');
         let data = {
             name: this.state.filterName,
             filterData: this.state.filterData,
         }
-        // console.log(data);
-        
         fetch('/filter_data',
             {
                 method: 'POST',
@@ -478,56 +204,37 @@ class FilterRoute extends Component {
             }
         )
             .then( res => res.json())
-            .then(data => { console.log('post filter data' + JSON.stringify(data));
-                console.log(data.filterData);
-                this.setState({ filterData: data.filterData })
-            })
+            .then(data => { this.setState({ filterData: data.filterData })
+        })
     }
 
     handleConcatFilterData = (e) => {
-        // console.log(e.target.value);
         fetch(`/filter_data/name/?name=${e.target.value}`)
             .then(res => res.json())
             .then(data => {
-                // console.log(data);
-                // console.log(data[0].filterData);
                 const filterData = [...this.state.filterData]
-                // console.log(filterData);
                 filterData.push(data[0].filterData)
-                // console.log(filterData);
                 const flat =filterData.reduce( (prev, curr) => prev.concat(curr),[])
-                // console.log(flat);
-                
                 this.setState({ filterData: flat })
             })
-
     }
 
-    handleDelete = ( key) => (e) => {
-        console.log('key', key);
+    handleDelete = (key) => (e) => {
         const filterData = [...this.state.filterData]
-        console.log(filterData);
         filterData.splice(key,1)
         this.setState({filterData})
-        console.log(filterData);
     }
     
     handleMoveUp = (key) => (e) => {
-        console.log('key', key);
         const filterData = [...this.state.filterData]
-        console.log(filterData);
         let splice = filterData.splice(key, 1)
-        console.log('splice', splice);
         filterData.splice(key - 1, 0, splice[0])
         this.setState({filterData})
     }
     
-    handleMoveDown = (key) => (e) => {
-        console.log('key', key);
+    handleMoveDown = key => e => {
         const filterData = [...this.state.filterData];
-        console.log(filterData);
         let splice = filterData.splice(key, 1)
-        console.log('splice',splice);
         filterData.splice(key + 1, 0, splice[0])
         this.setState({filterData})
     }
@@ -536,32 +243,18 @@ class FilterRoute extends Component {
         this.setState({selectedSourceGraphic: e.target.value})
     }
 
-
      handleSelectedFilterName = (e) => {
-         console.log(e.target.value);
          fetch(`/filter_data/name/?name=${e.target.value}`)
          .then(res => res.json())
          .then(data => {
-             console.log(data);
-            //  console.log(data[0].filterData);
-             
              this.setState({ filterData: data[0].filterData })
             })
             this.setState({ filterNamePuppeteer: e.target.value })
-
-    }
-
-    handleToggleSourceGraphicEditor = (e) => {
-        console.log('htsge');
-        this.setState({showSourceGraphicEditor: !this.state.showSourceGraphicEditor})
-        
     }
 
     handleNewFilter = e => {
-        console.log(e.target.value);
         const filterData = this.state.filterData.slice();
         switch (e.target.value) {
-
             case 'feBlend': 
                 const feBlendDefaults = { ...this.state.feBlendDefaults }
                 filterData.push(feBlendDefaults);
@@ -580,9 +273,7 @@ class FilterRoute extends Component {
                 this.setState({ filterData });
                 break;
 
-
             case 'feComposite': {
-
                 const feCompositeDefaults = { ...this.state.feCompositeDefaults }
                 filterData.push(feCompositeDefaults);
                 this.setState({ filterData });
@@ -626,7 +317,6 @@ class FilterRoute extends Component {
                 break;
 
             case 'feGaussianBlur': {
-
                 const feGaussianBlurDefaults = { ...this.state.feGaussianBlurDefaults }
                 filterData.push(feGaussianBlurDefaults);
                 this.setState({filterData});
@@ -651,8 +341,7 @@ class FilterRoute extends Component {
                 this.setState({filterData});
                 break;
                 
-                case 'feOffset': {
-    
+                case 'feOffset': {  
                     const feOffsetDefaults = {...this.state.feOffsetDefaults}
                     filterData.push(feOffsetDefaults);
                     this.setState({filterData});
@@ -678,14 +367,12 @@ class FilterRoute extends Component {
                 break;
 
             case 'feTile':
-
                 const feTileDefaults = { ...this.state.feTileDefaults }
                 filterData.push(feTileDefaults);
                 this.setState({ filterData });
                 break;
 
             case 'feTurbulence':
-
                 const feTurbulenceDefaults = { ...this.state.feTurbulenceDefaults }
                 filterData.push(feTurbulenceDefaults);
                 this.setState({ filterData });
@@ -697,8 +384,6 @@ class FilterRoute extends Component {
                 break;
         }
     }
-
-
 
     handleFuncData = (item, index, kidIndex, idx, a) => e => {
         console.log(item);
@@ -725,179 +410,63 @@ class FilterRoute extends Component {
             return item1; })
         console.log(nA);
         console.log(g);
-        // const filterData = [...this.state.filterData];
-        // console.log(filterData);
-        // filterData[index].children[kidIndex].attributes[idx][Object.keys(filterData[index].children[kidIndex].attributes[idx])] = e.target.value;
         console.log(newArr[index].children[kidIndex].attributes)
         console.log(newArray[kidIndex])
         console.log(newArray);
         newArray[kidIndex].attributes = g;
-        console.log(newArray);
-        
+        console.log(newArray); 
         newArr[index].children = newArray;
-
         console.log(newArr);
         this.setState({filterData: newArr})
-        
-        
-        
     }
 
     handleFilterName = () => e => {
-        console.log(e.target.value);
         this.setState({filterName: e.target.value})
-        
     }
+        
     handleFilterEvent = () =>  e => {
         console.log(e.target.id);
         this.setState({filterName: e.target.id})
         
     }
 
-    handleChangeComplete =   (index,idx,item) =>(color)  => {
-        console.log(index);
-        console.log(idx);
-        console.log(color)
-        console.log(item);
+    handleChangeComplete =   (index,idx,item) => (color) => {
         const newColor = Object.assign({}, color)
-        console.log(newColor);
         const hex = newColor.hex
-        console.log(hex);
-        console.log(x);
-   
-  
         const newArr = this.state.filterData.map(obj => ({ ...obj }))
         const newArray = newArr.map(obj => ({ ...obj }))[index].attributes
                             .map(o => ({...o}));
-        console.log(newArray);
-        const newA = newArray[idx]
-        console.log(newA);
-        
         const bar = Object.assign({}, { [`${Object.keys(item)}`] : hex })
         const g = newArray.map((item1, i) => {
-            console.log(bar);
-            console.log(i);
-            console.log(idx);
-            console.log(item1);
-
-
-
             if (Object.keys(item1)[0] === Object.keys(item)[0]) { 
-                console.log('meow');
              item1 = Object.assign({}, bar) };
-            console.log(Object.keys(item1));
-            console.log(Object.keys(item));
-            
             return item1;
         })
-        console.log(newArray);
-        console.log(g);
-        
-        
-        const newfilterData = [...this.state.filterData]
-        console.log(this.state.filterData);
-        
-        console.log(newfilterData);
-        const foo = {...newfilterData[index]}
-        console.log(foo);
-        const baz = [...foo.attributes]
-        console.log(baz);
-            const d = {...baz[idx]};
-        console.log(d);
-        
-        // const a = Object.assign({}, baz[idx])
-        // console.log(a);
-        
-        const x = [...newfilterData[index].attributes];
-        
-        // const e =baz.map( (item, i) => {
-        //     console.log(bar);
-        //     console.log(i);
-        //     console.log(idx);
-        //     console.log(item);
-            
-            
-            
-        //     if (Object.keys(item) === 'lightingColor') { item = Object.assign({}, bar)};
-        //     return item;
-        // })
-        // baz.splice(idx, 1, bar)
-        // baz.splice(idx, 1, bar)
-        // console.log(bar);
-        
-        console.log(baz);
-        // console.log(e);
-        
-        const quz = [...baz]
-        console.log(quz);
-        
-        // x.splice(idx, 1, bar)
-        const b = Object.assign({})
-        console.log(newfilterData);
-        this.state
-console.log(newArray);
-
-        // newfilterData[index].attributes = answer;
         newArr[index].attributes = g;
-        console.log(newArr);
-        
-        this.setState({ filterData: newArr })
-        
+        this.setState({ filterData: newArr })  
     };
 
-    handleKernelMatrix = (index, idx) =>e => {
-        console.log(e.target.value);
-        console.log(e.target.id);
-        console.log(index);
-        console.log(idx);
-
-        const newfilterData = [...this.state.filterData]
-        console.log(newfilterData);
+    handleKernelMatrix = (index, idx) => e => {
+        const newfilterData = [...this.state.filterData]   
         const x = newfilterData[index].attributes.slice();
-        console.log(x);
         const foo = Object.values(x[2])[0].split(' ')
-        console.log(foo);
         foo.splice(e.target.id, 1 , e.target.value)
-        console.log(foo);
         const fooj =foo.join(' ')
-        console.log(fooj);
-        
-        // console.log(Object.values(x[2])[0].split(' '));
-        
-
         x.splice(idx, 1, { kernelMatrix : fooj})
         newfilterData[index].attributes = x;
-        this.setState({ filterData: newfilterData })
-        
-        
-
-        
+        this.setState({ filterData: newfilterData })     
     }
 
     handleAddKernelMatrix =  (index,idx) => e => {
-        console.log('clicked');
         const newfilterData = [...this.state.filterData]
-        console.log(newfilterData);
         const x = newfilterData[index].attributes.slice();
-        console.log(x);
         const foo = Object.values(x[2])[0].split(' ')
         const bar = Object.values(x[9])[0].toString().split(' ')
-        console.log(foo);
-        console.log(bar);
-        // foo.splice(e.target.id, 1, e.target.value)
         foo.push(0)
-        console.log(foo);
         const fooj = foo.join(' ')
-        console.log(fooj);
-
-        // console.log(Object.values(x[2])[0].split(' '));
-
-
         x.splice(idx, 1, { kernelMatrix: fooj })
         newfilterData[index].attributes = x;
-        this.setState({ filterData: newfilterData })
-        
-        
+        this.setState({ filterData: newfilterData })       
     }
 
     handleNumberOfTableValues = (index, idx, kidIndex) => e => {
@@ -908,7 +477,6 @@ console.log(newArray);
         console.log(e.target.name);
         console.log(e.target);
         console.log(e.target.index);
-
         console.log(Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0].split(' '));
         const newTableValues = Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0].split(' ') 
         const mimi = Array(parseInt(e.target.value)).fill(0).map( (item,index) => index/e.target.value)
@@ -1123,10 +691,9 @@ console.log(newArray);
         
         x.splice(idx, 1, { [`${e.target.className}`]: e.target.id })
         newfilterData[index].attributes = x;
-        this.setState({ filterData: newfilterData})
-
-        
+        this.setState({ filterData: newfilterData})     
     }
+
     handleFilterData = (index,idx) => e => {
         console.log(e.target);
         
@@ -1142,69 +709,28 @@ console.log(newArray);
         x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseFloat(e.target.value) })
         newfilterData[index].attributes = x;
         this.setState({ filterData: newfilterData})
-
-        
     }
 
-
     render() {
-
-        let stopEls = this.state.stops.map((el,index,arrar) => {
-             
-            return (
-                <stop offset={index} stop-color={el} />
-            )
-        })
-
-
-     
+  
         return (
-
-           
-
-               
                 <div className="App">
 
                 <div>
-                    <label>name<input onChange={this.handleNewUserName()} /></label>
-                    {this.state.newUserName}
-                    <label>password<input onChange={this.handleNewUserPassword()} /></label>
-                    <button onClick={this.testUserLogic()}>test user</button>
-                    <button onClick={this.testVerify()}>test verify</button>
-                    <button onClick={this.testUserPut()}>test user put request</button>
+                    {/* <div>{this.props.reduxFilterData}</div> */}
+                    {this.props.auth?<div>logged in</div>:<div>not logged in</div>}
+                    <label >NAME: {this.props.reduxName} 
+                    <input type='text' value={this.props.name} onChange={this.handleNameChange} /></label>
+                    <label >PASSWORD
+                    <input type='text' value={this.props.name} onChange={this.handlePasswordChange} /></label>
                     <button onClick={this.handleLogin()}>login</button>
-                    <label >NAME</label>
-                    {this.props.reduxName}
-                    <input type='text' value={this.props.name} onChange={this.handleNameChange} />
+                    <button onClick={this.handleAddFilterToUser()}>add filter</button>
                 </div>
 
                 <div className='grid-svg-filterdata'>
                
                     <svg className='item-a' id='puppeteer' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox='0 0 500 500' width='100%' height='100%' preserveAspectRatio='none'>
-                     
-
-                        {/* </svg> */}
-                    {/* <text textAnchor='middle' x='50%' y='60%' style={{fontSize: '350px'}} fill={Object.values(this.state.SourceGraphicAttrs[2])} alignmentBaseline='middle' textLength='500' lengthAdjust='spacingAndGlyphs' className={this.state.filterData.length > 0 ? 'newFilter': ''} >SVG</text> */}
-                {/* <svg width='0' height='0' style={{display: 'none'}}  > */}
                 <defs>
-                            
-                            {/* <RectWithGradient fill={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))} /> */}
-                            {/* <Gradient 
-                                id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))}
-                                x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))}
-                                x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))}
-                                y1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y1'))}
-                                y2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'y2'))}
-                                spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod'))}
-                                gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))}
-                                gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits'))}
-                            >
-                                {this.state.stops.map( (stop, index) => {
-                                    return (
-                                        <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
-                                    )
-                                })}
-                            </Gradient> */}
                             <LinearGradients gradientData={this.state.linearGradients}/>
                             <RadialGradients gradientData={this.state.radialGradients}/>
                             <linearGradient id="coin" x2="50%" y2="40%" spreadMethod="reflect">
@@ -1540,9 +1066,6 @@ console.log(newArray);
                                         <line x1='100' y1='0' x2='0' y2='100' stroke='url(#xg)' strokeWidth='20' strokeLinecap="butt" />
                                         </g>
                                     </svg>
-                                    {/* <button onClick={this.handleDelete(index)}>DELETE</button>
-                                    <button onClick={this.handleMoveUp(index)}>MOVE UP</button>
-                                    <button onClick={this.handleMoveDown(index)}>MOVE DOWN</button> */}
                                     <Arrow move={this.handleMoveUp(index)} transform='0'/>
                                     <Arrow move={this.handleMoveDown(index)} transform='180'/>
                                     {/* <div id='up'>
@@ -2082,7 +1605,7 @@ console.log(newArray);
                                     console.log(kidIndex);
                                     console.log(Object.values(kid.attributes[0])[0]);
                                     
-                                    return (<label key={kid.type}>{kid.type}
+                                    return (<label className='here?' key={kid.type}>{kid.type}
                                                 {kid.attributes.map( (a, idx) => {
                                                     console.log(kid.attributes[0]);
                                                     console.log(a);
@@ -2090,7 +1613,7 @@ console.log(newArray);
                                                     const regex = /Func/
                                                     console.log(regex.test(kid.type));
 
-                                                    if (Object.keys(a) === 'type'){
+                                                    if (Object.keys(a) == "type"){
                                             return (<select onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} key={Object.keys(a)}>
                                             <option disabled selected >{Object.keys(a)}</option>
                                             <option>discrete</option>
@@ -2106,10 +1629,10 @@ console.log(newArray);
                                             if (regex.test(kid.type)) {
                                             console.log('feFuncR');
                                             
-                                                if (Object.values(kid.attributes[0])[0] === 'discrete' || Object.values(kid.attributes[0])[0] === 'table') {
+                                                if (Object.values(kid.attributes[0])[0] == 'discrete' || Object.values(kid.attributes[0])[0] == 'table') {
                                                 console.log('im discrete');
                                                 
-                                                if(Object.keys(a) === 'tableValues') {
+                                                if(Object.keys(a) == 'tableValues') {
                                                     console.log('im tablevalues');
                                                     
 
@@ -2128,10 +1651,10 @@ console.log(newArray);
                                                 }
                                             }
      
-                                            if (Object.values(kid.attributes[0])[0] === 'linear') {
+                                            if (Object.values(kid.attributes[0])[0] == 'linear') {
                                                 console.log('im linear');
                                                 
-                                                if (Object.keys(a) === 'slope' || Object.keys(a) === 'intercept' ) {
+                                                if (Object.keys(a) == 'slope' || Object.keys(a) == 'intercept' ) {
                                                     console.log('im tablevalues');
                                                     
 
@@ -2147,10 +1670,10 @@ console.log(newArray);
                                                 }
                                             }
 
-                                            if (Object.values(kid.attributes[0])[0] === 'gamma') {
+                                            if (Object.values(kid.attributes[0])[0] == 'gamma') {
                                                 console.log('im gamma');
                                                 
-                                                if (Object.keys(a) === 'amplitude' || Object.keys(a) === 'exponent' || Object.keys(a) === 'offset' ) {
+                                                if (Object.keys(a) == 'amplitude' || Object.keys(a) == 'exponent' || Object.keys(a) == 'offset' ) {
                                                     console.log('im tablevalues');
                                                     
 
@@ -2167,7 +1690,7 @@ console.log(newArray);
                                             
                                         }
                                                     
-                                        if(Object.keys(a)=== 'azimuth') {
+                                        if(Object.keys(a)== 'azimuth') {
                                             
                                             return (
                                                 // <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="40" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /><span>{Object.values(a)}</span></label>
@@ -2177,7 +1700,7 @@ console.log(newArray);
                                                 </div>
                                             )
                                         }
-                                        else if (Object.keys(a) === 'elevation'){
+                                        else if (Object.keys(a) == 'elevation'){
                                             return (
                                             // <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="0" max="40" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /><span>{Object.values(a)}</span></label>
                                                 <div>
@@ -2187,12 +1710,17 @@ console.log(newArray);
                                         )
 
                                         } 
-                                        else if (Object.keys(a) === 'limitingConeAngle'){
-                                            return (<label key={Object.keys(a)}>{Object.keys(a)} value={Object.values(a)}<input type='range' min="0" max="360" step="1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
+                                        else if (Object.keys(a) == 'limitingConeAngle'){
+                                            return (
+                                                <div>
+                                                    <label key={Object.keys(a) + 'a'}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} type='range' min="0" max="500" step="1" value={Object.values(a)} />{Object.values(a)}</label>
+                                                    <label key={Object.keys(a)}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)} name={Object.keys(a)} type='text' value={Object.values(a)} />{Object.values(a)}</label>
+                                                </div>
+                                            )
 
                                         }
                                         
-                                        else if (Object.keys(a) === 'x' || Object.keys(a) === 'y' || Object.keys(a) === 'z' || Object.keys(a) === 'pointsAtX' || Object.keys(a) === 'pointsAtY' || Object.keys(a) === 'pointsAtZ' ) {
+                                        else if (Object.keys(a) == 'x' || Object.keys(a) == 'y' || Object.keys(a) == 'z' || Object.keys(a) == 'pointsAtX' || Object.keys(a) == 'pointsAtY' || Object.keys(a) == 'pointsAtZ' ) {
                                             return (
                                                 <div>
                                                     <label key={Object.keys(a) + 'a'}>{Object.keys(a)}<input onChange={this.handleFuncData(i, index, kidIndex, idx, a)}  name={Object.keys(a)} type='range' min="-500" max="500" step="1" value={Object.values(a)} />{Object.values(a)}</label>
@@ -2248,7 +1776,6 @@ console.log(newArray);
                                     <rect x="26.5" y="54.5" stroke="#000000" strokeMiterlimit="10" width="36" height="9" />
                                 </svg>
                                 </div>
-                                {/* <button onClick={this.handleNewFilterData}>new filter</button> */}
                             </div>
                             <input type="file" accept="image/*" onChange={this.handleImageToCanvas}></input>
                             <button onClick={this.testPuppeteer()}>save svg as png</button>
@@ -2501,25 +2028,6 @@ console.log(newArray);
                                                     }
 
                                                 })}
-
-
-
-
-                                            
-
-                                            
-
-
-
-
-
-
-
-
-
-
-
-
                                             </filter>
 
                                         </defs>
@@ -2576,14 +2084,11 @@ console.log(newArray);
 
 const mapStateToProps = state => ({
     reduxName: state.users.username,
-    auth: state.jwt.authorized
-    // redStrt: state.posts.redStart,
-    // greenStrt: state.posts.greenStart,
-    // blueStrt: state.posts.blueStart,
-    // compositeOperator: state.posts.compositeOperator,
-    // selectedCompositeOperator: state.posts.selectedCompositeOperator
+    auth: state.jwt.authorized,
+    reduxPassword: state.users.password,
+    reduxFilterData: state.users.filterData
 })
 
-export default connect(mapStateToProps,{updateName, getUsers, changeAuth, getJWT})(FilterRoute);
+export default connect(mapStateToProps, { updateName, updatePassword, getUsers, changeAuth, getJWT, checkAuth, addFilterToUser})(FilterRoute);
 
 // export default FilterRoute;
