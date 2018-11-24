@@ -11,12 +11,12 @@ class ColorMatrix extends Component {
         
         
         return (
-            <div id='colorMatrix'    >
+            <div id='colorMatrix'>
                 {this.props.matrixValues.split(' ').map( (item,index) => {
                     return (
                         <label key={index}>
-                            <input width='25px' type='range' min='-1' max='1' step='.1' name={index} value={item} onChange={this.props.changeMatrix} />
-                            <input size='3'name={index} onChange={this.props.changeMatrix} />
+                            <input width='50px' type='number' min='-1' max='1' step='.1' name={index} value={item} onChange={this.props.changeMatrix} />
+                            {/* <input size='3'name={index} onChange={this.props.changeMatrix} /> */}
                             <span>{item}</span>
                         </label>
                     )

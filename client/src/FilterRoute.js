@@ -9,6 +9,7 @@ import Circle from './Circle';
 import SourceGraphic from './SourceGraphic';
 import SourceGraphicEditor from './SourceGraphicEditor';
 import './App.css';
+import './styles.sass';
 import Pattern from './Pattern';
 import RadialGradient from './RadialGradient';
 import SourceGraphicSelect from './SourceGraphicSelect';
@@ -470,34 +471,16 @@ class FilterRoute extends Component {
     }
 
     handleNumberOfTableValues = (index, idx, kidIndex) => e => {
-        console.log(index);
-        console.log(idx);
-        console.log(kidIndex);
-        console.log(e.target.value);
-        console.log(e.target.name);
-        console.log(e.target);
-        console.log(e.target.index);
-        console.log(Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0].split(' '));
         const newTableValues = Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0].split(' ') 
         const mimi = Array(parseInt(e.target.value)).fill(0).map( (item,index) => index/e.target.value)
-        console.log(mimi);
-        console.log(mimi.join(' '));
         const mimi1 = mimi.join(' ');
-        
         newTableValues.splice(parseInt(e.target.name), 1, e.target.value)
-        console.log(newTableValues);
         const newTableValues1 = newTableValues.join(' ');
-
         const newfilterData = [...this.state.filterData]
-        console.log(newfilterData);
         const x = newfilterData[index].children[kidIndex].attributes.slice();
-        console.log(x);
-
         x.splice(idx, 1, { tableValues: mimi1 })
-        // x.splice(idx, 1, { tableValues: newTableValues1 })
         newfilterData[index].children[kidIndex].attributes = x;
         this.setState({ filterData: newfilterData })
-
     }
 
     handleRGBData = (index, idx, kidIndex) =>  e => {
@@ -638,7 +621,7 @@ class FilterRoute extends Component {
         console.log(newfilterData[index].attributes[newfilterData[index].attributes.findIndex( (a,x) => x === 3)]);
         console.log(newfilterData[index].attributes.findIndex( (a,x) => x === 3));
         console.log(newfilterData[index].attributes.findIndex( (a,x) => Object.keys(a)[0] === e.target.name));
-        console.log(newfilterData[index].attributes.findIndex(attrIndex => { console.log(Object.keys(attrIndex)[0]); console.log(e.target.name); Object.keys(attrIndex)[0] === e.target.name }))
+        // console.log(newfilterData[index].attributes.findIndex(attrIndex => { console.log(Object.keys(attrIndex)[0]); console.log(e.target.name); Object.keys(attrIndex)[0] === e.target.name }))
         console.log(newfilterData[index].attributes[newfilterData[index].attributes.findIndex(attrIndex => Object.keys(attrIndex)[0] === e.target.name)])
         console.log(newfilterData);
         const x = newfilterData[index].attributes.slice();
@@ -652,28 +635,15 @@ class FilterRoute extends Component {
         // x[2] = {[`${e.target.name}`]:baseFrequencyValue};
         // x.splice(idx, 1, { [`${e.target.name}`]: isNaN(e.target.value) || isNaN(parseInt(e.target.value)) ? e.target.value : parseFloat(e.target.value) })
         newfilterData[index].attributes = x;
-        this.setState({ filterData: newfilterData})
-
-        
+        this.setState({ filterData: newfilterData})  
     }
 
     handleImage = (index, idx) => e => {
-        console.log(e.target);
-        
-        console.log(e.target.id);
-        console.log(e.target.className);
-        console.log(index);
-        console.log(e.target.value);
-        console.log(e.target.name);
         const newfilterData = [...this.state.filterData]
-        console.log(newfilterData);
         const x = newfilterData[index].attributes.slice();
-        console.log(x);
-
         x.splice(idx, 1, { [`${e.target.className.baseVal}`]: isNaN(e.target.id) || isNaN(parseInt(e.target.id)) ? e.target.id : parseFloat(e.target.id) })
         newfilterData[index].attributes = x;
         this.setState({ filterData: newfilterData })
-        
     }
 
     handleFilterDataMode = (index,idx) => e => {
@@ -715,9 +685,8 @@ class FilterRoute extends Component {
   
         return (
                 <div className="App">
-
+                <div className='sass'>sass</div>
                 <div>
-                    {/* <div>{this.props.reduxFilterData}</div> */}
                     {this.props.auth?<div>logged in</div>:<div>not logged in</div>}
                     <label >NAME: {this.props.reduxName} 
                     <input type='text' value={this.props.name} onChange={this.handleNameChange} /></label>
@@ -745,18 +714,14 @@ class FilterRoute extends Component {
                                 <circle cx='50%' cy='50%' r='50%' fill='orange' />
                                 <text textAnchor='middle' x='50%' y='50%' fontSize='200' >svg</text>
                             </g>
-                            {/* <text id='SourceGraphic' x='250' y='250' fontSize='200' >svg</text> */}
                             <rect id='gold' x='0' y='0' width='50' height='50' fill='url(#coin)' />
                             <rect id='lgr' width='100' height='100' fill={`url(#${Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id'))}`} />
                             <rect id='rad' x='0' y='0' width='500' height='500' fill='url(#rg)' />
                             <circle id='circ' cx='250' cy='250' r='200' fill='url(#rg)' />
                             <Pattern />
                             <rect id='bi' width='50' height='50' fill='url(#p)' />
-
-               
                     <filter id='filterData' colorInterpolationFilters='sRGB' width='200%' height='200%'>
                     {this.state.filterData.map( (item,index) => {
-                        console.log(item.attributes);
                         const attrs = item.attributes.reduce((prev, curr) => {
                             let key = Object.keys(curr)[0];
                             console.log(Object.keys(curr));
@@ -1155,16 +1120,16 @@ class FilterRoute extends Component {
                                 else if(Object.keys(item)[0] === 'dx') {
                                         return (
                                             <div className='dx' key={Object.keys(item)[0]+idx}>
-                                                <label key={Object.keys(item) + 'range'}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} /><span>{Object.values(item)}</span></label>
-                                                <label key={Object.keys(item)}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label>
+                                                <label key={Object.keys(item) + 'range'}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='number' min="-20" max="20" step="1" value={Object.values(item)} /><span>{Object.values(item)}</span></label>
+                                                {/* <label key={Object.keys(item)}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label> */}
                                             </div>
                                     )
                                 }
                                 else if(Object.keys(item)[0] === 'dy') {
                                         return (
                                             <div className='dy' key={Object.keys(item)[0] + idx}>
-                                                <label key={Object.keys(item) + 'range'}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="-20" max="20" step="1" value={Object.values(item)} /><span>{Object.values(item)}</span></label>
-                                                <label key={Object.keys(item)}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label>
+                                                <label key={Object.keys(item) + 'range'}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='number' min="-20" max="20" step="1" value={Object.values(item)} /><span>{Object.values(item)}</span></label>
+                                                {/* <label key={Object.keys(item)}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label> */}
                                             </div>
                                     )
                                 }
@@ -1344,15 +1309,11 @@ class FilterRoute extends Component {
                                             <SketchPicker color={Object.values(this.state.filterData[index].attributes[idx])[0]} onChange={this.handleChangeComplete(index,idx,item)}/>
                                     )
                                 }
-
                                     else if (Object.keys(item)[0] === 'lightingColor') {
                                         return (
                                             <SketchPicker color={Object.values(this.state.filterData[index].attributes[idx])[0]} onChange={this.handleChangeComplete(index, idx, item)} />
                                         )
-
                                     } 
-                            
-
                                 else if ( i.type === 'feColorMatrix' && Object.keys(item)[0] === 'type') {
                                     return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
                                         <option disabled selected >{Object.keys(item)}</option>
@@ -1376,6 +1337,11 @@ class FilterRoute extends Component {
                                         console.log(Object.values(i.attributes[2]));
                                         
                                         return (<label key={Object.keys(item) + 'range'}>{Object.keys(item)}<input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='range' min="0" max="10" step="1" value={Object.values(item)} />{Object.values(item)}</label>)
+                            }
+                                    else if (i.type === 'feColorMatrix' && Object.keys(item)[0] === 'values' && Object.values(i.attributes[2])[0] === 'luminanceToAlpha' ) {
+                                        console.log(Object.values(i.attributes[2]));
+                                        
+                                        return ( null )
                             }
                                 else if ( i.type === 'feTurbulence' && Object.keys(item)[0] === 'type') {
                                     return (<select onChange={this.handleFilterData(index,idx)} name={Object.keys(item)} key={Object.keys(item)}>
@@ -1622,10 +1588,8 @@ class FilterRoute extends Component {
                                             <option>gamma</option>
                                             <option>identity</option>
                                         </select>)
-
                                     }
                                                 
-
                                             if (regex.test(kid.type)) {
                                             console.log('feFuncR');
                                             
@@ -1633,19 +1597,7 @@ class FilterRoute extends Component {
                                                 console.log('im discrete');
                                                 
                                                 if(Object.keys(a) == 'tableValues') {
-                                                    console.log('im tablevalues');
-                                                    
-
-                                                    // return (<label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>)
-                                                    return (
-                                                        // <div>
-                                                        //     <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
-                                                        //     <label key={Object.keys(a)}>{Object.keys(a)}<input type='range' min="-2" max="2" step=".1" name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
-                                                        // </div>
-                                                        <TableValues selectedGraphic={this.state.selectedSourceGraphic} key='TableValues' pixelData={this.handleRGBData(index, idx, kidIndex)} changeTableValues={this.handleTableValues(index, idx, kidIndex)} changeNumberOfTableValues={this.handleNumberOfTableValues(index, idx, kidIndex)} tableValues={Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0]}/>
-                                                        // <ColorMatrix key='ColorMatrix' changeMatrix={this.handleColorMatrixData(index, idx, Object.values(this.state.feColorMatrixDefaults.attributes[3])[0])} matrixValues={Object.values(this.state.filterData[index].attributes[3])[0]} />)
-                                                        // <label key={Object.keys(a)}>{Object.keys(a)}<input name={Object.keys(a)} value={Object.values(a)} onChange={this.handleFuncData(i, index, kidIndex, idx, a)} /></label>
-                                                )
+                                                    return (<TableValues selectedGraphic={this.state.selectedSourceGraphic} key='TableValues' pixelData={this.handleRGBData(index, idx, kidIndex)} changeTableValues={this.handleTableValues(index, idx, kidIndex)} changeNumberOfTableValues={this.handleNumberOfTableValues(index, idx, kidIndex)} tableValues={Object.values(this.state.filterData[index].children[kidIndex].attributes[1])[0]}/>)
                                                 } else {
                                                     return null;
                                                 }
@@ -1937,99 +1889,65 @@ class FilterRoute extends Component {
                                                             }
                                                         }
                                                         case 'feSpecularLighting': {
-                                                            // console.log(item.children);
-
                                                             if (item.children[item.children.findIndex(i => i.type === 'feDistantLight')]) {
-
                                                                 const feDistantLightAttrs = item.children[item.children.findIndex(i => i.type === 'feDistantLight')].attributes.reduce((prev, curr) => {
                                                                     let key = Object.keys(curr)[0];
-                                                                    // console.log(Object.keys(curr));
-                                                                    // console.log(prev);
-                                                                    // console.log(curr);
-
                                                                     if (Object.values(curr) != '') {
-
                                                                         prev[key] = curr[key]; return prev;
                                                                     } else { return prev; }
                                                                 }, {})
-                                                                // console.log(feDistantLightAttrs);
-
                                                                 return (
                                                                     <item.type key={index} {...attrs}>
                                                                         <feDistantLight {...feDistantLightAttrs} />
                                                                     </item.type>
                                                                 )
                                                             }
-
                                                             if (item.children[item.children.findIndex(i => i.type === 'fePointLight')]) {
                                                                 const fePointLightAttrs = item.children[item.children.findIndex(i => i.type === 'fePointLight')].attributes.reduce((prev, curr) => {
                                                                     let key = Object.keys(curr)[0];
-                                                                    // console.log(Object.keys(curr));
-                                                                    // console.log(prev);
-                                                                    // console.log(curr);
-
                                                                     if (Object.values(curr) != '') {
-
                                                                         prev[key] = curr[key]; return prev;
                                                                     } else { return prev; }
                                                                 }, {})
-
                                                                 return (
                                                                     <item.type key={index} {...attrs}>
                                                                         <fePointLight {...fePointLightAttrs} />
                                                                     </item.type>
                                                                 )
-
                                                             }
                                                             if (item.children[item.children.findIndex(i => i.type === 'feSpotLight')]) {
                                                                 const feSpotLightAttrs = item.children[item.children.findIndex(i => i.type === 'feSpotLight')].attributes.reduce((prev, curr) => {
                                                                     let key = Object.keys(curr)[0];
-                                                                    // console.log(Object.keys(curr));
-                                                                    // console.log(prev);
-                                                                    // console.log(curr);
-
                                                                     if (Object.values(curr) != '') {
-
                                                                         prev[key] = curr[key]; return prev;
                                                                     } else { return prev; }
                                                                 }, {})
-
                                                                 return (
                                                                     <item.type key={index} {...attrs}>
                                                                         <feSpotLight {...feSpotLightAttrs} />
                                                                     </item.type>
                                                                 )
-
                                                             }
                                                         }
 
                                                         case 'feMerge':
-                                                            // console.log(item.children);
-                                                            // console.log(item.children[0].attributes);
-
+                
                                                             return (
                                                                 <item.type key={index} {...attrs}>
                                                                     {item.children[0].attributes.map((i, idx) => {
-                                                                        // console.log(i);
                                                                         return (
                                                                             <feMergeNode key={idx} in={Object.values(i)} />
                                                                         )
                                                                     })}
                                                                 </item.type>
                                                             )
-
                                                         default:
-
                                                             return (
-
                                                                 <item.type key={index}  {...attrs} />
-
                                                             )
                                                     }
-
                                                 })}
                                             </filter>
-
                                         </defs>
                                         {this.state.selectedSourceGraphic === 'text' ? (
                                             <SourceGraphic
@@ -2053,31 +1971,22 @@ class FilterRoute extends Component {
                                         ) : this.state.selectedSourceGraphic === 'webcam' ? (
                                             <WebCam id='video' />
                                         ) : this.state.selectedSourceGraphic === 'video' ? (
-                                                        <foreignObject filter={`url(#${data.name})`} id='fo' width="400px" height="400px"
-                                            >
-                                                <iframe  width="400px" height="400px" src="https://www.youtube.com/embed/stUolWxG3wo?loop=1&autoplay=1&playlist=stUolWxG3wo" frameBorder="0" allowFullScreen="allowFullScreen"></iframe>
-                                                {/* <video width='100%' height='100%' className={this.state.filterData.length ? 'filter' : ''} xmlns="http://www.w3.org/1999/xhtml" id="image0-video" src='' controls>
-
-                                            </video> */}
-                                            </foreignObject>
+                                                        <foreignObject filter={`url(#${data.name})`} id='fo' width="400px" height="400px">
+                                                            <iframe  width="400px" height="400px" src="https://www.youtube.com/embed/stUolWxG3wo?loop=1&autoplay=1&playlist=stUolWxG3wo" frameBorder="0" allowFullScreen="allowFullScreen"></iframe>
+                                                        </foreignObject>
                                                     )  : this.state.selectedSourceGraphic === 'pic' ? (
                                                             <image  xlinkHref={this.state.dataURL} filter={`url(#${data.name})`}  width='500px' height='500px' preserveAspectRatio='none' />
                         ) :
                 
-                
                                                         <Circle filter={`url(#${data.name})`} elements={this.state.filterData} />
-
                                         }
                                     </svg>
                                 )
                             })}
                         </div>
                 </div>
-
-
                 <img width='200' height='200' src={`images/${this.state.puppeteerImage}.png`}/>
-                </div>
-            
+            </div>
         );
     }
 }
@@ -2090,5 +1999,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, { updateName, updatePassword, getUsers, changeAuth, getJWT, checkAuth, addFilterToUser})(FilterRoute);
-
-// export default FilterRoute;
