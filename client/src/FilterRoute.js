@@ -685,7 +685,6 @@ class FilterRoute extends Component {
   
         return (
                 <div className="App">
-                <div className='sass'>sass</div>
                 <div>
                     {this.props.auth?<div>logged in</div>:<div>not logged in</div>}
                     <label >NAME: {this.props.reduxName} 
