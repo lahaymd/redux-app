@@ -3800,7 +3800,8 @@ handleFullscreen = e => {
                       preserveAspectRatio="none"
                     />
                   ) : this.state.selectedSourceGraphic === "webcam" ? (
-                    <WebCam id="video" />
+                    // <WebCam id="video" />
+                    <circle cx='100' cy='100' r='50' />
                   ) : this.state.selectedSourceGraphic === "video" ? (
                     <foreignObject
                       filter={`url(#${data.name})`}

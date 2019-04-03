@@ -5,7 +5,7 @@ class WebCam extends Component {
 
     componentDidMount() {
         var constraints = { video: true };
-        var video = document.querySelector("video");
+        var video = document.querySelector("#video");
         console.log(video);
         
 
@@ -23,7 +23,14 @@ class WebCam extends Component {
         }
 
         navigator.mediaDevices.getUserMedia(constraints)
-            .then(successCallback)
+            .then((stream) => {
+                video.srcObject = stream;
+                // video.load();
+                video.play();
+                console.log(video.srcObject);
+                // console.log(video.play());
+
+            })
             .catch(errorCallback);
 
         if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
@@ -66,7 +73,7 @@ class WebCam extends Component {
     render() {
 
         return (
-            <foreignObject  width='100%' preserveAspectRatio='xMinYMin slice'>
+            <foreignObject  width='100%' height='100%' preserveAspectRatio='xMinYMin slice'>
                 {!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices? <div>no webcam</div>: <video id={this.props.id} width='100%' height='100%' autoPlay ></video>}
             </foreignObject>
         )
