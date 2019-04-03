@@ -66,7 +66,7 @@ class WebCam extends Component {
     render() {
 
         return (
-            <foreignObject  width='100%' preserveAspectRatio='xMinYMin slice'>
+            <foreignObject  width='100%' height='100%' preserveAspectRatio='xMinYMin slice'>
                 {!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices? <div>no webcam</div>: <video id={this.props.id} width='100%' height='100%' autoPlay ></video>}
             </foreignObject>
         )

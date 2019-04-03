@@ -932,7 +932,7 @@ class FilterRoute extends Component {
         // x.splice(idx, 1, bar)
         const b = Object.assign({})
         console.log(newfilterData);
-        this.state
+        // this.state
 console.log(newArray);
 
         // newfilterData[index].attributes = answer;
@@ -1168,7 +1168,7 @@ console.log(newArray);
         console.log(newfilterData[index].attributes[newfilterData[index].attributes.findIndex( (a,x) => x === 3)]);
         console.log(newfilterData[index].attributes.findIndex( (a,x) => x === 3));
         console.log(newfilterData[index].attributes.findIndex( (a,x) => Object.keys(a)[0] === e.target.name));
-        console.log(newfilterData[index].attributes.findIndex(attrIndex => { console.log(Object.keys(attrIndex)[0]); console.log(e.target.name); Object.keys(attrIndex)[0] === e.target.name }))
+        // console.log(newfilterData[index].attributes.findIndex(attrIndex => { console.log(Object.keys(attrIndex)[0]); console.log(e.target.name); Object.keys(attrIndex)[0] === e.target.name }))
         console.log(newfilterData[index].attributes[newfilterData[index].attributes.findIndex(attrIndex => Object.keys(attrIndex)[0] === e.target.name)])
         console.log(newfilterData);
         const x = newfilterData[index].attributes.slice();
@@ -2647,7 +2647,8 @@ console.log(newArray);
                                         ) : this.state.selectedSourceGraphic === 'image' ? (
                                                 <image onClick={this.handleFilterEvent()}filter={`url(#${data.name})`} id={data.name} xlinkHref='images/tiger.svg' width='100%' height='100%' preserveAspectRatio='none' />
                                         ) : this.state.selectedSourceGraphic === 'webcam' ? (
-                                            <WebCam id='video' />
+                                            // <WebCam id='video' />
+                                            <circle cx='100' cy='100' r='50' />
                                         ) : this.state.selectedSourceGraphic === 'video' ? (
                                                         <foreignObject filter={`url(#${data.name})`} id='fo' width="400px" height="400px"
                                             >
