@@ -182,7 +182,7 @@ class FilterRoute extends Component {
           { targetX: 2 },
           { targetY: 2 },
           { edgeMode: "duplicate" },
-          { preserveAlpha: false },
+          { preserveAlpha: true },
           { order: 3 }
         ]
       },
