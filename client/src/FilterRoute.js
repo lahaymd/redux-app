@@ -207,7 +207,7 @@ class FilterRoute extends Component {
         attributes: [
           { in: "" },
           { result: "diffusePoint" },
-          { lightingColor: "red" },
+          { lightingColor: "green" },
           { surfaceScale: 1 },
           { diffuseConstant: 1 }
         ],
