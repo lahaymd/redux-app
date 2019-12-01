@@ -533,7 +533,7 @@ select {
     /* height: 100vh; */
     display: grid;
     grid-template-columns:   1fr ;
-    grid-template-rows: auto 100vw 1fr;
+    grid-template-rows: auto 50vh 1fr;
     grid-gap: 0;
     /* margin: 0 .5em; */
     grid-template-areas: 
