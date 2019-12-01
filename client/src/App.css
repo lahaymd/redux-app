@@ -113,7 +113,7 @@ ul li {
 }
 li {
     display: inline-block;
-    padding: 1em;
+    /* padding: 1em; */
     background-color: chocolate;
     margin-right: 10px;
     border-radius: 4px;
@@ -500,6 +500,10 @@ select {
 }
 
 @media screen and (max-width: 375px) {
+
+    .grid-svg-filterdata {
+        display: block;
+    }
 
      .item-c {
   width: 100vw;
