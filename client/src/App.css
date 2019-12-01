@@ -531,20 +531,18 @@ select {
     /* justify-content: center; */
 }
 
-    .grid-svg-filterdata {
+    /* .grid-svg-filterdata {
     width: 100vw;
     border: 1px solid yellow;
-    /* height: 100vh; */
     display: grid;
     grid-template-columns:   1fr ;
     grid-template-rows: auto 50vh 1fr;
     grid-gap: 0;
-    /* margin: 0 .5em; */
     grid-template-areas: 
     "menu"
     "svg"
     "filterdata";
-}
+} */
 
 
 .filterData-wrapper {
