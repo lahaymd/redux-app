@@ -191,8 +191,8 @@ select:focus, input:focus {outline:0;}
   /* width: 100vw; */
   grid-area: svg;
   justify-self: center;
-  border: 1px solid seagreen;
-  background: aqua;
+  /* border: 1px solid seagreen;
+  background: aqua; */
 }
 .item-b {
   /* width: 100vw; */
@@ -506,6 +506,11 @@ select {
   /* grid-area: svg;
   justify-self: center;
   border: 1px solid seagreen; */
+}
+
+.item-a {
+  height: 46vh;
+  /* grid-area: filterdata; */
 }
 
 .item-b {
