@@ -509,7 +509,7 @@ select {
 }
 
 .item-a {
-  height: 46vh;
+  height: 100vh;
   /* grid-area: filterdata; */
 }
 
