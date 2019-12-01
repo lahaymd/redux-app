@@ -501,21 +501,11 @@ select {
 
 @media screen and (max-width: 375px) {
 
-    .grid-svg-filterdata {
-        display: block;
-    }
-
-     .item-c {
+    .item-a, .item-c {
   width: 100vw;
   /* grid-area: svg;
   justify-self: center;
   border: 1px solid seagreen; */
-}
-
-.item-a {
-  height: 375px;
-  width: 375px;
-  /* grid-area: filterdata; */
 }
 
 .item-b {
@@ -531,18 +521,18 @@ select {
     /* justify-content: center; */
 }
 
-    /* .grid-svg-filterdata {
+    .grid-svg-filterdata {
     width: 100vw;
     border: 1px solid yellow;
     display: grid;
     grid-template-columns:   1fr ;
-    grid-template-rows: auto 50vh 1fr;
+    grid-template-rows: 1fr auto 1fr;
     grid-gap: 0;
     grid-template-areas: 
-    "menu"
     "svg"
+    "menu"
     "filterdata";
-} */
+}
 
 
 .filterData-wrapper {
