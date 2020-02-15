@@ -2949,7 +2949,6 @@ handleFullscreen = e => {
                       return (
                         <div className="in-or-result">
                           <label key={Object.keys(item)}>
-                            fo
                             <span>{Object.keys(item)}</span>
                             <input
                               type="text"
