@@ -2945,39 +2945,41 @@ handleFullscreen = e => {
                           </label>
                         </div>
                       );
-                    } else if(Object.keys(item)[0] === "in"){
-                      return (
-                        <div className="in-or-result">
-                          <label key={Object.keys(item)}>
-                            <span>{Object.keys(item)}</span>
-                            <input
-                              type="text"
-                              name={Object.keys(item)}
-                              value={Object.values(item)}
-                              onChange={this.handleFilterData(index, idx)}
-                            />
-                          </label>
-                          <select
-                            onChange={this.handleFilterData(index, idx)}
-                            name={Object.keys(item)}
-                            key={Object.keys(item)}
-                          >
-                            <option value="SourceGraphic">SourceGraphic</option>
-                            <option value="SourceAlpha">SourceAlpha</option>
-                            {this.state.filterData.map((itemIn, indexIn) => {
-                              return (
-                                <option>
-                                  {Object.values(
-                                    itemIn["attributes"][1].result
-                                  )}
-                                  {indexIn}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        </div>
-                      );
-                    } else {
+                    }
+                    // else if(Object.keys(item)[0] === "in"){
+                    //   return (
+                    //     <div className="in-or-result">
+                    //       <label key={Object.keys(item)}>
+                    //         <span>{Object.keys(item)}</span>
+                    //         <input
+                    //           type="text"
+                    //           name={Object.keys(item)}
+                    //           value={Object.values(item)}
+                    //           onChange={this.handleFilterData(index, idx)}
+                    //         />
+                    //       </label>
+                    //       <select
+                    //         onChange={this.handleFilterData(index, idx)}
+                    //         name={Object.keys(item)}
+                    //         key={Object.keys(item)}
+                    //       >
+                    //         <option value="SourceGraphic">SourceGraphic</option>
+                    //         <option value="SourceAlpha">SourceAlpha</option>
+                    //         {this.state.filterData.map((itemIn, indexIn) => {
+                    //           return (
+                    //             <option>
+                    //               {Object.values(
+                    //                 itemIn["attributes"][1].result
+                    //               )}
+                    //               {indexIn}
+                    //             </option>
+                    //           );
+                    //         })}
+                    //       </select>
+                    //     </div>
+                    //   );
+                    // }
+                    else {
                       return (
                         <div className="in-or-result">
                           <label key={Object.keys(item)}>
