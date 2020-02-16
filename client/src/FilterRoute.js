@@ -1619,6 +1619,49 @@ handleFullscreen = e => {
                         </select>
                       );
                     }
+                      if (
+                      Object.keys(item)[0] === "in" ||
+                      Object.keys(item)[0] === "in2"
+                    ) {
+                      return (
+                        <div className="in-or-result">
+                          <label key={Object.keys(item)}>
+                            <span>{Object.keys(item)}</span>
+                            <input
+                              type="text"
+                              name={Object.keys(item)}
+                              value={Object.values(item)}
+                              onChange={this.handleFilterData(index, idx)}
+                            />
+                          </label>
+                          <select
+                            onChange={this.handleFilterData(index, idx)}
+                            name={Object.keys(item)}
+                            key={Object.keys(item)}
+                          >
+                            <option value="SourceGraphic">SourceGraphic</option>
+                            <option value="SourceAlpha">SourceAlpha</option>
+                            {this.state.filterData.map((itemIn, indexIn) => {
+                              return (
+                                <option>
+                                  {Object.values(
+                                    itemIn["attributes"][
+                                      itemIn["attributes"].findIndex(
+                                        x => Object.keys(x) == "result"
+                                      )
+                                    ].result
+                                  )}
+                                  {indexIn}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      );
+                    }
+
+
+
 
                     if (
                       i.type === "feComposite" &&
@@ -1668,13 +1711,14 @@ handleFullscreen = e => {
                     }
                     if (
                       i.type === "feComposite" &&
-                      Object.values(i.attributes[0])[0] != "arithmetic"
+                      Object.values(i.attributes[3])[0] != "arithmetic"
                     ) {
+                      console.log(Object.values(i.attributes[0])[0]);
                       console.log("comp arithmetic");
                       console.log(Object.keys(item)[0]);
                       console.log("k1 son");
                       return Object.keys(item)[0].charAt(0) === "k" ? null : (
-                        <label key={Object.keys(item)}>
+                        <label key={Object.keys(item)}>check
                           {Object.keys(item)}
                           <input
                             onChange={this.handleFilterData(index, idx)}
@@ -2946,54 +2990,21 @@ handleFullscreen = e => {
                         </div>
                       );
                     }
-                    // else if(Object.keys(item)[0] === "in"){
-                    //   return (
-                    //     <div className="in-or-result">
-                    //       <label key={Object.keys(item)}>
-                    //         <span>{Object.keys(item)}</span>
-                    //         <input
-                    //           type="text"
-                    //           name={Object.keys(item)}
-                    //           value={Object.values(item)}
-                    //           onChange={this.handleFilterData(index, idx)}
-                    //         />
-                    //       </label>
-                    //       <select
-                    //         onChange={this.handleFilterData(index, idx)}
-                    //         name={Object.keys(item)}
-                    //         key={Object.keys(item)}
-                    //       >
-                    //         <option value="SourceGraphic">SourceGraphic</option>
-                    //         <option value="SourceAlpha">SourceAlpha</option>
-                    //         {this.state.filterData.map((itemIn, indexIn) => {
-                    //           return (
-                    //             <option>
-                    //               {Object.values(
-                    //                 itemIn["attributes"][1].result
-                    //               )}
-                    //               {indexIn}
-                    //             </option>
-                    //           );
-                    //         })}
-                    //       </select>
-                    //     </div>
-                    //   );
-                    // }
-                    else {
-                      return (
-                        <div className="in-or-result">
-                          <label key={Object.keys(item)}>
-                            <span>{Object.keys(item)}</span>
-                            <input
-                              type="text"
-                              name={Object.keys(item)}
-                              value={Object.values(item)+index}
-                              onChange={this.handleFilterData(index, idx)}
-                            />
-                          </label>
-                        </div>
-                      );
-                    }
+                     else {
+                           return (
+                             <div className="in-or-result">
+                               <label key={Object.keys(item)}>
+                                 <span>{Object.keys(item)}</span>
+                                 <input
+                                   type="text"
+                                   name={Object.keys(item)}
+                                   value={Object.values(item) + index}
+                                   onChange={this.handleFilterData(index, idx)}
+                                 />
+                               </label>
+                             </div>
+                           );
+                         }
                   })}
 
                   {i.children
