@@ -1639,6 +1639,9 @@ handleFullscreen = e => {
                             name={Object.keys(item)}
                             key={Object.keys(item)}
                           >
+                            <option disabled selected>
+                              {Object.keys(item)}
+                            </option>
                             <option value="SourceGraphic">SourceGraphic</option>
                             <option value="SourceAlpha">SourceAlpha</option>
                             {this.state.filterData.map((itemIn, indexIn) => {
