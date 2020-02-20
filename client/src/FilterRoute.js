@@ -1733,25 +1733,26 @@ handleFullscreen = e => {
                         </label>
                       );
                     }
-                    if (
-                      i.type === "feComponentTransfer" &&
-                      Object.keys(item)[0] === "result"
-                    ) {
-                      console.log(Object.keys(item)[0]);
-                      return (
-                        <div>
-                          <label key={Object.keys(item)}>
-                            {Object.keys(item)}
-                            <input
-                              type="text"
-                              name={Object.keys(item)}
-                              value={Object.values(item)}
-                              onChange={this.handleFilterData(index, idx)}
-                            />
-                          </label>
-                        </div>
-                      );
-                    } else if (Object.keys(item)[0] === "dx") {
+                    // if (
+                    //   i.type === "feComponentTransfer" &&
+                    //   Object.keys(item)[0] === "result"
+                    // ) {
+                    //   console.log(Object.keys(item)[0]);
+                    //   return (
+                    //     <div>
+                    //       <label key={Object.keys(item)}>
+                    //         {Object.keys(item)}
+                    //         <input
+                    //           type="text"
+                    //           name={Object.keys(item)}
+                    //           value={Object.values(item)}
+                    //           onChange={this.handleFilterData(index, idx)}
+                    //         />
+                    //       </label>
+                    //     </div>
+                    //   );
+                    // }
+                    else if (Object.keys(item)[0] === "dx") {
                       return (
                         <div className="dx" key={Object.keys(item)[0] + idx}>
                           <label key={Object.keys(item) + "range"}>
