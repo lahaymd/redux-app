@@ -1706,7 +1706,7 @@ handleFullscreen = e => {
                             onChange={this.handleFilterData(index, idx)}
                             name={Object.keys(item)}
                             type="text"
-                            value={Object.values(item)}
+                            value={Object.values(item) + index}
                           />
                           {Object.values(item)}
                         </label>
