@@ -1154,7 +1154,7 @@ handleFullscreen = e => {
                       return prev;
                     }
                   }, {});
-                  console.log(attrs);
+                  console.log('attrs ' + JSON.stringify(attrs));
 
                   switch (item.type) {
                     case "feComponentTransfer": {
@@ -1433,7 +1433,7 @@ handleFullscreen = e => {
                       console.log(item.children[0].attributes);
 
                       return (
-                        <item.type key={index} {...attrs}>
+                        <item.type key={index} {...attrs} result={attrs.result + index}>
                           {item.children[0].attributes.map((i, idx) => {
                             console.log(i);
                             return (
@@ -1444,7 +1444,7 @@ handleFullscreen = e => {
                       );
 
                     default:
-                      return <item.type key={index} {...attrs} />;
+                      return <item.type key={index}  {...attrs} result={attrs.result + index}/>;
                   }
                 })}
               </filter>
@@ -1584,7 +1584,7 @@ handleFullscreen = e => {
                             <input
                               type="text"
                               name={Object.keys(item)}
-                              value={Object.values(item)}
+                              value={Object.values(item)+index}
                               onChange={this.handleFilterData(index, idx)}
                             />
                           </label>
@@ -1721,13 +1721,13 @@ handleFullscreen = e => {
                       console.log(Object.keys(item)[0]);
                       console.log("k1 son");
                       return Object.keys(item)[0].charAt(0) === "k" ? null : (
-                        <label key={Object.keys(item)}>check
+                        <label key={Object.keys(item)}>
                           {Object.keys(item)}
                           <input
                             onChange={this.handleFilterData(index, idx)}
                             name={Object.keys(item)}
                             type="text"
-                            value={Object.values(item)}
+                            value={Object.values(item)+index}
                           />
                           {Object.values(item)}
                         </label>
