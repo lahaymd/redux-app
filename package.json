@@ -16,7 +16,7 @@
     "express": "~4.15.2",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.4.0",
-    "mongodb": "^3.1.10",
+    "mongodb": "^3.1.13",
     "mongoose": "^5.3.12",
     "morgan": "~1.8.1",
     "puppeteer": "^1.10.0",
