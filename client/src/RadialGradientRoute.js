@@ -113,11 +113,35 @@ class RadialGradientRoute extends Component {
 
     }
 
-    handleDeleteStop = (index) => e => {
+    handleDeleteStop = (param, index) => e => {
         // console.log(`delete index  ${index}`);
-        const stops = this.state.stops.slice();
-        stops.splice(index, 1)
-        this.setState({ stops })
+        // const stops = this.state.stops.slice();
+        // stops.splice(index, 1)
+        // this.setState({ stops })
+
+        console.log(param);
+        console.log(index);
+        console.log(e);
+
+        // console.log(e.target.name);
+        console.log(e.target.value);
+        const linearGradients = [...this.state.linearGradients]
+        const linearGradient = linearGradients[this.state.selectedGradientIndex]
+        console.log(linearGradient);
+
+        const gradStops = [...this.state.linearGradients[this.state.selectedGradientIndex]['stops']]
+        console.log(gradStops);
+        const obj = { ...gradStops[index] }
+        console.log(obj);
+        obj[`${e.target.name}`] = e.target.value;
+        console.log(obj);
+        gradStops.splice(index, 1)
+        console.log(gradStops);
+        linearGradient['stops'] = gradStops;
+        console.log(linearGradient);
+
+        // linearGradients.splice(this.state.selectedGradientIndex, 1)
+        this.setState({ linearGradients })
 
     }
 
@@ -143,18 +167,6 @@ class RadialGradientRoute extends Component {
             gradientUnits: this.state.linearGradients[this.state.selectedGradientIndex]['gradientUnits'],
 
         }
-        // let data = {
-        //     name: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'id')),
-        //     stops: this.state.stops,
-        //     x1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x1'))),
-        //     x2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'x2'))),
-        //     y1: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y1'))),
-        //     y2: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'y2'))),
-        //     spreadMethod: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'spreadMethod')),
-        //     gradientTransform: +(Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientTransform'))),
-        //     gradientUnits: Object.values(this.state.gradientAttrs.find(item => Object.keys(item) == 'gradientUnits')),
-
-        // }
 
         fetch('/radial_gradient',
             {

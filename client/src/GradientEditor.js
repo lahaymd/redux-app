@@ -35,11 +35,11 @@ class GradientEditor extends Component {
                 data.map( (item, index) => {
                     // console.log('gradienteditor'+JSON.stringify(item));
                     console.log(this.props.attrs);
-                    console.log(this.props.attrs.name);
                     // console.log(Object.values(this.props.attrs[6])[0]);
+                    console.log(this.props.attrs.name);
+                    console.log(Object.keys(item)[0])
                     
-                    
-                    if(Object.keys(item) === 'spreadMethod') {
+                    if(Object.keys(item)[0] === 'spreadMethod') {
                         return (
                             <select key={Object.keys(item)} name={Object.keys(item)}  onChange={this.props.changeGradient(item, index)}>
                                 <option disabled selected >{Object.keys(item)}</option>
@@ -48,7 +48,7 @@ class GradientEditor extends Component {
                                 <option>repeat</option>
                             </select>
                         )
-                    } else if(Object.keys(item) === 'gradientUnits') {
+                    } else if(Object.keys(item)[0] === 'gradientUnits') {
                         return (
                             <select key={Object.keys(item)} name={Object.keys(item)}  onChange={this.props.changeGradient(item, index)}>
                                 <option disabled selected >{Object.keys(item)}</option>
@@ -57,7 +57,7 @@ class GradientEditor extends Component {
                             </select>
                         )
                     } 
-                     else if(Object.keys(item) === 'gradientTransform') {
+                     else if(Object.keys(item)[0] === 'gradientTransform') {
                         return (
                             <label key={Object.keys(item)} key={index} className='html-label-wrapper'> {Object.keys(item)} : {Object.values(item)}
                             <input 
@@ -69,7 +69,7 @@ class GradientEditor extends Component {
                             </label>
                         )
                     } 
-                     else if(Object.keys(item) === 'name') {
+                     else if(Object.keys(item)[0] === 'name') {
                         return (
                             <label key={index} className='html-label-wrapper'> {Object.keys(item)}: {Object.values(item)}
                             {/* <input 
