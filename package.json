@@ -6,7 +6,8 @@
     "start": "nodemon ./bin/www"
   },
   "engines": {
-    "node": "8.9.2"
+    "node": "15.4.0",
+    "npm": "7.0.15"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
