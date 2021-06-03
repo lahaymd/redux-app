@@ -4,7 +4,7 @@ import {
   updateName,
   updatePassword,
   checkAuth,
-  addFilterToUser
+  addFilterToUser,
 } from "./actions/actions";
 import { getUsers } from "./actions/actions";
 import { changeAuth } from "./actions/actions";
@@ -38,7 +38,7 @@ import { GET_NAMES } from "./actions/types";
 class FilterRoute extends Component {
   constructor(props) {
     super(props);
-    this.SourceGraphicRef = React.createRef()
+    this.SourceGraphicRef = React.createRef();
     this.state = {
       // auth: false,
       base64: [],
@@ -67,7 +67,7 @@ class FilterRoute extends Component {
         { lengthAdjust: "spacing" },
         { textAnchor: "middle" },
         { alignmentBaseline: "middle" },
-        { text: "SVG" }
+        { text: "SVG" },
       ],
       gradientAttrs: [
         { x1: 0 },
@@ -77,7 +77,7 @@ class FilterRoute extends Component {
         { spreadMethod: "reflect" },
         { gradientTransform: 0 },
         { gradientUnits: "objectBoundingBox" },
-        { id: "linear" }
+        { id: "linear" },
       ],
       images: [],
       feImages: [],
@@ -92,8 +92,8 @@ class FilterRoute extends Component {
           { in: "" },
           { in2: "" },
           { result: "blend" },
-          { mode: "normal" }
-        ]
+          { mode: "normal" },
+        ],
       },
       feColorMatrixDefaults: {
         type: "feColorMatrix",
@@ -101,8 +101,8 @@ class FilterRoute extends Component {
           { in: "" },
           { result: "colorMatrix" },
           { type: "matrix" },
-          { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0` }
-        ]
+          { values: `1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0` },
+        ],
       },
       feComponentTransferDefaults: {
         type: "feComponentTransfer",
@@ -117,8 +117,8 @@ class FilterRoute extends Component {
               { intercept: 0 },
               { amplitude: 1 },
               { exponent: 1 },
-              { offset: 0 }
-            ]
+              { offset: 0 },
+            ],
           },
           {
             type: "feFuncG",
@@ -129,8 +129,8 @@ class FilterRoute extends Component {
               { intercept: 0 },
               { amplitude: 1 },
               { exponent: 1 },
-              { offset: 0 }
-            ]
+              { offset: 0 },
+            ],
           },
           {
             type: "feFuncB",
@@ -141,8 +141,8 @@ class FilterRoute extends Component {
               { intercept: 0 },
               { amplitude: 1 },
               { exponent: 1 },
-              { offset: 0 }
-            ]
+              { offset: 0 },
+            ],
           },
           {
             type: "feFuncA",
@@ -153,10 +153,10 @@ class FilterRoute extends Component {
               { intercept: 0 },
               { amplitude: 1 },
               { exponent: 1 },
-              { offset: 0 }
-            ]
-          }
-        ]
+              { offset: 0 },
+            ],
+          },
+        ],
       },
       feCompositeDefaults: {
         type: "feComposite",
@@ -168,8 +168,8 @@ class FilterRoute extends Component {
           { k1: 0 },
           { k2: 1 },
           { k3: 1 },
-          { k4: 0 }
-        ]
+          { k4: 0 },
+        ],
       },
       feConvolveMatrixDefaults: {
         type: "feConvolveMatrix",
@@ -183,8 +183,8 @@ class FilterRoute extends Component {
           { targetY: 2 },
           { edgeMode: "duplicate" },
           { preserveAlpha: true },
-          { order: 3 }
-        ]
+          { order: 3 },
+        ],
       },
       feDiffuseLightingFeDistantLightDefaults: {
         type: "feDiffuseLighting",
@@ -193,14 +193,14 @@ class FilterRoute extends Component {
           { result: "diffuseDistant" },
           { lightingColor: "yellow" },
           { surfaceScale: 1 },
-          { diffuseConstant: 2 }
+          { diffuseConstant: 2 },
         ],
         children: [
           {
             type: "feDistantLight",
-            attributes: [{ azimuth: 0 }, { elevation: 0 }]
-          }
-        ]
+            attributes: [{ azimuth: 0 }, { elevation: 0 }],
+          },
+        ],
       },
       feDiffuseLightingFePointLightDefaults: {
         type: "feDiffuseLighting",
@@ -209,14 +209,14 @@ class FilterRoute extends Component {
           { result: "diffusePoint" },
           { lightingColor: "blue" },
           { surfaceScale: 1 },
-          { diffuseConstant: 1 }
+          { diffuseConstant: 1 },
         ],
         children: [
           {
             type: "fePointLight",
-            attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]
-          }
-        ]
+            attributes: [{ x: 400 }, { y: 300 }, { z: 10 }],
+          },
+        ],
       },
       feDiffuseLightingFeSpotLightDefaults: {
         type: "feDiffuseLighting",
@@ -225,7 +225,7 @@ class FilterRoute extends Component {
           { result: "diffuseSpot" },
           { lightingColor: "red" },
           { surfaceScale: 1 },
-          { diffuseConstant: 1 }
+          { diffuseConstant: 1 },
         ],
         children: [
           {
@@ -237,10 +237,10 @@ class FilterRoute extends Component {
               { pointsAtZ: 30 },
               { x: 500 },
               { y: 400 },
-              { z: 20 }
-            ]
-          }
-        ]
+              { z: 20 },
+            ],
+          },
+        ],
       },
       feDisplacementMapDefaults: {
         type: "feDisplacementMap",
@@ -250,8 +250,8 @@ class FilterRoute extends Component {
           { result: "displace" },
           { xChannelSelector: "R" },
           { yChannelSelector: "R" },
-          { scale: 5 }
-        ]
+          { scale: 5 },
+        ],
       },
       feFloodDefaults: {
         type: "feFlood",
@@ -259,12 +259,12 @@ class FilterRoute extends Component {
           { in: "" },
           { result: "flood" },
           { floodColor: "coral" },
-          { floodOpacity: "1" }
-        ]
+          { floodOpacity: "1" },
+        ],
       },
       feGaussianBlurDefaults: {
         type: "feGaussianBlur",
-        attributes: [{ in: "" }, { result: "blur" }, { stdDeviation: [1, 1] }]
+        attributes: [{ in: "" }, { result: "blur" }, { stdDeviation: [1, 1] }],
       },
       feImageDefaults: {
         type: "feImage",
@@ -275,8 +275,8 @@ class FilterRoute extends Component {
           { width: 500 },
           { height: 500 },
           { preserveAspectRatio: "none" },
-          { xlinkHref: "images/tiger.svg" }
-        ]
+          { xlinkHref: "images/tiger.svg" },
+        ],
       },
       feMergeDefaults: {
         type: "feMerge",
@@ -284,9 +284,9 @@ class FilterRoute extends Component {
         children: [
           {
             type: "feMergeNode",
-            attributes: [{ in: "SourceGraphic" }, { in: "SourceGraphic" }]
-          }
-        ]
+            attributes: [{ in: "SourceGraphic" }, { in: "SourceGraphic" }],
+          },
+        ],
       },
       feMorphologyDefaults: {
         type: "feMorphology",
@@ -294,12 +294,12 @@ class FilterRoute extends Component {
           { in: "" },
           { result: "morph" },
           { operator: "dilate" },
-          { radius: [2, 2] }
-        ]
+          { radius: [2, 2] },
+        ],
       },
       feOffsetDefaults: {
         type: "feOffset",
-        attributes: [{ in: "" }, { result: "offset" }, { dx: 0 }, { dy: 5 }]
+        attributes: [{ in: "" }, { result: "offset" }, { dx: 0 }, { dy: 5 }],
       },
       feSpecularLightingFeDistantLightDefaults: {
         type: "feSpecularLighting",
@@ -309,14 +309,14 @@ class FilterRoute extends Component {
           { lightingColor: "red" },
           { surfaceScale: 1 },
           { specularConstant: 1 },
-          { specularExponent: 20 }
+          { specularExponent: 20 },
         ],
         children: [
           {
             type: "feDistantLight",
-            attributes: [{ azimuth: 0 }, { elevation: 0 }]
-          }
-        ]
+            attributes: [{ azimuth: 0 }, { elevation: 0 }],
+          },
+        ],
       },
       feSpecularLightingFePointLightDefaults: {
         type: "feSpecularLighting",
@@ -326,14 +326,14 @@ class FilterRoute extends Component {
           { lightingColor: "red" },
           { surfaceScale: 1 },
           { specularConstant: 1 },
-          { specularExponent: 20 }
+          { specularExponent: 20 },
         ],
         children: [
           {
             type: "fePointLight",
-            attributes: [{ x: 400 }, { y: 300 }, { z: 10 }]
-          }
-        ]
+            attributes: [{ x: 400 }, { y: 300 }, { z: 10 }],
+          },
+        ],
       },
       feSpecularLightingFeSpotLightDefaults: {
         type: "feSpecularLighting",
@@ -343,7 +343,7 @@ class FilterRoute extends Component {
           { lightingColor: "red" },
           { surfaceScale: 1 },
           { specularConstant: 1 },
-          { specularExponent: 20 }
+          { specularExponent: 20 },
         ],
         children: [
           {
@@ -355,14 +355,14 @@ class FilterRoute extends Component {
               { pointsAtZ: 30 },
               { x: 500 },
               { y: 400 },
-              { z: 20 }
-            ]
-          }
-        ]
+              { z: 20 },
+            ],
+          },
+        ],
       },
       feTileDefaults: {
         type: "feTile",
-        attributes: [{ in: "" }, { result: "tile" }]
+        attributes: [{ in: "" }, { result: "tile" }],
       },
       feTurbulenceDefaults: {
         type: "feTurbulence",
@@ -373,9 +373,9 @@ class FilterRoute extends Component {
           { numOctaves: 5 },
           { seed: 0 },
           { type: "turbulence" },
-          { stitchTiles: "stitch" }
-        ]
-      }
+          { stitchTiles: "stitch" },
+        ],
+      },
     };
   }
 
@@ -387,69 +387,71 @@ class FilterRoute extends Component {
     const res = await fetch("/linear_gradient");
     const json = await res.json();
     this.setState({ linearGradients: json });
-    this.setState({ stops: json[json.length - 1][`stops`] });
+    this.setState({
+      stops: json.length === 0 ? null : json[json.length - 1][`stops`],
+    });
 
     fetch("/filter_data")
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ filterNames: data.map(item => item.name) });
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ filterNames: data.map((item) => item.name) });
         this.setState({ allFilterData: data });
       });
     fetch("/radial_gradient")
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         this.setState({ radialGradients: data });
       });
   }
 
-handleFullscreen = e => {
-  this.SourceGraphicRef.current.requestFullscreen()
-}
+  handleFullscreen = (e) => {
+    this.SourceGraphicRef.current.requestFullscreen();
+  };
 
-  handleNameChange = e => {
+  handleNameChange = (e) => {
     this.props.updateName(e.target.value);
   };
 
-  handlePasswordChange = e => {
+  handlePasswordChange = (e) => {
     this.props.updatePassword(e.target.value);
   };
 
-  handleLogin = () => e => {
+  handleLogin = () => (e) => {
     const data = {
       username: this.props.reduxName,
-      password: this.props.reduxPassword
+      password: this.props.reduxPassword,
     };
     this.props.getJWT(data);
   };
 
-  testPuppeteer = filtername => e => {
+  testPuppeteer = (filtername) => (e) => {
     let data = {
       svg: "puppeteer",
       name: this.state.filterNamePuppeteer,
       SourceGraphic: this.state.selectedSourceGraphic,
       gradient: Object.values(this.state.gradientAttrs[7])[0],
-      image: this.state.dataURL
+      image: this.state.dataURL,
     };
     fetch("user/puppeteer", {
       headers: {
         Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         console.log("image from puppeteer" + JSON.stringify(data));
         this.setState({ puppeteerImage: data.element });
       });
   };
 
-  handleAddFilterToUser = () => e => {
+  handleAddFilterToUser = () => (e) => {
     this.props.addFilterToUser(this.props.reduxName, this.state.filterData);
   };
 
-  handleSelectedLinearGradient = e => {
+  handleSelectedLinearGradient = (e) => {
     const sga = this.state.SourceGraphicAttrs.slice();
     sga[2] = { fill: `url(#${e.target.value})` };
     this.setState({ SourceGraphicAttrs: sga });
@@ -458,30 +460,30 @@ handleFullscreen = e => {
     this.setState({ gradientAttrs: ga });
   };
 
-  handleImageToCanvas = e => {
+  handleImageToCanvas = (e) => {
     let reader = new FileReader();
     let file = e.target.files[0];
     reader.readAsDataURL(file);
-    reader.onloadstart = function() {
+    reader.onloadstart = function () {
       console.log(reader.readyState);
     };
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       console.log(e);
       console.log(reader.result);
     };
-    reader.onloadend = e => {
+    reader.onloadend = (e) => {
       console.log(e);
       console.log(reader.result);
       this.setState({ dataURL: reader.result });
       var joined = this.state.base64.concat(reader.result);
       this.setState({ base64: joined });
     };
-    reader.onerror = function() {
+    reader.onerror = function () {
       console.log("There was an error reading the file!");
     };
   };
 
-  handleMergeNodes = (index, idx) => e => {
+  handleMergeNodes = (index, idx) => (e) => {
     const newfilterData = [...this.state.filterData];
     const x = newfilterData[index].children[0].attributes.slice();
     x.push({ in: "SourceGraphic" });
@@ -492,27 +494,27 @@ handleFullscreen = e => {
   handleNewFilterData = () => {
     let data = {
       name: this.state.filterName,
-      filterData: this.state.filterData
+      filterData: this.state.filterData,
     };
     fetch("/filter_data", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         this.setState({ filterData: data.filterData });
       });
   };
 
-  handleConcatFilterData = e => {
+  handleConcatFilterData = (e) => {
     fetch(`/filter_data/name/?name=${e.target.value}`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         const filterData = [...this.state.filterData];
         filterData.push(data[0].filterData);
         const flat = filterData.reduce((prev, curr) => prev.concat(curr), []);
@@ -520,40 +522,40 @@ handleFullscreen = e => {
       });
   };
 
-  handleDelete = key => e => {
+  handleDelete = (key) => (e) => {
     const filterData = [...this.state.filterData];
     filterData.splice(key, 1);
     this.setState({ filterData });
   };
 
-  handleMoveUp = key => e => {
+  handleMoveUp = (key) => (e) => {
     const filterData = [...this.state.filterData];
     let splice = filterData.splice(key, 1);
     filterData.splice(key - 1, 0, splice[0]);
     this.setState({ filterData });
   };
 
-  handleMoveDown = key => e => {
+  handleMoveDown = (key) => (e) => {
     const filterData = [...this.state.filterData];
     let splice = filterData.splice(key, 1);
     filterData.splice(key + 1, 0, splice[0]);
     this.setState({ filterData });
   };
 
-  handleSelectSourceGraphic = e => {
+  handleSelectSourceGraphic = (e) => {
     this.setState({ selectedSourceGraphic: e.target.value });
   };
 
-  handleSelectedFilterName = e => {
+  handleSelectedFilterName = (e) => {
     fetch(`/filter_data/name/?name=${e.target.value}`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         this.setState({ filterData: data[0].filterData });
       });
     this.setState({ filterNamePuppeteer: e.target.value });
   };
 
-  handleNewFilter = e => {
+  handleNewFilter = (e) => {
     const filterData = this.state.filterData.slice();
     switch (e.target.value) {
       case "feBlend":
@@ -570,7 +572,7 @@ handleFullscreen = e => {
 
       case "feComponentTransfer":
         const feComponentTransferDefaults = {
-          ...this.state.feComponentTransferDefaults
+          ...this.state.feComponentTransferDefaults,
         };
         filterData.push(feComponentTransferDefaults);
         this.setState({ filterData });
@@ -585,7 +587,7 @@ handleFullscreen = e => {
 
       case "feConvolveMatrix":
         const feConvolveMatrixDefaults = {
-          ...this.state.feConvolveMatrixDefaults
+          ...this.state.feConvolveMatrixDefaults,
         };
         filterData.push(feConvolveMatrixDefaults);
         this.setState({ filterData });
@@ -608,7 +610,7 @@ handleFullscreen = e => {
 
       case "feDisplacementMap":
         const feDisplacementMapDefaults = {
-          ...this.state.feDisplacementMapDefaults
+          ...this.state.feDisplacementMapDefaults,
         };
         filterData.push(feDisplacementMapDefaults);
         this.setState({ filterData });
@@ -686,7 +688,7 @@ handleFullscreen = e => {
     }
   };
 
-  handleFuncData = (item, index, kidIndex, idx, a) => e => {
+  handleFuncData = (item, index, kidIndex, idx, a) => (e) => {
     console.log(item);
     console.log(index);
     console.log(kidIndex);
@@ -694,13 +696,13 @@ handleFullscreen = e => {
     console.log(a);
     console.log(e.target.name);
     console.log(e.target.value);
-    const newArr = this.state.filterData.map(obj => ({ ...obj }));
+    const newArr = this.state.filterData.map((obj) => ({ ...obj }));
     console.log(newArr);
     const newArray = newArr
-      .map(obj => ({ ...obj }))
-      [index].children.map(ob => ({ ...ob }));
+      .map((obj) => ({ ...obj }))
+      [index].children.map((ob) => ({ ...ob }));
     console.log(newArray);
-    const nA = newArray[kidIndex].attributes.map(o => ({ ...o }));
+    const nA = newArray[kidIndex].attributes.map((o) => ({ ...o }));
     console.log(nA);
     const g = nA.map((item1, i) => {
       console.log(i);
@@ -728,22 +730,22 @@ handleFullscreen = e => {
     this.setState({ filterData: newArr });
   };
 
-  handleFilterName = () => e => {
+  handleFilterName = () => (e) => {
     this.setState({ filterName: e.target.value });
   };
 
-  handleFilterEvent = () => e => {
+  handleFilterEvent = () => (e) => {
     console.log(e.target.id);
     this.setState({ filterName: e.target.id });
   };
 
-  handleChangeComplete = (index, idx, item) => color => {
+  handleChangeComplete = (index, idx, item) => (color) => {
     const newColor = Object.assign({}, color);
     const hex = newColor.hex;
-    const newArr = this.state.filterData.map(obj => ({ ...obj }));
+    const newArr = this.state.filterData.map((obj) => ({ ...obj }));
     const newArray = newArr
-      .map(obj => ({ ...obj }))
-      [index].attributes.map(o => ({ ...o }));
+      .map((obj) => ({ ...obj }))
+      [index].attributes.map((o) => ({ ...o }));
     const bar = Object.assign({}, { [`${Object.keys(item)}`]: hex });
     const g = newArray.map((item1, i) => {
       if (Object.keys(item1)[0] === Object.keys(item)[0]) {
@@ -755,7 +757,7 @@ handleFullscreen = e => {
     this.setState({ filterData: newArr });
   };
 
-  handleKernelMatrix = (index, idx) => e => {
+  handleKernelMatrix = (index, idx) => (e) => {
     const newfilterData = [...this.state.filterData];
     const x = newfilterData[index].attributes.slice();
     const foo = Object.values(x[2])[0].split(" ");
@@ -766,13 +768,11 @@ handleFullscreen = e => {
     this.setState({ filterData: newfilterData });
   };
 
-  handleAddKernelMatrix = (index, idx) => e => {
+  handleAddKernelMatrix = (index, idx) => (e) => {
     const newfilterData = [...this.state.filterData];
     const x = newfilterData[index].attributes.slice();
     const foo = Object.values(x[2])[0].split(" ");
-    const bar = Object.values(x[9])[0]
-      .toString()
-      .split(" ");
+    const bar = Object.values(x[9])[0].toString().split(" ");
     foo.push(0);
     const fooj = foo.join(" ");
     x.splice(idx, 1, { kernelMatrix: fooj });
@@ -780,7 +780,7 @@ handleFullscreen = e => {
     this.setState({ filterData: newfilterData });
   };
 
-  handleNumberOfTableValues = (index, idx, kidIndex) => e => {
+  handleNumberOfTableValues = (index, idx, kidIndex) => (e) => {
     const newTableValues = Object.values(
       this.state.filterData[index].children[kidIndex].attributes[1]
     )[0].split(" ");
@@ -797,7 +797,7 @@ handleFullscreen = e => {
     this.setState({ filterData: newfilterData });
   };
 
-  handleRGBData = (index, idx, kidIndex) => e => {
+  handleRGBData = (index, idx, kidIndex) => (e) => {
     console.log(index);
     console.log(idx);
     console.log(kidIndex);
@@ -879,7 +879,7 @@ handleFullscreen = e => {
     this.setState({ filterData: newfilterData });
   };
 
-  handleTableValues = (index, idx, kidIndex) => e => {
+  handleTableValues = (index, idx, kidIndex) => (e) => {
     console.log(index);
     console.log(idx);
     console.log(kidIndex);
@@ -909,7 +909,7 @@ handleFullscreen = e => {
     this.setState({ filterData: newfilterData });
   };
 
-  handleColorMatrixData = (index, idx, matrix) => e => {
+  handleColorMatrixData = (index, idx, matrix) => (e) => {
     console.log(newMatrix);
     console.log(index);
     console.log(idx);
@@ -941,7 +941,7 @@ handleFullscreen = e => {
     this.setState({ filterData: newfilterData });
   };
 
-  handleBaseFrequencyData = (index, idx, bindex) => e => {
+  handleBaseFrequencyData = (index, idx, bindex) => (e) => {
     const newfilterData = [...this.state.filterData];
     console.log(index);
     console.log(idx);
@@ -963,7 +963,7 @@ handleFullscreen = e => {
     console.log(
       newfilterData[index].attributes[
         newfilterData[index].attributes.findIndex(
-          attrIndex => Object.keys(attrIndex)[0] === e.target.name
+          (attrIndex) => Object.keys(attrIndex)[0] === e.target.name
         )
       ]
     );
@@ -973,7 +973,7 @@ handleFullscreen = e => {
     const baseFrequencyValue = Object.values(
       newfilterData[index].attributes[
         newfilterData[index].attributes.findIndex(
-          attrIndex => Object.keys(attrIndex)[0] === e.target.name
+          (attrIndex) => Object.keys(attrIndex)[0] === e.target.name
         )
       ]
     )[0].slice();
@@ -983,7 +983,7 @@ handleFullscreen = e => {
     console.log(baseFrequencyValue);
     x[
       newfilterData[index].attributes.findIndex(
-        attrIndex => Object.keys(attrIndex)[0] === e.target.name
+        (attrIndex) => Object.keys(attrIndex)[0] === e.target.name
       )
     ] = { [`${e.target.name}`]: baseFrequencyValue };
     // x[2] = {[`${e.target.name}`]:baseFrequencyValue};
@@ -992,20 +992,20 @@ handleFullscreen = e => {
     this.setState({ filterData: newfilterData });
   };
 
-  handleImage = (index, idx) => e => {
+  handleImage = (index, idx) => (e) => {
     const newfilterData = [...this.state.filterData];
     const x = newfilterData[index].attributes.slice();
     x.splice(idx, 1, {
       [`${e.target.className.baseVal}`]:
         isNaN(e.target.id) || isNaN(parseInt(e.target.id))
           ? e.target.id
-          : parseFloat(e.target.id)
+          : parseFloat(e.target.id),
     });
     newfilterData[index].attributes = x;
     this.setState({ filterData: newfilterData });
   };
 
-  handleFilterDataMode = (index, idx) => e => {
+  handleFilterDataMode = (index, idx) => (e) => {
     console.log(e.target);
     console.log(e.target.className);
 
@@ -1023,7 +1023,7 @@ handleFullscreen = e => {
     this.setState({ filterData: newfilterData });
   };
 
-  handleFilterData = (index, idx) => e => {
+  handleFilterData = (index, idx) => (e) => {
     console.log(e.target);
 
     console.log(e.target.id);
@@ -1039,7 +1039,7 @@ handleFullscreen = e => {
       [`${e.target.name}`]:
         isNaN(e.target.value) || isNaN(parseInt(e.target.value))
           ? e.target.value
-          : parseFloat(e.target.value)
+          : parseFloat(e.target.value),
     });
     newfilterData[index].attributes = x;
     this.setState({ filterData: newfilterData });
@@ -1119,7 +1119,7 @@ handleFullscreen = e => {
                 height="100"
                 fill={`url(#${Object.values(
                   this.state.gradientAttrs.find(
-                    item => Object.keys(item) == "id"
+                    (item) => Object.keys(item) == "id"
                   )
                 )}`}
               />
@@ -1154,12 +1154,12 @@ handleFullscreen = e => {
                       return prev;
                     }
                   }, {});
-                  console.log('attrs ' + JSON.stringify(attrs));
+                  console.log("attrs " + JSON.stringify(attrs));
 
                   switch (item.type) {
                     case "feComponentTransfer": {
                       const funcRAttrs = item.children[
-                        item.children.findIndex(i => i.type === "feFuncR")
+                        item.children.findIndex((i) => i.type === "feFuncR")
                       ].attributes.reduce((prev, curr) => {
                         let key = Object.keys(curr)[0];
                         console.log(Object.keys(curr));
@@ -1174,7 +1174,7 @@ handleFullscreen = e => {
                         }
                       }, {});
                       const funcGAttrs = item.children[
-                        item.children.findIndex(i => i.type === "feFuncG")
+                        item.children.findIndex((i) => i.type === "feFuncG")
                       ].attributes.reduce((prev, curr) => {
                         let key = Object.keys(curr)[0];
                         console.log(Object.keys(curr));
@@ -1189,7 +1189,7 @@ handleFullscreen = e => {
                         }
                       }, {});
                       const funcBAttrs = item.children[
-                        item.children.findIndex(i => i.type === "feFuncB")
+                        item.children.findIndex((i) => i.type === "feFuncB")
                       ].attributes.reduce((prev, curr) => {
                         let key = Object.keys(curr)[0];
                         console.log(Object.keys(curr));
@@ -1204,7 +1204,7 @@ handleFullscreen = e => {
                         }
                       }, {});
                       const funcAAttrs = item.children[
-                        item.children.findIndex(i => i.type === "feFuncA")
+                        item.children.findIndex((i) => i.type === "feFuncA")
                       ].attributes.reduce((prev, curr) => {
                         let key = Object.keys(curr)[0];
                         console.log(Object.keys(curr));
@@ -1236,13 +1236,13 @@ handleFullscreen = e => {
                         if (
                           item.children[
                             item.children.findIndex(
-                              i => i.type === "feDistantLight"
+                              (i) => i.type === "feDistantLight"
                             )
                           ]
                         ) {
                           const feDistantLightAttrs = item.children[
                             item.children.findIndex(
-                              i => i.type === "feDistantLight"
+                              (i) => i.type === "feDistantLight"
                             )
                           ].attributes.reduce((prev, curr) => {
                             let key = Object.keys(curr)[0];
@@ -1269,13 +1269,13 @@ handleFullscreen = e => {
                         if (
                           item.children[
                             item.children.findIndex(
-                              i => i.type === "fePointLight"
+                              (i) => i.type === "fePointLight"
                             )
                           ]
                         ) {
                           const fePointLightAttrs = item.children[
                             item.children.findIndex(
-                              i => i.type === "fePointLight"
+                              (i) => i.type === "fePointLight"
                             )
                           ].attributes.reduce((prev, curr) => {
                             let key = Object.keys(curr)[0];
@@ -1300,13 +1300,13 @@ handleFullscreen = e => {
                         if (
                           item.children[
                             item.children.findIndex(
-                              i => i.type === "feSpotLight"
+                              (i) => i.type === "feSpotLight"
                             )
                           ]
                         ) {
                           const feSpotLightAttrs = item.children[
                             item.children.findIndex(
-                              i => i.type === "feSpotLight"
+                              (i) => i.type === "feSpotLight"
                             )
                           ].attributes.reduce((prev, curr) => {
                             let key = Object.keys(curr)[0];
@@ -1338,13 +1338,13 @@ handleFullscreen = e => {
                       if (
                         item.children[
                           item.children.findIndex(
-                            i => i.type === "feDistantLight"
+                            (i) => i.type === "feDistantLight"
                           )
                         ]
                       ) {
                         const feDistantLightAttrs = item.children[
                           item.children.findIndex(
-                            i => i.type === "feDistantLight"
+                            (i) => i.type === "feDistantLight"
                           )
                         ].attributes.reduce((prev, curr) => {
                           let key = Object.keys(curr)[0];
@@ -1371,13 +1371,13 @@ handleFullscreen = e => {
                       if (
                         item.children[
                           item.children.findIndex(
-                            i => i.type === "fePointLight"
+                            (i) => i.type === "fePointLight"
                           )
                         ]
                       ) {
                         const fePointLightAttrs = item.children[
                           item.children.findIndex(
-                            i => i.type === "fePointLight"
+                            (i) => i.type === "fePointLight"
                           )
                         ].attributes.reduce((prev, curr) => {
                           let key = Object.keys(curr)[0];
@@ -1401,11 +1401,15 @@ handleFullscreen = e => {
                       }
                       if (
                         item.children[
-                          item.children.findIndex(i => i.type === "feSpotLight")
+                          item.children.findIndex(
+                            (i) => i.type === "feSpotLight"
+                          )
                         ]
                       ) {
                         const feSpotLightAttrs = item.children[
-                          item.children.findIndex(i => i.type === "feSpotLight")
+                          item.children.findIndex(
+                            (i) => i.type === "feSpotLight"
+                          )
                         ].attributes.reduce((prev, curr) => {
                           let key = Object.keys(curr)[0];
                           console.log(Object.keys(curr));
@@ -1433,7 +1437,11 @@ handleFullscreen = e => {
                       console.log(item.children[0].attributes);
 
                       return (
-                        <item.type key={index} {...attrs} result={attrs.result + index}>
+                        <item.type
+                          key={index}
+                          {...attrs}
+                          result={attrs.result + index}
+                        >
                           {item.children[0].attributes.map((i, idx) => {
                             console.log(i);
                             return (
@@ -1444,7 +1452,13 @@ handleFullscreen = e => {
                       );
 
                     default:
-                      return <item.type key={index}  {...attrs} result={attrs.result + index}/>;
+                      return (
+                        <item.type
+                          key={index}
+                          {...attrs}
+                          result={attrs.result + index}
+                        />
+                      );
                   }
                 })}
               </filter>
@@ -1584,7 +1598,7 @@ handleFullscreen = e => {
                             <input
                               type="text"
                               name={Object.keys(item)}
-                              value={Object.values(item)+index}
+                              value={Object.values(item) + index}
                               onChange={this.handleFilterData(index, idx)}
                             />
                           </label>
@@ -1619,7 +1633,7 @@ handleFullscreen = e => {
                         </select>
                       );
                     }
-                      if (
+                    if (
                       Object.keys(item)[0] === "in" ||
                       Object.keys(item)[0] === "in2"
                     ) {
@@ -1650,7 +1664,7 @@ handleFullscreen = e => {
                                   {Object.values(
                                     itemIn["attributes"][
                                       itemIn["attributes"].findIndex(
-                                        x => Object.keys(x) == "result"
+                                        (x) => Object.keys(x) == "result"
                                       )
                                     ].result
                                   )}
@@ -1662,9 +1676,6 @@ handleFullscreen = e => {
                         </div>
                       );
                     }
-
-
-
 
                     if (
                       i.type === "feComposite" &&
@@ -1727,7 +1738,7 @@ handleFullscreen = e => {
                             onChange={this.handleFilterData(index, idx)}
                             name={Object.keys(item)}
                             type="text"
-                            value={Object.values(item)+index}
+                            value={Object.values(item) + index}
                           />
                           {Object.values(item)}
                         </label>
@@ -1790,8 +1801,7 @@ handleFullscreen = e => {
                           {/* <label key={Object.keys(item)}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label> */}
                         </div>
                       );
-                    }
-                    else if (Object.keys(item)[0] === "stdDeviation") {
+                    } else if (Object.keys(item)[0] === "stdDeviation") {
                       console.log(Object.values(item)[0]);
                       console.log(Object.values(item)[0][0]);
                       return (
@@ -1879,8 +1889,7 @@ handleFullscreen = e => {
                           })}
                         </div>
                       );
-                    }
-                    else if (Object.keys(item)[0] === "baseFrequency") {
+                    } else if (Object.keys(item)[0] === "baseFrequency") {
                       console.log(Object.values(item)[0]);
                       console.log(Object.values(item)[0][0]);
                       return (
@@ -2474,8 +2483,7 @@ handleFullscreen = e => {
                           <option>none</option>
                         </select>
                       );
-                    }
-                    else if (Object.keys(item)[0] === "operator") {
+                    } else if (Object.keys(item)[0] === "operator") {
                       return (
                         <select
                           onChange={this.handleFilterData(index, idx)}
@@ -2516,8 +2524,9 @@ handleFullscreen = e => {
 
                                 if (matArray.length % (matIdx + 1) === 0) {
                                   return (
-                                    <option>{`${matIdx + 1} ${matArray.length /
-                                      (matIdx + 1)}`}</option>
+                                    <option>{`${matIdx + 1} ${
+                                      matArray.length / (matIdx + 1)
+                                    }`}</option>
                                   );
                                 }
                               })}
@@ -2993,22 +3002,21 @@ handleFullscreen = e => {
                           </label>
                         </div>
                       );
+                    } else {
+                      return (
+                        <div className="in-or-result">
+                          <label key={Object.keys(item)}>
+                            <span>{Object.keys(item)}</span>
+                            <input
+                              type="text"
+                              name={Object.keys(item)}
+                              value={Object.values(item) + index}
+                              onChange={this.handleFilterData(index, idx)}
+                            />
+                          </label>
+                        </div>
+                      );
                     }
-                     else {
-                           return (
-                             <div className="in-or-result">
-                               <label key={Object.keys(item)}>
-                                 <span>{Object.keys(item)}</span>
-                                 <input
-                                   type="text"
-                                   name={Object.keys(item)}
-                                   value={Object.values(item) + index}
-                                   onChange={this.handleFilterData(index, idx)}
-                                 />
-                               </label>
-                             </div>
-                           );
-                         }
                   })}
 
                   {i.children
@@ -3428,7 +3436,7 @@ handleFullscreen = e => {
               emitSelectedLinearGradient={this.handleSelectedLinearGradient}
               names={this.state.linearGradients
                 .concat(this.state.radialGradients)
-                .map(item => {
+                .map((item) => {
                   return item.name;
                 })}
             />
@@ -3540,7 +3548,9 @@ handleFullscreen = e => {
                         switch (item.type) {
                           case "feComponentTransfer": {
                             const funcRAttrs = item.children[
-                              item.children.findIndex(i => i.type === "feFuncR")
+                              item.children.findIndex(
+                                (i) => i.type === "feFuncR"
+                              )
                             ].attributes.reduce((prev, curr) => {
                               let key = Object.keys(curr)[0];
                               // console.log(Object.keys(curr));
@@ -3555,7 +3565,9 @@ handleFullscreen = e => {
                               }
                             }, {});
                             const funcGAttrs = item.children[
-                              item.children.findIndex(i => i.type === "feFuncG")
+                              item.children.findIndex(
+                                (i) => i.type === "feFuncG"
+                              )
                             ].attributes.reduce((prev, curr) => {
                               let key = Object.keys(curr)[0];
                               // console.log(Object.keys(curr));
@@ -3570,7 +3582,9 @@ handleFullscreen = e => {
                               }
                             }, {});
                             const funcBAttrs = item.children[
-                              item.children.findIndex(i => i.type === "feFuncB")
+                              item.children.findIndex(
+                                (i) => i.type === "feFuncB"
+                              )
                             ].attributes.reduce((prev, curr) => {
                               let key = Object.keys(curr)[0];
                               // console.log(Object.keys(curr));
@@ -3585,7 +3599,9 @@ handleFullscreen = e => {
                               }
                             }, {});
                             const funcAAttrs = item.children[
-                              item.children.findIndex(i => i.type === "feFuncA")
+                              item.children.findIndex(
+                                (i) => i.type === "feFuncA"
+                              )
                             ].attributes.reduce((prev, curr) => {
                               let key = Object.keys(curr)[0];
                               // console.log(Object.keys(curr));
@@ -3616,13 +3632,13 @@ handleFullscreen = e => {
                             if (
                               item.children[
                                 item.children.findIndex(
-                                  i => i.type === "feDistantLight"
+                                  (i) => i.type === "feDistantLight"
                                 )
                               ]
                             ) {
                               const feDistantLightAttrs = item.children[
                                 item.children.findIndex(
-                                  i => i.type === "feDistantLight"
+                                  (i) => i.type === "feDistantLight"
                                 )
                               ].attributes.reduce((prev, curr) => {
                                 let key = Object.keys(curr)[0];
@@ -3649,13 +3665,13 @@ handleFullscreen = e => {
                             if (
                               item.children[
                                 item.children.findIndex(
-                                  i => i.type === "fePointLight"
+                                  (i) => i.type === "fePointLight"
                                 )
                               ]
                             ) {
                               const fePointLightAttrs = item.children[
                                 item.children.findIndex(
-                                  i => i.type === "fePointLight"
+                                  (i) => i.type === "fePointLight"
                                 )
                               ].attributes.reduce((prev, curr) => {
                                 let key = Object.keys(curr)[0];
@@ -3680,13 +3696,13 @@ handleFullscreen = e => {
                             if (
                               item.children[
                                 item.children.findIndex(
-                                  i => i.type === "feSpotLight"
+                                  (i) => i.type === "feSpotLight"
                                 )
                               ]
                             ) {
                               const feSpotLightAttrs = item.children[
                                 item.children.findIndex(
-                                  i => i.type === "feSpotLight"
+                                  (i) => i.type === "feSpotLight"
                                 )
                               ].attributes.reduce((prev, curr) => {
                                 let key = Object.keys(curr)[0];
@@ -3713,13 +3729,13 @@ handleFullscreen = e => {
                             if (
                               item.children[
                                 item.children.findIndex(
-                                  i => i.type === "feDistantLight"
+                                  (i) => i.type === "feDistantLight"
                                 )
                               ]
                             ) {
                               const feDistantLightAttrs = item.children[
                                 item.children.findIndex(
-                                  i => i.type === "feDistantLight"
+                                  (i) => i.type === "feDistantLight"
                                 )
                               ].attributes.reduce((prev, curr) => {
                                 let key = Object.keys(curr)[0];
@@ -3739,13 +3755,13 @@ handleFullscreen = e => {
                             if (
                               item.children[
                                 item.children.findIndex(
-                                  i => i.type === "fePointLight"
+                                  (i) => i.type === "fePointLight"
                                 )
                               ]
                             ) {
                               const fePointLightAttrs = item.children[
                                 item.children.findIndex(
-                                  i => i.type === "fePointLight"
+                                  (i) => i.type === "fePointLight"
                                 )
                               ].attributes.reduce((prev, curr) => {
                                 let key = Object.keys(curr)[0];
@@ -3765,13 +3781,13 @@ handleFullscreen = e => {
                             if (
                               item.children[
                                 item.children.findIndex(
-                                  i => i.type === "feSpotLight"
+                                  (i) => i.type === "feSpotLight"
                                 )
                               ]
                             ) {
                               const feSpotLightAttrs = item.children[
                                 item.children.findIndex(
-                                  i => i.type === "feSpotLight"
+                                  (i) => i.type === "feSpotLight"
                                 )
                               ].attributes.reduce((prev, curr) => {
                                 let key = Object.keys(curr)[0];
@@ -3850,7 +3866,7 @@ handleFullscreen = e => {
                     />
                   ) : this.state.selectedSourceGraphic === "webcam" ? (
                     // <WebCam id="video" />
-                    <circle cx='100' cy='100' r='50' />
+                    <circle cx="100" cy="100" r="50" />
                   ) : this.state.selectedSourceGraphic === "video" ? (
                     <foreignObject
                       filter={`url(#${data.name})`}
@@ -3895,22 +3911,19 @@ handleFullscreen = e => {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   reduxName: state.users.username,
   auth: state.jwt.authorized,
   reduxPassword: state.users.password,
-  reduxFilterData: state.users.filterData
+  reduxFilterData: state.users.filterData,
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    updateName,
-    updatePassword,
-    getUsers,
-    changeAuth,
-    getJWT,
-    checkAuth,
-    addFilterToUser
-  }
-)(FilterRoute);
+export default connect(mapStateToProps, {
+  updateName,
+  updatePassword,
+  getUsers,
+  changeAuth,
+  getJWT,
+  checkAuth,
+  addFilterToUser,
+})(FilterRoute);
