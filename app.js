@@ -31,7 +31,8 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 //db.js
 
 const url =
-  "mongodb+srv://lahaymd:zz040577@cluster0.5zsnb.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://lahaymd:zz040577@cluster0.5zsnb.mongodb.net/SVGFilterDatabase?retryWrites=true&w=majority";
+
 const connectionParams = {
   useNewUrlParser: true,
   useCreateIndex: true,
