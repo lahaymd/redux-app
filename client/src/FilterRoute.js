@@ -384,12 +384,12 @@ class FilterRoute extends Component {
       this.props.checkAuth(this.props.username);
     }
 
-    const res = await fetch("/linear_gradient");
-    const json = await res.json();
-    this.setState({ linearGradients: json });
-    this.setState({
-      stops: json.length === 0 ? null : json[json.length - 1][`stops`],
-    });
+    // const res = await fetch("/linear_gradient");
+    // const json = await res.json();
+    // this.setState({ linearGradients: json });
+    // this.setState({
+    //   stops: json.length === 0 ? null : json[json.length - 1][`stops`],
+    // });
 
     fetch("/filter_data")
       .then((res) => res.json())
@@ -397,11 +397,11 @@ class FilterRoute extends Component {
         this.setState({ filterNames: data.map((item) => item.name) });
         this.setState({ allFilterData: data });
       });
-    fetch("/radial_gradient")
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ radialGradients: data });
-      });
+    // fetch("/radial_gradient")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     this.setState({ radialGradients: data });
+    //   });
   }
 
   handleFullscreen = (e) => {

@@ -12,20 +12,19 @@
     "npm": "7.0.15"
   },
   "dependencies": {
-    "body-parser": "~1.17.1",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.3",
-    "dom-to-image": "^2.6.0",
-    "express": "~4.15.2",
-    "jade": "~1.11.0",
-    "jsonwebtoken": "^8.4.0",
-    "mongodb": "^3.1.10",
-    "mongoose": "^5.3.12",
-    "morgan": "~1.8.1",
-    "puppeteer": "^1.10.0",
-    "react-color": "^2.14.1",
-    "serve-favicon": "~2.4.2",
-    "nodemon": "^1.18.6"
-  },
-  "devDependencies": {}
+    "body-parser": "^1.20.2",
+    "cookie-parser": "*",
+    "debug": "*",
+    "dom-to-image": "*",
+    "express": "*",
+    "jade": "^1.11.0",
+    "jsonwebtoken": "*",
+    "mongodb": "*",
+    "mongoose": "*",
+    "morgan": "*",
+    "nodemon": "*",
+    "puppeteer": "*",
+    "react-color": "*",
+    "serve-favicon": "*"
+  }
 }

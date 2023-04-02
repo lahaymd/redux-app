@@ -33,13 +33,8 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 const url =
   "mongodb+srv://lahaymd:zz040577@cluster0.5zsnb.mongodb.net/SVGFilterDatabase?retryWrites=true&w=majority";
 
-const connectionParams = {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-};
 mongoose
-  .connect(url, connectionParams)
+  .connect(url)
   .then(() => {
     console.log("Connected to database ");
   })
@@ -72,7 +67,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  // res.render("error");
 });
 
 module.exports = app;

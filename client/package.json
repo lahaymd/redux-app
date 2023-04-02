@@ -5,16 +5,16 @@
   "homepage": "https://svg-filters.herokuapp.com",
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
-    "gulp": "^3.9.1",
-    "node-sass": "^6.0.0",
-    "react": "^17.0.2",
-    "react-color": "^2.14.1",
-    "react-dom": "^17.0.2",
-    "react-redux": "^7.2.4",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
-    "redux": "^4.1.0",
-    "redux-thunk": "^2.3.0"
+    "gulp": "^4.0.2",
+    "node-sass": "^8.0.0",
+    "react": "^18.2.0",
+    "react-color": "^2.19.3",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.10.0",
+    "react-scripts": "^5.0.1",
+    "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -26,12 +26,12 @@
   },
   "proxy": "http://localhost:3001",
   "devDependencies": {
-    "gh-pages": "^1.2.0",
-    "gulp-babel": "^7.0.1",
+    "gh-pages": "^5.0.0",
+    "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
-    "gulp-plumber": "^1.2.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-sourcemaps": "^2.6.4",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-sourcemaps": "^3.0.0",
     "redux-devtools": "^3.7.0"
   },
   "browserslist": [
