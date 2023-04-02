@@ -25,14 +25,20 @@ class RadialGradientRoute extends Component {
       { gradientUnits: "objectBoundingBox" },
       { id: "radial1" },
     ],
-    stops: [],
+    stops: [
+      {
+        offset: 0,
+        stopColor: "red",
+        stopOpacity: 1,
+      },
+    ],
     selectedGradientIndex: 0,
     linearGradients: [
       {
         _id: {
           $oid: "5b279c46cbc99b027f98138a",
         },
-        name: "linear9",
+        name: "AmericanBullseye",
         stops: [
           {
             offset: 0,
