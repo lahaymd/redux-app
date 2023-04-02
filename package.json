@@ -20,7 +20,7 @@
     "jade": "^1.11.0",
     "jsonwebtoken": "*",
     "mongodb": "*",
-    "mongoose": "*",
+    "mongoose": "^6.0.0",
     "morgan": "*",
     "nodemon": "*",
     "puppeteer": "*",

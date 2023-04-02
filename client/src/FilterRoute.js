@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { TextField } from "@mui/material";
 import {
   updateName,
   updatePassword,
@@ -10,6 +11,7 @@ import { getUsers } from "./actions/actions";
 import { changeAuth } from "./actions/actions";
 import { getJWT } from "./actions/actions";
 import { SketchPicker } from "react-color";
+
 import Circle from "./Circle";
 import SourceGraphic from "./SourceGraphic";
 import SourceGraphicEditor from "./SourceGraphicEditor";
@@ -1766,7 +1768,21 @@ class FilterRoute extends Component {
                     else if (Object.keys(item)[0] === "dx") {
                       return (
                         <div className="dx" key={Object.keys(item)[0] + idx}>
-                          <label key={Object.keys(item) + "range"}>
+                          <TextField
+                            onChange={this.handleFilterData(index, idx)}
+                            value={Object.values(item)}
+                            label={Object.keys(item)}
+                            key={Object.keys(item)}
+                            inputProps={{
+                              type: "number",
+                              name: Object.keys(item),
+                              min: "-20",
+                              max: "20",
+                              step: "1",
+                            }}
+                          />
+
+                          {/* <label key={Object.keys(item) + "range"}>
                             <span>{Object.keys(item)}</span>
                             <input
                               onChange={this.handleFilterData(index, idx)}
@@ -1778,14 +1794,27 @@ class FilterRoute extends Component {
                               value={Object.values(item)}
                             />
                             <span>{Object.values(item)}</span>
-                          </label>
+                          </label> */}
                           {/* <label key={Object.keys(item)}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label> */}
                         </div>
                       );
                     } else if (Object.keys(item)[0] === "dy") {
                       return (
                         <div className="dy" key={Object.keys(item)[0] + idx}>
-                          <label key={Object.keys(item) + "range"}>
+                          <TextField
+                            onChange={this.handleFilterData(index, idx)}
+                            value={Object.values(item)}
+                            label={Object.keys(item)}
+                            key={Object.keys(item)}
+                            inputProps={{
+                              type: "number",
+                              name: Object.keys(item),
+                              min: "-20",
+                              max: "20",
+                              step: "1",
+                            }}
+                          />
+                          {/* <label key={Object.keys(item) + "range"}>
                             <span>{Object.keys(item)}</span>
                             <input
                               onChange={this.handleFilterData(index, idx)}
@@ -1797,7 +1826,7 @@ class FilterRoute extends Component {
                               value={Object.values(item)}
                             />
                             <span>{Object.values(item)}</span>
-                          </label>
+                          </label> */}
                           {/* <label key={Object.keys(item)}><span>{Object.keys(item)}</span><input onChange={this.handleFilterData(index, idx)} name={Object.keys(item)} type='text' value={Object.values(item)} /><span>{Object.values(item)}</span></label> */}
                         </div>
                       );
