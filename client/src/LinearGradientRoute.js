@@ -24,15 +24,58 @@ class LinearGradientRoute extends Component {
       { gradientUnits: "objectBoundingBox" },
       { id: "linear1" },
     ],
-    stops: [],
+    stops: [
+      {
+        offset: 0,
+        stopColor: "red",
+        stopOpacity: 1,
+      },
+    ],
     selectedGradientIndex: 0,
-    linearGradients: [],
+    linearGradients: [
+      {
+        name: "linear9",
+        stops: [
+          {
+            offset: 0,
+            stopColor: "red",
+            stopOpacity: 1,
+          },
+        ],
+        x1: 0,
+        x2: 0,
+        y1: 0,
+        y2: 0,
+        spreadMethod: "",
+        gradientTransform: "",
+        gradientUnits: "",
+      },
+      {
+        name: "og",
+        stops: [
+          {
+            offset: 0,
+            stopColor: "red",
+            stopOpacity: 1,
+          },
+        ],
+        x1: 0,
+        x2: 0,
+        y1: 0,
+        y2: 0,
+        spreadMethod: "reflect",
+        gradientTransform: 0,
+        gradientUnits: "objectBoundingBox",
+      },
+    ],
     newLinearGradientName: "",
   };
 
   async componentDidMount() {
+    console.log(`state: ${JSON.stringify(this.state)}`);
     const res = await fetch("/linear_gradient");
     const json = await res.json();
+    this.setState({ fill: json[0].name });
     this.setState({ linearGradients: json });
     this.setState({
       stops: json.length ? json[json.length - 1][`stops`] : null,
@@ -507,7 +550,7 @@ class LinearGradientRoute extends Component {
             );
           })}
         </div>
-        <button onClick={this.addLinearGradient()}>add gradient to user</button>
+        {/* <button onClick={this.addLinearGradient()}>add gradient to user</button> */}
       </div>
     );
   }
