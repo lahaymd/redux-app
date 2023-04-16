@@ -10,6 +10,17 @@ import StopAdder from "./StopAdder";
 import LinearGradients from "./LinearGradients";
 import LinearGradientSelect from "./LinearGradientSelect";
 import { SketchPicker } from "react-color";
+import {
+  MenuItem,
+  TextField,
+  Select,
+  Slider,
+  Grid,
+  Typography,
+  FormControl,
+  InputLabel,
+  Button,
+} from "@mui/material";
 
 class LinearGradientRoute extends Component {
   state = {
@@ -130,9 +141,11 @@ class LinearGradientRoute extends Component {
   };
 
   handleDeleteStop = (index) => (e) => {
-    // console.log(`delete index  ${index}`);
+    console.log("state from stop " + JSON.stringify(this.state));
+    console.log(`delete index  ${index}`);
     const stops = this.state.stops.slice();
     stops.splice(index, 1);
+    console.log(`STOPS ${JSON.stringify(stops)}`);
     this.setState({ stops });
   };
 
@@ -468,53 +481,66 @@ class LinearGradientRoute extends Component {
               console.log(el);
 
               return (
-                <div className="linear-rep" key={index}>
-                  <label>
-                    offset
-                    <input
+                <Grid container className="linear-rep" key={index}>
+                  <Grid xs={4}>
+                    <Typography>offset</Typography>
+                    <Slider
                       key={el[index]}
                       onChange={this.handleStopChange(el, index)}
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.01"
-                      name="offset"
+                      min={0}
+                      max={1}
+                      step={0.01}
                       value={el.offset}
+                      name="offset"
                     />
-                  </label>
-                  <label>
-                    stop-color
-                    <SketchPicker
-                      color={
-                        this.state.linearGradients[
-                          this.state.selectedGradientIndex
-                        ]["stops"][index].stopColor
-                      }
-                      onChange={this.handleColorChange(el, index)}
-                    />
-                    {/* <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' name='stopColor' value={el.stopColor} /> */}
-                  </label>
-                  <label>
-                    stop-opactiy
-                    <input
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <Typography>stop-opacity</Typography>
+                    <Slider
                       key={el[index]}
                       onChange={this.handleStopChange(el, index)}
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.01"
+                      min={0}
+                      max={1}
+                      step={0.01}
                       name="stopOpacity"
                       value={el.stopOpacity}
                     />
-                  </label>
-                  <button onClick={this.handleDeleteStop(index)}>DELETE</button>
-                </div>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <button onClick={this.handleDeleteStop(index)}>
+                      DELETE
+                    </button>
+
+                    {/* <Button
+                      variant="contained"
+                      onClick={this.handleDeleteStop(index)}
+                    >
+                      DELETE
+                    </Button> */}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <label>
+                      stop-color
+                      <SketchPicker
+                        color={
+                          this.state.linearGradients[
+                            this.state.selectedGradientIndex
+                          ]["stops"][index].stopColor
+                        }
+                        onChange={this.handleColorChange(el, index)}
+                      />
+                      {/* <input key={el[index]} onChange={this.handleStopChange(el, index)} type='text' name='stopColor' value={el.stopColor} /> */}
+                    </label>
+                  </Grid>
+                </Grid>
               );
             })}
         </LinearGradientRepresentation>
-        <svg viewBox="0 0 500 500" width="100%" height="100%">
-          <defs>
-            {/* <Gradient
+        <div style={{ display: "table" }}>
+          <svg viewBox="0 0 500 500" width="100%" height="100%">
+            <defs>
+              {/* <Gradient
                             id={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'id'))[0]}
                             x1={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x1'))[0]}
                             x2={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'x2'))[0]}
@@ -523,17 +549,18 @@ class LinearGradientRoute extends Component {
                             spreadMethod={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'spreadMethod'))[0]}
                             gradientTransform={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientTransform'))[0]}
                             gradientUnits={Object.values(this.state.gradientAttrs.find(item => Object.keys(item) === 'gradientUnits'))[0]}
-                        >
+                            >
                             {this.state.stops.map((stop, index) => {
-                                return (
-                                    <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
+                              return (
+                                <stop key={index} offset={stop.offset} stopColor={stop.stopColor} stopOpacity={stop.stopOpacity} />
                                 )
                             })}
-                        </Gradient> */}
-            <LinearGradients gradientData={this.state.linearGradients} />
-          </defs>
-          <rect width="500" height="500" fill={`url(#${this.state.fill})`} />
-        </svg>
+                          </Gradient> */}
+              <LinearGradients gradientData={this.state.linearGradients} />
+            </defs>
+            <rect width="500" height="500" fill={`url(#${this.state.fill})`} />
+          </svg>
+        </div>
         {/* <h1>{this.props.reduxName}</h1> */}
         <div className="gradient-wrapper">
           {this.state.linearGradients.map((item) => {
